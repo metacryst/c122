@@ -6,22 +6,16 @@
 
 char* my_strncpy (char* destination, const char* source, int n) {
     
-    // renaming parameters
     const char* sourceFirstCharacterAddress = source;
     int copyLength = n;
         
     for(int iterations=1; iterations<=copyLength; iterations++) {
-        int i = iterations-1;
-        printf("%c\n", sourceFirstCharacterAddress[i]);
+        int copyIndex = iterations-1;
                 
-        destination[i] = sourceFirstCharacterAddress[i];
-        printf("%c\n", destination[i]);
+        destination[copyIndex] = sourceFirstCharacterAddress[copyIndex];
         
-        if(!sourceFirstCharacterAddress[i]) {
-            // need single quotes for character literal; double quotes denotes a string literal (which would add a null terminator)
-            // the type of this '\0' character literal is integer in C and char in C++
-            destination[i] = '\0';
-            printf("%s\n", "Null!");
+        if(!sourceFirstCharacterAddress[copyIndex]) {
+            destination[copyIndex] = '\0';
         }
     }
     
@@ -54,3 +48,28 @@ int main() {
     
     return 0;
 }
+
+
+// char* my_strncpy (char* destination, const char* source, int n) {
+    
+//     // renaming parameters
+//     const char* sourceFirstCharacterAddress = source;
+//     int copyLength = n;
+        
+//     for(int iterations=1; iterations<=copyLength; iterations++) {
+//         int i = iterations-1;
+//         printf("%c\n", sourceFirstCharacterAddress[i]);
+                
+//         destination[i] = sourceFirstCharacterAddress[i];
+//         printf("%c\n", destination[i]);
+        
+//         if(!sourceFirstCharacterAddress[i]) {
+//             // need single quotes for character literal; double quotes denotes a string literal (which would add a null terminator)
+//             // the type of this '\0' character literal is integer in C and char in C++
+//             destination[i] = '\0';
+//             printf("%s\n", "Null!");
+//         }
+//     }
+    
+//     return destination;
+// }

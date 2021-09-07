@@ -5,46 +5,40 @@
 
 //NOTE: you must use pointer arithmetic and notation in your definition.
 
+
+
 char *my_strncat (char *destination, const char *source, int n) {
      
-    // renaming parameters
     const char* sourceFirstCharacterAddress = source;
     int appendLength = n;
         
-    int destinationNullCharacter = 0;
+    int destinationNullCharacterIndex = 0;
     int nullReached = 0;
     
     while(!nullReached) {
-        if(*(destination+destinationNullCharacter)) {
-            destinationNullCharacter++;
+        if(*(destination+destinationNullCharacterIndex)) {
+            destinationNullCharacterIndex++;
         } else {
             nullReached = 1;
         }
     }
     
-    printf("%d\n", destinationNullCharacter);
-    printf("\n");
-    
     for(int iterations=1; iterations<=appendLength; iterations++) {
-        int i = iterations-1;
+        int sourceIndex = iterations-1;
         
-        // check for nullcharacter
-        if(*(source+i)) {
-            printf("%c\n", *(source+i));
-            printf("%d\n", destinationNullCharacter);
-            *(destination+destinationNullCharacter) = *(source+i);
-            printf("%c\n", *(destination+destinationNullCharacter));
-            
-            destinationNullCharacter++;
+        if(*(source+sourceIndex)) {
+            *(destination+destinationNullCharacterIndex) = *(source+sourceIndex);            
+            destinationNullCharacterIndex++;
         } else {
             break;
         }
     }
     
-    *(destination+destinationNullCharacter) = '\0';
+    *(destination+destinationNullCharacterIndex) = '\0';
             
     return destination;
 }
+
 
 int main() {
     char sourceString[100];
@@ -88,3 +82,46 @@ int main() {
     
     return 0;
 }
+
+
+
+// char *my_strncat (char *destination, const char *source, int n) {
+     
+//     // renaming parameters
+//     const char* sourceFirstCharacterAddress = source;
+//     int appendLength = n;
+        
+//     int destinationNullCharacter = 0;
+//     int nullReached = 0;
+    
+//     while(!nullReached) {
+//         if(*(destination+destinationNullCharacter)) {
+//             destinationNullCharacter++;
+//         } else {
+//             nullReached = 1;
+//         }
+//     }
+    
+//     printf("%d\n", destinationNullCharacter);
+//     printf("\n");
+    
+//     for(int iterations=1; iterations<=appendLength; iterations++) {
+//         int i = iterations-1;
+        
+//         // check for nullcharacter
+//         if(*(source+i)) {
+//             printf("%c\n", *(source+i));
+//             printf("%d\n", destinationNullCharacter);
+//             *(destination+destinationNullCharacter) = *(source+i);
+//             printf("%c\n", *(destination+destinationNullCharacter));
+            
+//             destinationNullCharacter++;
+//         } else {
+//             break;
+//         }
+//     }
+    
+//     *(destination+destinationNullCharacter) = '\0';
+            
+//     return destination;
+// }
