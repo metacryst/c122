@@ -52,6 +52,9 @@ int insertOrder(List* pList, const int data)
 	return 0;
 }
 
+
+
+
 int deleteAtPositionN(struct node** pHead, int n, int *dataPointer)
 {
 	int success = 1;
@@ -60,10 +63,6 @@ int deleteAtPositionN(struct node** pHead, int n, int *dataPointer)
 	if(n<=0) {
 		return failure;
 	}
-	
-	// these are equivalent: arrow traverses the pointer
-	// printf("%d\n", (*pHead)->data);
-	// printf("%d\n", (**pHead).data);
 	
 	Node* nodeToDelete = *pHead;
 	Node* prevNode = *pHead;
@@ -77,6 +76,8 @@ int deleteAtPositionN(struct node** pHead, int n, int *dataPointer)
 	
 	if(nodeToDelete->pNext) {
 		prevNode->pNext = nodeToDelete->pNext;
+	} else {
+		prevNode->pNext = NULL;
 	}
 	
 	*dataPointer = (nodeToDelete->data);
@@ -84,3 +85,39 @@ int deleteAtPositionN(struct node** pHead, int n, int *dataPointer)
 	
 	return success;
 }
+
+
+
+
+// int deleteAtPositionN(struct node** pHead, int n, int *dataPointer)
+// {
+// 	int success = 1;
+// 	int failure = 0;
+	
+// 	if(n<=0) {
+// 		return failure;
+// 	}
+	
+// 	// these are equivalent: arrow traverses the pointer
+// 	// printf("%d\n", (*pHead)->data);
+// 	// printf("%d\n", (**pHead).data);
+	
+// 	Node* nodeToDelete = *pHead;
+// 	Node* prevNode = *pHead;
+	
+// 	for(int i = 1; i<n; i++) {
+// 		nodeToDelete = nodeToDelete->pNext;
+// 		if(i>1) {
+// 			prevNode = prevNode->pNext;
+// 		}
+// 	}
+	
+// 	if(nodeToDelete->pNext) {
+// 		prevNode->pNext = nodeToDelete->pNext;
+// 	}
+	
+// 	*dataPointer = (nodeToDelete->data);
+// 	free(nodeToDelete);
+	
+// 	return success;
+// }
