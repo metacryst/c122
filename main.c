@@ -1,23 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "FitbitData.h"
-
-int strlen_recursive (const char* stringAddress) {
-    if(!stringAddress[0]) {
-        return 0;
-    }
-    
-    int lengthIncrement = 1;
-    lengthIncrement += strlen_recursive((stringAddress+lengthIncrement));
-    
-    return lengthIncrement;
-}
 
 int main() {    
     FILE* infile = fopen("FitbitData.csv", "r");
-    FILE* outfile = fopen("Results.csv", "w");
-    
+    FILE* outfile = fopen("DataResults.csv", "w");    
     
     if(infile == NULL) {
         printf("inFile not found!\n");
@@ -40,6 +25,14 @@ int main() {
     char line[250] = "";
     char targetPatient[6] = "";
     
+    double totalCalories = 0;
+    double totalDistance = 0;
+    unsigned int totalFloors = 0;
+    unsigned int totalSteps = 0;
+    unsigned int averageHeartRate = 0;
+    unsigned int maxSteps = 0;
+
+    
     // retrieve patient
     fgets(line, 250, infile);
     strtok(line, ",");
@@ -61,7 +54,7 @@ int main() {
         
         char* doubleCommasPointer = strstr(line, ",,");
         
-        
+        printf("\n");
         
         char* scannedPatient = strtok(line, ",");
             int patientTargetMismatch = strcmp(targetPatient, scannedPatient);
@@ -72,7 +65,7 @@ int main() {
                 fputs(",", outfile);
             
                 strcpy (data[iterations].patient, scannedPatient);
-                printf("\npatient: %s\n", data[iterations].patient);
+                // printf("patient: %s\n", data[iterations].patient);
             }
         
         char* scannedMinute = strtok(NULL, ",");
@@ -90,7 +83,8 @@ int main() {
                 fputs(",", outfile);
                 
                 data[iterations].calories = atof(scannedCalories);
-                printf("calories: %.9f\n", data[iterations].calories);
+                totalCalories += data[iterations].calories;
+                // printf("calories: %.9f\n", data[iterations].calories);
             }
             
         char* scannedDistance = strtok(NULL, ",");
@@ -99,7 +93,8 @@ int main() {
                 fputs(",", outfile);
                 
                 data[iterations].distance = atof(scannedDistance);
-                printf("distance: %.9f\n", data[iterations].distance);
+                totalDistance += data[iterations].distance;
+                // printf("distance: %.9f\n", data[iterations].distance);
             }
             
         char* scannedFloors = strtok(NULL, ",");
@@ -107,8 +102,9 @@ int main() {
                 fputs(scannedFloors, outfile);
                 fputs(",", outfile);
                 
-                data[iterations].floors = atof(scannedFloors);
-                printf("floors: %u\n", data[iterations].floors);
+                data[iterations].floors = (unsigned int) atoi(scannedFloors);
+                totalFloors += data[iterations].floors;
+                // printf("floors: %u\n", data[iterations].floors);
             }
                         
         char* scannedHeartRate;        
@@ -121,9 +117,9 @@ int main() {
                 fputs(scannedHeartRate, outfile);
                 fputs(",", outfile);
                 
-                data[iterations].heartRate = atof(scannedHeartRate);
-                printf("heartRate: %u\n", data[iterations].heartRate);
-                
+                data[iterations].heartRate = (unsigned int) atoi(scannedHeartRate);     
+                averageHeartRate = calculateAverageHeartRate(data[iterations].heartRate);
+                // printf("heartRate: %u\n", data[iterations].heartRate);
             }
             
         char* scannedSteps = strtok(NULL, ",");
@@ -131,21 +127,20 @@ int main() {
                 fputs(scannedSteps, outfile);
                 fputs(",", outfile);
                 
-                data[iterations].steps = atof(scannedSteps);
-                printf("steps: %u\n", data[iterations].steps);
+                data[iterations].steps = (unsigned int) atoi(scannedSteps);
+                totalSteps += data[iterations].steps;
+                if(data[iterations].steps > maxSteps) {
+                    maxSteps = data[iterations].steps;
+                }
+                // printf("steps: %u\n", data[iterations].steps);
             }
             
         const char delimiters[] = " ,-!?\r\n";
         char* scannedSleep = strtok(NULL, delimiters);
-            if(scannedSleep) {
-                printf("scannedSleep: %s\n", scannedSleep);
-                
+            if(scannedSleep) {                
                 fputs(scannedSleep, outfile);
-                
-                if(!strcmp(scannedSleep, "0")) {
-                    data[iterations].sleepLevel = NONE;
-                }
-                else if(!strcmp(scannedSleep, "1")) {
+
+                if(!strcmp(scannedSleep, "1")) {
                     data[iterations].sleepLevel = ASLEEP;
                 }
                 else if(!strcmp(scannedSleep, "2")) {
@@ -153,42 +148,92 @@ int main() {
                 }
                 else if(!strcmp(scannedSleep, "3")) {
                     data[iterations].sleepLevel = REALLYAWAKE;
-                } 
-                else {
-                    data[iterations].sleepLevel = 5;
                 }
-                
-                
-                printf("sleep: %d\n", data[iterations].sleepLevel);
+            } else {
+                data[iterations].sleepLevel = NONE;
+                fputs("0", outfile);
             }
-        
-        
+            calculatePoorSleep(scannedMinute, data[iterations].sleepLevel);
+            printf("sleep: %d\n", data[iterations].sleepLevel);
+            printf("main ---LARGEST POOR SLEEP INTERVAL: %s\n", largestPoorSleepInterval);
         
         fputs("\n", outfile);
         
         iterations++;
     }
+    fclose(outfile);
+    fclose(infile);
     
+    
+    printf("\nTotal Calories,Total Distance,Total Floors,Total Steps,Avg Heartrate,Max Steps,Sleep\n");
+    printf("TOTAL CALORIES: %f\n", totalCalories);
+    printf("TOTAL DISTANCE: %f\n", totalDistance);
+    printf("TOTAL FLOORS: %u\n", totalFloors);
+    printf("TOTAL STEPS: %u\n", totalSteps);
+    printf("AVERAGE HEART RATE: %u\n", averageHeartRate);
+    printf("MAX STEPS: %u\n", maxSteps);
+    printf("SLEEP: %s\n", largestPoorSleepInterval);
+    printf("\n");
+    
+    
+    FILE* finalOutFile = fopen("Results.csv", "w");
+    
+    fputs("Total Calories,Total Distance,Total Floors,Total Steps,Avg Heartrate,Max Steps,Sleep\n", finalOutFile);
+    fputs("\n", finalOutFile);
+    
+    outfile = fopen("DataResults.csv", "r");
+    
+    while(iterations > 0) {
+        fgets(line, 250, outfile);
+        
+        char* scannedPatient = strtok(line, ",");
+                fputs(scannedPatient, finalOutFile);
+                fputs(",", finalOutFile);
+
+        
+        char* scannedMinute = strtok(NULL, ",");
+                fputs(scannedMinute, finalOutFile);
+                fputs(",", finalOutFile);
+            
+            
+        char* scannedCalories = strtok(NULL, ",");
+                fputs(scannedCalories, finalOutFile);
+                fputs(",", finalOutFile);
+                
+            
+        char* scannedDistance = strtok(NULL, ",");
+                fputs(scannedDistance, finalOutFile);
+                fputs(",", finalOutFile);
+
+            
+        char* scannedFloors = strtok(NULL, ",");
+                fputs(scannedFloors, finalOutFile);
+                fputs(",", finalOutFile);
+
+                        
+        char* scannedHeartRate = strtok(NULL, ",");
+                fputs(scannedHeartRate, finalOutFile);
+                fputs(",", finalOutFile);
+            
+        char* scannedSteps = strtok(NULL, ",");
+                fputs(scannedSteps, finalOutFile);
+                fputs(",", finalOutFile);
+
+            
+        const char delimiters[] = " ,-!?\r\n";
+        char* scannedSleep = strtok(NULL, delimiters);
+                fputs(scannedSleep, finalOutFile);
+        
+        
+        fputs("\n", finalOutFile);
+        
+        iterations--;
+    }
+    
+    
+    fclose(infile);
+    fclose(finalOutFile);
     
     
     return 1;
 }
-
-
-
-
-
-
-
-// data[lineNumber].calories = atof(strtok(NULL, ","));
-// printf("calories: %.9f\n", data[lineNumber].calories);
-
-
-
-// TA APPROACH
-    // for each data type:
-    //  if(temp) {
-    //     write to file
-    // } else {
-    //    write 0
-    //}
