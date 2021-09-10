@@ -187,12 +187,12 @@ int main() {
     char averageHeartRateString[15];
     char maxStepsString[15];
     
-    ftoa(totalCalories, totalCaloriesString, 10);
-    ftoa(totalDistance, totalDistanceString, 10);
-    itoa(totalFloors, totalFloorsString, 10);
-    itoa(totalSteps, totalStepsString, 10);
-    itoa(averageHeartRate, averageHeartRateString, 10);
-    itoa(maxStepsString, maxStepsString, 10);
+    snprintf(totalCaloriesString, 15, "%f", totalCalories);
+    snprintf(totalDistanceString, 15, "%f", totalDistance);
+    _itoa(totalFloors, totalFloorsString, 10);
+    _itoa(totalSteps, totalStepsString, 10);
+    _itoa(averageHeartRate, averageHeartRateString, 10);
+    _itoa(maxSteps, maxStepsString, 10);
     
     fputs("Total Calories,Total Distance,Total Floors,Total Steps,Avg Heartrate,Max Steps,Sleep\n", resultsFile);
     fputs(totalCaloriesString, resultsFile);
