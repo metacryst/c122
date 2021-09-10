@@ -25,44 +25,44 @@ void calculatePoorSleep(char* minute, Sleep sleepLevel) {
     
     
     if(poorSleepStarting) {
-        printf("~~~~~POOR SLEEP STARTING \n");
+        // printf("~~~~~POOR SLEEP STARTING \n");
         memset(beginMinute, 0, sizeof beginMinute);
         strcpy(beginMinute, minute);
         
-        printf("BEGIN MINUTE: %s\n", beginMinute);
-        printf("END MINUTE: %s\n", endMinute);
+        // printf("BEGIN MINUTE: %s\n", beginMinute);
+        // printf("END MINUTE: %s\n", endMinute);
         
         lastMinuteHadPoorSleep = 1;
         poorSleepSum += sleepLevel;
-        printf("~~POOR SLEEP sum %d\n", poorSleepSum);
+        // printf("~~POOR SLEEP sum %d\n", poorSleepSum);
     }
     else if(poorSleepOngoing) {
-        printf("~~POOR SLEEP ongoing \n");
+        // printf("~~POOR SLEEP ongoing \n");
         memset(endMinute, 0, sizeof endMinute);
         strcpy(endMinute, minute);
         
-        printf("BEGIN MINUTE: %s\n", beginMinute);
-        printf("END MINUTE: %s\n", endMinute);
+        // printf("BEGIN MINUTE: %s\n", beginMinute);
+        // printf("END MINUTE: %s\n", endMinute);
         
         poorSleepSum += sleepLevel;
-        printf("~~POOR SLEEP sum %d\n", poorSleepSum);
+        // printf("~~POOR SLEEP sum %d\n", poorSleepSum);
     }
     else if(poorSleepEnding) {
-        printf("~~~~~POOR SLEEP ENDING \n");
+        // printf("~~~~~POOR SLEEP ENDING \n");
         memset(endMinute, 0, sizeof endMinute);
         strcpy(endMinute, minute);
         
-        printf("BEGIN MINUTE: %s\n", beginMinute);
-        printf("END MINUTE: %s\n", endMinute);
+        // printf("BEGIN MINUTE: %s\n", beginMinute);
+        // printf("END MINUTE: %s\n", endMinute);
         
         lastMinuteHadPoorSleep = 0;
-        printf("~~POOR SLEEP sum %d\n", poorSleepSum);
+        // printf("~~POOR SLEEP sum %d\n", poorSleepSum);
         
         if(poorSleepSum > largestPoorSleepSum) {
             largestPoorSleepSum = poorSleepSum;
             
-            printf("BEGIN MINUTE: %s\n", beginMinute);
-            printf("END MINUTE: %s\n", endMinute);
+            // printf("BEGIN MINUTE: %s\n", beginMinute);
+            // printf("END MINUTE: %s\n", endMinute);
             
             // clear out final interval arrays
             memset(largestPoorSleepInterval, 0, sizeof largestPoorSleepInterval);
@@ -72,12 +72,12 @@ void calculatePoorSleep(char* minute, Sleep sleepLevel) {
             strcat(largestPoorSleepInterval, ":");
             strcat(largestPoorSleepInterval, endMinute);
             
-            printf("LARGEST POOR SLEEP INTERVAL MINUTES: %s\n", largestPoorSleepInterval);
-            printf("LARGEST POOR SLEEP INTERVAL MINUTES ADDRESS: %p\n", largestPoorSleepInterval);
+            // printf("LARGEST POOR SLEEP INTERVAL MINUTES: %s\n", largestPoorSleepInterval);
+            // printf("LARGEST POOR SLEEP INTERVAL MINUTES ADDRESS: %p\n", largestPoorSleepInterval);
         }
         
         poorSleepSum = 0;
-        printf("~~LARGEST POOR SLEEP sum %d\n", largestPoorSleepSum);
+        // printf("~~LARGEST POOR SLEEP sum %d\n", largestPoorSleepSum);
     }
     else if(goodSleepOrNoData && !poorSleepOngoing) {
         return;
