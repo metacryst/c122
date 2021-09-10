@@ -40,7 +40,7 @@ int main(void)
             // atio converts ascii to integer
             // if there was a string "27" in the line, atoi would return 27 as integer (it converts consecutive number characters)
             // fgets puts \n at the end of line so we can use that as delimiter
-            students[lineNumber].classStanding = atio(strtok(NULL, "\n"));
+            students[lineNumber].classStanding = atoi(strtok(NULL, "\n"));
             
             printf("%s, %s, %s, %d\n", 
                 students[lineNumber].last,
