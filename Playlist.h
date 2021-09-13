@@ -1,5 +1,7 @@
+#define _CRT_SECURE_NO_WARNINGS
 
-
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef struct duration {
     int minutes;
@@ -17,7 +19,18 @@ typedef struct record {
 } Record;
 
 typedef struct node {
-    Node* next;
+    struct node* next;
     Record data;
-    Node* prev;
+    struct node* prev;
 } Node;
+
+typedef struct list
+{
+	Node* head;
+} List;
+
+List* PlaylistPointer;
+
+int load();
+
+int insertFront(const Record* recordPointer);
