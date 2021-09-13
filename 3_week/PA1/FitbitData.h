@@ -1,6 +1,8 @@
 #ifndef FIT_BIT_DATA_H
 #define FIT_BIT_DATA_H // guard code
 
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
