@@ -8,6 +8,7 @@ Node* makeNode(const Record data)
 	{
 		newNode->data = data;
 		newNode->next = NULL;
+		newNode->prev = NULL;
 	}
 
 	return newNode;
@@ -21,8 +22,11 @@ int insertFront(const Record* data)
 	if (newNode != NULL)
 	{
 		success = 1;
-		newNode->next = PlaylistPointer->head;
-		PlaylistPointer->head = newNode;
+		newNode->next = pPlaylist->head;
+		if(pPlaylist->head) {
+			pPlaylist->head->prev = newNode;
+		}
+		pPlaylist->head = newNode;
 	}
 
 	return success;

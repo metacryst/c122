@@ -10,7 +10,7 @@ void mainMenu() {
     printf("11 - Exit\n");
     
     List Playlist = {NULL};
-    PlaylistPointer = &Playlist;
+    pPlaylist = &Playlist;
     
     while(command != 11) {
         printf("\n");
@@ -23,7 +23,7 @@ void mainMenu() {
                 printf("1: Load\n");
                 load();
                 printf("\n");
-                printf("%s\n", PlaylistPointer->head->data.genre);
+                printf("%s\n", pPlaylist->head->data.genre);
                 break;
             case 11: 
                 printf("11: Exit\n");

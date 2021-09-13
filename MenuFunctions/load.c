@@ -12,7 +12,8 @@ int load() {
         firstDuration};
     
     insertFront(&firstRecord);
-    printf("%s\n", (*PlaylistPointer).head->data.artist);
+    
+    printf("%s\n", (*pPlaylist).head->data.artist);
     
     return 0;
 }

@@ -29,7 +29,7 @@ typedef struct list
 	Node* head;
 } List;
 
-List* PlaylistPointer;
+List* pPlaylist;
 
 int load();
 
