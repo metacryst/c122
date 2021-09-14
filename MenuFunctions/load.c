@@ -1,14 +1,10 @@
 #include "../Playlist.h"
 
-int load() {
-    printf("loading!\n");
-    
+int load() {    
     FILE* infile = fopen("musicPlayList.csv", "r");
     if(infile == NULL) {
         printf("inFile not found!\n");
         return 0;
-    } else {
-        printf("Opened inFile Successfully!\n");
     }
     
     char line[250] = "";
@@ -86,6 +82,8 @@ int load() {
         
         printf("\n");
     }
+    
+    fclose(infile);
         
-    return 0;
+    return 1;
 }
