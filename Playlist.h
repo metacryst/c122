@@ -33,5 +33,6 @@ typedef struct list
 List* pPlaylist;
 
 int load();
+int store();
 
 int insertFront(const Record* recordPointer);

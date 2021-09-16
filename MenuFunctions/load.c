@@ -15,11 +15,16 @@ int load() {
         char* scannedArtist;
             if(line[0] == '"') {
                 scannedArtist = strtok(line, "\"");
+                if(scannedArtist) {
+                    strcat(newRecord.artist, "\"");
+                    strcat (newRecord.artist , scannedArtist);
+                    strcat(newRecord.artist, "\"");
+                }
             } else {
                 scannedArtist = strtok(line, ",");
-            }
-            if(scannedArtist) {
-                strcpy (newRecord.artist , scannedArtist);
+                if(scannedArtist) {
+                    strcpy (newRecord.artist , scannedArtist);
+                }
             }
             
             printf("artist: %s\n", newRecord.artist);

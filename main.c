@@ -7,6 +7,7 @@ void mainMenu() {
         printf("Here are some number commands to get you started: \n");
         printf("\n");
         printf("1 - Load\n");
+        printf("2 - Store\n");
         printf("11 - Exit\n");
     
     List Playlist = {NULL};
@@ -22,10 +23,14 @@ void mainMenu() {
             case 1:
                 printf("1: Load\n");
                 load();
-                printf("head: %s\n", pPlaylist->head->data.albumTitle);
-                printf("second: %s\n", pPlaylist->head->next->data.albumTitle);
-                printf("third: %s\n", pPlaylist->head->next->next->data.albumTitle);
-                printf("fourth: %s\n", pPlaylist->head->next->next->next->data.albumTitle);
+                printf("head: %d\n", pPlaylist->head->data.songLength.seconds);
+                printf("second: %d\n", pPlaylist->head->next->data.songLength.seconds);
+                printf("third: %d\n", pPlaylist->head->next->next->data.songLength.seconds);
+                printf("fourth: %d\n", pPlaylist->head->next->next->next->data.songLength.seconds);
+                break;
+            case 2:
+                printf("2: Store\n");
+                store();
                 break;
             case 11: 
                 printf("11: Exit\n");
