@@ -2,7 +2,7 @@
 
 int store() {
     if(!(pPlaylist->head)) {
-        printf("No songs found! Try running load command first.\n");
+        printf("No songs to store! Try running load command first.\n");
         return 0;
     }
     
@@ -49,7 +49,9 @@ int store() {
             snprintf(ratingString, 10, "%d", next->data.rating);
             fputs(ratingString, outfile);
         
-        fputs("\n", outfile);
+        if(next->next) {
+            fputs("\n", outfile);
+        }
         
         next = next->next;
     }

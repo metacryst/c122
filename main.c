@@ -44,7 +44,10 @@ void mainMenu() {
         switch(command) {
             case 1:
                 printf("Loading...\n");
-                load();
+                success = load();
+                if(success) {
+                    printf("Loaded.\n");
+                }
                 break;
             case 2:
                 printf("Storing Playlist...\n");
@@ -64,6 +67,7 @@ void mainMenu() {
                 if(success) {
                    printf("Stored.\n"); 
                 }
+                printf("\n");
                 break;
             default: 
                 printf("Command not recognized: %d\n", command);
