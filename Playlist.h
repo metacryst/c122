@@ -37,3 +37,5 @@ int store();
 void display();
 
 int insertFront(const Record* recordPointer);
+void printList();
+void clearList();

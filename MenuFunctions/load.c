@@ -8,28 +8,7 @@ int load() {
     }
     
     
-    Node* nodeToDelete = pPlaylist->head;
-    if(nodeToDelete) {
-        printf("nodeToDelete Data: %s\n", nodeToDelete->data.albumTitle);
-    }
-    while(nodeToDelete) {
-        Node* nextNodeToDelete = NULL;
-        if(nodeToDelete->next) {
-            nextNodeToDelete = nodeToDelete->next;
-            printf("nextNode: %s\n", nextNodeToDelete->data.albumTitle);
-            nextNodeToDelete->prev = NULL;
-            pPlaylist->head = nextNodeToDelete;
-            printf("newHead: %s\n", pPlaylist->head->data.albumTitle);
-            free(nodeToDelete);
-            nodeToDelete = nextNodeToDelete;
-        } else {
-            printf("end of list: playlist head artist: %s\n", pPlaylist->head->data.artist);
-            free(nodeToDelete);
-            pPlaylist->head = NULL;
-            nodeToDelete = NULL;
-        }
-        
-    }
+    clearList();
     
     
     char line[250] = "";

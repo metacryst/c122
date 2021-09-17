@@ -39,15 +39,19 @@ void mainMenu() {
         printf("☾☾ Command: ");
         scanf("%d", &command);
         
+        int success;
+        
         switch(command) {
             case 1:
-                printf("Loading...\n\n");
+                printf("Loading...\n");
                 load();
                 break;
             case 2:
-                printf("Storing...\n");
-                store();
-                printf("Stored.\n");
+                printf("Storing Playlist...\n");
+                success = store();
+                if(success) {
+                   printf("Stored.\n"); 
+                }
                 break;
             case 3:
                 printf("Displaying...\n");
@@ -55,6 +59,11 @@ void mainMenu() {
                 break;
             case 11: 
                 printf("Exit.\n");
+                printf("Storing Playlist...\n");
+                success = store();
+                if(success) {
+                   printf("Stored.\n"); 
+                }
                 break;
             default: 
                 printf("Command not recognized: %d\n", command);
