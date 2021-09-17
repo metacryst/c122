@@ -3,11 +3,31 @@
 void mainMenu() {
         
     int command = 0;
-        printf("Hello! Welcome to your music library.\n");
+        printf("           ______________ \n");
+        printf("          /             /| \n");
+        printf("         /             / | \n");
+        printf("        /____________ /  | \n");
+        printf("       | ___________ |   | \n");
+        printf("       ||           ||   | \n");
+        printf("       || PLAYLIST  ||   | \n");
+        printf("       ||           ||   | \n");
+        printf("       ||___________||   | \n");
+        printf("       |   _______   |  /  \n");
+        printf("      /|  (_______)  | /   \n");
+        printf("     ( |_____________|/    \n");
+        printf("     \\                    \n");
+        printf(" .=======================. \n");
+        printf(" | ::::::::::::::::  ::: | \n");
+        printf(" | ::::::::::::::[]  ::: | \n");
+        printf(" |   -----------     ::: | \n");
+        printf(" `-----------------------' \n");
+        
+        printf("\n\nHello! Welcome to your music library.\n");
         printf("Here are some number commands to get you started: \n");
         printf("\n");
         printf("1 - Load\n");
         printf("2 - Store\n");
+        printf("3 - Display\n");
         printf("11 - Exit\n");
     
     List Playlist = {NULL};
@@ -15,25 +35,26 @@ void mainMenu() {
     
     while(command != 11) {
         printf("\n");
-        
-        printf("Command: ");
+        printf("☾☾ 1=Load, 2=Store, 3=Display, 11=Exit \n");
+        printf("☾☾ Command: ");
         scanf("%d", &command);
         
         switch(command) {
             case 1:
-                printf("1: Load\n");
+                printf("Loading...\n\n");
                 load();
-                printf("head: %d\n", pPlaylist->head->data.songLength.seconds);
-                printf("second: %d\n", pPlaylist->head->next->data.songLength.seconds);
-                printf("third: %d\n", pPlaylist->head->next->next->data.songLength.seconds);
-                printf("fourth: %d\n", pPlaylist->head->next->next->next->data.songLength.seconds);
                 break;
             case 2:
-                printf("2: Store\n");
+                printf("Storing...\n");
                 store();
+                printf("Stored.\n");
+                break;
+            case 3:
+                printf("Displaying...\n");
+                display();
                 break;
             case 11: 
-                printf("11: Exit\n");
+                printf("Exit.\n");
                 break;
             default: 
                 printf("Command not recognized: %d\n", command);

@@ -34,5 +34,6 @@ List* pPlaylist;
 
 int load();
 int store();
+void display();
 
 int insertFront(const Record* recordPointer);

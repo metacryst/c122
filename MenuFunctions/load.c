@@ -7,6 +7,31 @@ int load() {
         return 0;
     }
     
+    
+    Node* nodeToDelete = pPlaylist->head;
+    if(nodeToDelete) {
+        printf("nodeToDelete Data: %s\n", nodeToDelete->data.albumTitle);
+    }
+    while(nodeToDelete) {
+        Node* nextNodeToDelete = NULL;
+        if(nodeToDelete->next) {
+            nextNodeToDelete = nodeToDelete->next;
+            printf("nextNode: %s\n", nextNodeToDelete->data.albumTitle);
+            nextNodeToDelete->prev = NULL;
+            pPlaylist->head = nextNodeToDelete;
+            printf("newHead: %s\n", pPlaylist->head->data.albumTitle);
+            free(nodeToDelete);
+            nodeToDelete = nextNodeToDelete;
+        } else {
+            printf("end of list: playlist head artist: %s\n", pPlaylist->head->data.artist);
+            free(nodeToDelete);
+            pPlaylist->head = NULL;
+            nodeToDelete = NULL;
+        }
+        
+    }
+    
+    
     char line[250] = "";
     while(fgets(line, 250, infile)) {
         Duration newSongLength = {0, 0};
@@ -27,7 +52,7 @@ int load() {
                 }
             }
             
-            printf("artist: %s\n", newRecord.artist);
+            // printf("artist: %s\n", newRecord.artist);
         
         char* scannedAlbum;
             scannedAlbum = strtok(NULL, ",");
@@ -35,7 +60,7 @@ int load() {
                 strcpy (newRecord.albumTitle , scannedAlbum);
             }
         
-            printf("album: %s\n", newRecord.albumTitle);
+            // printf("album: %s\n", newRecord.albumTitle);
         
         char* scannedSong;
             scannedSong = strtok(NULL, ",");
@@ -43,7 +68,7 @@ int load() {
                 strcpy (newRecord.songTitle , scannedSong);
             }
         
-            printf("song: %s\n", newRecord.songTitle);
+            // printf("song: %s\n", newRecord.songTitle);
             
         char* scannedGenre;
             scannedGenre = strtok(NULL, ",");
@@ -51,7 +76,7 @@ int load() {
                 strcpy (newRecord.genre , scannedGenre);
             }
         
-            printf("genre: %s\n", newRecord.genre);
+            // printf("genre: %s\n", newRecord.genre);
             
         char* scannedMinutes;
             scannedMinutes = strtok(NULL, ":");
@@ -64,7 +89,7 @@ int load() {
                 newSongLength.seconds = atoi(scannedSeconds);
             }
         
-            printf("newSongLength: %d:%d\n", newSongLength.minutes, newSongLength.seconds);
+            // printf("newSongLength: %d:%d\n", newSongLength.minutes, newSongLength.seconds);
             
         char* scannedPlays;
             scannedPlays = strtok(NULL, ",");
@@ -72,7 +97,7 @@ int load() {
                 newRecord.timesPlayed = (unsigned int) atoi(scannedPlays);
             }
         
-            printf("timesPlayed: %d\n", newRecord.timesPlayed);
+            // printf("timesPlayed: %d\n", newRecord.timesPlayed);
             
         char* scannedRating;
             scannedRating = strtok(NULL, ",");
@@ -80,12 +105,12 @@ int load() {
                 newRecord.rating = (unsigned int) atoi(scannedRating);
             }
         
-            printf("rating: %d\n", newRecord.rating);
+            // printf("rating: %d\n", newRecord.rating);
             
         newRecord.songLength = newSongLength;
         insertFront(&newRecord);
         
-        printf("\n");
+        // printf("\n");
     }
     
     fclose(infile);

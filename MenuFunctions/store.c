@@ -2,7 +2,7 @@
 
 int store() {
     if(!(pPlaylist->head)) {
-        printf("No songs in library! Try running load command first.\n");
+        printf("No songs found! Try running load command first.\n");
         return 0;
     }
     
