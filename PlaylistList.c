@@ -75,3 +75,38 @@ void clearList() {
         }
     }
 }
+
+void printArtistSearch(char* artist) {    
+    Node* next = pPlaylist->head;
+    if(!next) {
+        printf("No songs found! Try running load command first.\n");
+        return;
+    }
+    
+    int matches = 0;
+    
+    printf("\n");
+    while(next) {
+        if(!strcmp(next->data.artist, artist)) {
+            printf("\n");
+            printf("Artist: %s\n", next->data.artist);
+            printf("Album: %s\n", next->data.albumTitle);
+            printf("Song: %s\n", next->data.songTitle);
+            printf("Genre: %s\n", next->data.genre);
+            printf("Length: %d:%d\n", next->data.songLength.minutes, next->data.songLength.seconds);
+            printf("Times Played: %d\n", next->data.timesPlayed);
+            printf("Rating: %d\n", next->data.rating);
+            
+            next = next->next;
+            matches++;
+        } else {
+            next = next->next;
+        }
+    }
+    
+    if(matches==0) {
+        printf("No matches found!\n");
+    }
+    
+    return;
+}

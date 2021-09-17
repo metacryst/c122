@@ -34,7 +34,7 @@ void mainMenu() {
     pPlaylist = &Playlist;
     
     while(command != 11) {
-        printf("\n");
+        printf("\n\n");
         printf("☾☾ 1=Load, 2=Store, 3=Display, 11=Exit \n");
         printf("☾☾ Command: ");
         scanf("%d", &command);
@@ -43,34 +43,52 @@ void mainMenu() {
         
         switch(command) {
             case 1:
-                printf("Loading...\n");
+                printf("-->Loading...\n");
                 success = load();
                 if(success) {
-                    printf("Loaded.\n");
+                    printf("-->Loaded.\n");
                 }
                 break;
             case 2:
-                printf("Storing Playlist...\n");
+                printf("-->Storing Playlist...\n");
                 success = store();
                 if(success) {
-                   printf("Stored.\n"); 
+                   printf("-->Stored.\n"); 
                 }
                 break;
             case 3:
-                printf("Displaying...\n");
-                display();
+                printf("-->Search for an artist? 1=Search, 2=Show All\n");
+                printf("☾ Command: ");
+                
+                int response = 0;
+                scanf("%d", &response);
+                switch(response) {
+                    case 1:
+                        printf("☾ Enter Artist: ");
+                        char artist[40];
+                        scanf("%s", artist);
+                        printf("-->Searching for %s...\n", artist);
+                        printArtistSearch(artist);
+                        break;
+                    case 2:
+                        printf("-->Displaying...\n");
+                        display();
+                        break;
+                    default:
+                        printf("-->Command not recognized: %d\n", response);
+                }
                 break;
             case 11: 
-                printf("Exit.\n");
-                printf("Storing Playlist...\n");
+                printf("-->Exit.\n");
+                printf("-->Storing Playlist...\n");
                 success = store();
                 if(success) {
-                   printf("Stored.\n"); 
+                   printf("-->Stored.\n"); 
                 }
                 printf("\n");
                 break;
             default: 
-                printf("Command not recognized: %d\n", command);
+                printf("-->Command not recognized: %d\n", command);
                 break;
         }
     }

@@ -39,3 +39,4 @@ void display();
 int insertFront(const Record* recordPointer);
 void printList();
 void clearList();
+void printArtistSearch(char* artist);
