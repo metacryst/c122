@@ -20,6 +20,7 @@ typedef struct record {
 } Record;
 
 typedef struct node {
+    int position;
     struct node* next;
     Record data;
     struct node* prev;
@@ -35,8 +36,10 @@ List* pPlaylist;
 int load();
 int store();
 void display();
+void edit();
 
 int insertFront(const Record* recordPointer);
 void printList();
 void clearList();
-void printArtistSearch(char* artist);
+int printArtistSearch(char* artist);
+void printSongSearch(int songNumber);

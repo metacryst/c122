@@ -1,37 +1,60 @@
 #include "Playlist.h"
 
-Node* makeNode(const Record data)
-{
-	Node* newNode = (Node *) malloc(sizeof(Node));
+// indented functions are within local scope only
 
-	if (newNode != NULL)
-	{
-		newNode->data = data;
-		newNode->next = NULL;
-		newNode->prev = NULL;
-	}
+        Node* makeNode(const Record data)
+        {
+        	Node* newNode = (Node *) malloc(sizeof(Node));
 
-	return newNode;
-}
+        	if (newNode != NULL)
+        	{
+        		newNode->data = data;
+        		newNode->next = NULL;
+        		newNode->prev = NULL;
+        	}
 
+        	return newNode;
+        }
+        void incrementPositions(Node* node) {
+            if(node) {
+                node->position += 1;
+                incrementPositions(node->next);
+            }
+        }
 int insertFront(const Record* data)
 {
 	Node* newNode = makeNode(*data);
-	int success = 0;
+    newNode->position = 1;
 
-	if (newNode != NULL)
-	{
-		success = 1;
-		newNode->next = pPlaylist->head;
-		if(pPlaylist->head) {
-			pPlaylist->head->prev = newNode;
-		}
-		pPlaylist->head = newNode;
+	if (newNode == NULL){
+		return 0;
+    }
+    
+	newNode->next = pPlaylist->head;
+	if(newNode->next) {
+		newNode->next->prev = newNode;
 	}
-
-	return success;
+	pPlaylist->head = newNode;
+    
+    Node* nextNode = newNode->next;
+    incrementPositions(nextNode);
+    
+	return 1;
 }
 
+        void printRecord(Node* node) 
+        {
+            printf("\n");
+            printf("▣▣▣▣▣▣▣▣▣▣-%d-▣▣▣▣▣▣▣▣▣▣▣▣▣▣\n", node->position);
+            printf("▣ Artist: %s\n", node->data.artist);
+            printf("▣ Album: %s\n", node->data.albumTitle);
+            printf("▣ Song: %s\n", node->data.songTitle);
+            printf("▣ Genre: %s\n", node->data.genre);
+            printf("▣ Length: %d:%d\n", node->data.songLength.minutes, node->data.songLength.seconds);
+            printf("▣ Times Played: %d\n", node->data.timesPlayed);
+            printf("▣ Rating: %d\n", node->data.rating);
+            printf("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣\n");
+        }
 void printList() {
 	Node* next = pPlaylist->head;
     if(!next) {
@@ -41,15 +64,7 @@ void printList() {
     
     printf("\n\n");
     while(next) {
-        printf("\n");
-        printf("Artist: %s\n", next->data.artist);
-        printf("Album: %s\n", next->data.albumTitle);
-        printf("Song: %s\n", next->data.songTitle);
-        printf("Genre: %s\n", next->data.genre);
-        printf("Length: %d:%d\n", next->data.songLength.minutes, next->data.songLength.seconds);
-        printf("Times Played: %d\n", next->data.timesPlayed);
-        printf("Rating: %d\n", next->data.rating);
-        
+        printRecord(next);
         next = next->next;
     }
     printf("\n");
@@ -76,11 +91,11 @@ void clearList() {
     }
 }
 
-void printArtistSearch(char* artist) {    
+int printArtistSearch(char* artist) {
     Node* next = pPlaylist->head;
     if(!next) {
         printf("No songs found! Try running load command first.\n");
-        return;
+        return 0;
     }
     
     int matches = 0;
@@ -88,14 +103,7 @@ void printArtistSearch(char* artist) {
     printf("\n");
     while(next) {
         if(!strcmp(next->data.artist, artist)) {
-            printf("\n");
-            printf("Artist: %s\n", next->data.artist);
-            printf("Album: %s\n", next->data.albumTitle);
-            printf("Song: %s\n", next->data.songTitle);
-            printf("Genre: %s\n", next->data.genre);
-            printf("Length: %d:%d\n", next->data.songLength.minutes, next->data.songLength.seconds);
-            printf("Times Played: %d\n", next->data.timesPlayed);
-            printf("Rating: %d\n", next->data.rating);
+            printRecord(next);
             
             next = next->next;
             matches++;
@@ -103,6 +111,38 @@ void printArtistSearch(char* artist) {
             next = next->next;
         }
     }
+    printf("\n");
+    
+    if(matches==0) {
+        printf("No matches found!\n");
+        return 0;
+    }
+    
+    return 1;
+}
+
+void printSongSearch(int songNumber) {
+    Node* head = pPlaylist->head;
+    if(!head) {
+        printf("No songs found! Try running load command first.\n");
+        return;
+    }
+    
+    int matches = 0;
+    
+    printf("\n\n");
+    Node* next = head;
+    while(next) {
+        if(next->position == songNumber) {
+            printRecord(next);
+            
+            next = next->next;
+            matches++;
+        } else {
+            next = next->next;
+        }
+    }
+    printf("\n");
     
     if(matches==0) {
         printf("No matches found!\n");

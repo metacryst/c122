@@ -10,9 +10,8 @@ int load() {
     clearList();
     
     char line[250] = "";
-    int songsInFile = 0;
+    int songsAdded = 0;
     while(fgets(line, 250, infile)) {
-        songsInFile = 1;
         
         Duration newSongLength = {0, 0};
         Record newRecord = {"", "", "", "", newSongLength, 0, 0};
@@ -88,10 +87,11 @@ int load() {
             // printf("rating: %d\n", newRecord.rating);
             
         newRecord.songLength = newSongLength;
-        insertFront(&newRecord);        
+        insertFront(&newRecord);       
+        songsAdded++;
     }
     
-    if(!songsInFile) {
+    if(!songsAdded) {
         printf("No songs to load!\n");
         return 0;
     }
