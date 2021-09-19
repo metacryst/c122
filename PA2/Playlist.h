@@ -39,7 +39,8 @@ void display();
 void edit();
 
 int insertFront(const Record* recordPointer);
+void printRecord(Node* node);
 void printList();
 void clearList();
 int printArtistSearch(char* artist);
-int printSongSearch(int songNumber);
+Node* printSongSearch(int songNumber);

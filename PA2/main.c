@@ -3,6 +3,7 @@
 void mainMenu() {
         
     int command = 0;
+    char commandString[3];
         printf("           ______________ \n");
         printf("          /             /| \n");
         printf("         /             / | \n");
@@ -38,32 +39,29 @@ void mainMenu() {
         printf("\n\n");
         printf("☾☾ 1=Load, 2=Store, 3=Display, 6=Edit, 11=Exit \n");
         printf("☾☾ Command: ");
-        scanf("%d", &command);
+        fgets(commandString, 3, stdin);
+        sscanf(commandString, "%d", &command);
         
-        int success;
+        int operationSuccess;
         
         switch(command) {
             case 1:
                 printf("->Loading...\n");
-                success = load();
-                if(success) {
+                operationSuccess = load();
+                if(operationSuccess) {
                     printf("->Loaded.\n");
                 }
                 break;
             case 2:
                 printf("->Storing Playlist...\n");
-                success = store();
-                if(success) {
+                operationSuccess = store();
+                if(operationSuccess) {
                    printf("->Stored.\n"); 
                 }
                 break;
             case 3:
-                printf("->Search for an artist? 2=Search, 3=Show All\n");
-                printf("☾ Command: ");
-                
-                int response = 0;
-                scanf("%d", &response);
-                display(response);
+                printf("->Display List\n");
+                display();
                 break;
             case 6:
                 printf("->Edit List\n");
@@ -72,14 +70,14 @@ void mainMenu() {
             case 11: 
                 printf("->Exit.\n");
                 printf("->Storing Playlist...\n");
-                success = store();
-                if(success) {
+                operationSuccess = store();
+                if(operationSuccess) {
                    printf("->Stored.\n"); 
                 }
                 printf("\n");
                 break;
-            default: 
-                printf("->Command not recognized: %d\n", command);
+            default:
+                printf("\n->Command not recognized: %d\n", command);
                 break;
         }
     }

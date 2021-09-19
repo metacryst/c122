@@ -42,19 +42,20 @@ int insertFront(const Record* data)
 	return 1;
 }
 
-        void printRecord(Node* node) 
-        {
-            printf("\n");
-            printf("▣▣▣▣▣▣▣▣▣▣-%d-▣▣▣▣▣▣▣▣▣▣▣▣▣▣\n", node->position);
-            printf("▣ Artist: %s\n", node->data.artist);
-            printf("▣ Album: %s\n", node->data.albumTitle);
-            printf("▣ Song: %s\n", node->data.songTitle);
-            printf("▣ Genre: %s\n", node->data.genre);
-            printf("▣ Length: %d:%d\n", node->data.songLength.minutes, node->data.songLength.seconds);
-            printf("▣ Times Played: %d\n", node->data.timesPlayed);
-            printf("▣ Rating: %d\n", node->data.rating);
-            printf("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣\n");
-        }
+void printRecord(Node* node) 
+{
+    printf("\n");
+    printf("▣▣▣▣▣▣▣▣▣▣-%d-▣▣▣▣▣▣▣▣▣▣▣▣▣▣\n", node->position);
+    printf("▣ Artist: %s\n", node->data.artist);
+    printf("▣ Album: %s\n", node->data.albumTitle);
+    printf("▣ Song: %s\n", node->data.songTitle);
+    printf("▣ Genre: %s\n", node->data.genre);
+    printf("▣ Length: %d:%02u\n", node->data.songLength.minutes, node->data.songLength.seconds);
+    printf("▣ Times Played: %d\n", node->data.timesPlayed);
+    printf("▣ Rating: %d\n", node->data.rating);
+    printf("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣\n");
+}
+
 void printList() {
 	Node* next = pPlaylist->head;
     if(!next) {
@@ -121,33 +122,33 @@ int printArtistSearch(char* artist) {
     return 1;
 }
 
-int printSongSearch(int songNumber) {
+Node* printSongSearch(int songNumber) {
     Node* head = pPlaylist->head;
     if(!head) {
         printf("No songs found! Try running load command first.\n");
         return 0;
     }
     
-    int matches = 0;
-    
+    Node* foundSong = NULL;
+        
     printf("\n\n");
     Node* next = head;
     while(next) {
         if(next->position == songNumber) {
+            foundSong = next;
             printRecord(next);
             
             next = next->next;
-            matches++;
         } else {
             next = next->next;
         }
     }
     printf("\n");
     
-    if(matches==0) {
+    if(!foundSong) {
         printf("No matches found!\n");
         return 0;
     }
     
-    return 1;
+    return foundSong;
 }
