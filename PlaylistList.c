@@ -121,11 +121,11 @@ int printArtistSearch(char* artist) {
     return 1;
 }
 
-void printSongSearch(int songNumber) {
+int printSongSearch(int songNumber) {
     Node* head = pPlaylist->head;
     if(!head) {
         printf("No songs found! Try running load command first.\n");
-        return;
+        return 0;
     }
     
     int matches = 0;
@@ -146,7 +146,8 @@ void printSongSearch(int songNumber) {
     
     if(matches==0) {
         printf("No matches found!\n");
+        return 0;
     }
     
-    return;
+    return 1;
 }

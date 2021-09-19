@@ -42,4 +42,4 @@ int insertFront(const Record* recordPointer);
 void printList();
 void clearList();
 int printArtistSearch(char* artist);
-void printSongSearch(int songNumber);
+int printSongSearch(int songNumber);
