@@ -15,9 +15,10 @@ void edit() {
         int songNumber;
         sscanf(songString, "%d", &songNumber);
         
-        Node* searchedSong = printSongSearch(songNumber);
+        Node* searchedSong = songSearch(songNumber);
         if(searchedSong) {
-            printf("☾ 1=Artist, 2=Album, 3=Song, 4=Genre, 5=Length, 6=Times Played, 7=Rating \n");
+            printRecord(searchedSong);
+            printf("\n☾ 1=Artist, 2=Album, 3=Song, 4=Genre, 5=Length, 6=Times Played, 7=Rating \n");
             printf("☾ Enter Number of Field to Edit: ");
             char selectionString[3];
             fgets(selectionString, 3, stdin); 

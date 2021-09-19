@@ -56,11 +56,11 @@ void printRecord(Node* node)
     printf("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣\n");
 }
 
-void printList() {
+int printList() {
 	Node* next = pPlaylist->head;
     if(!next) {
         printf("No songs found! Try running load command first.\n");
-        return;
+        return 0;
     }
     
     printf("\n\n");
@@ -69,6 +69,8 @@ void printList() {
         next = next->next;
     }
     printf("\n");
+    
+    return 1;
 }
 
 void clearList() {
@@ -122,7 +124,7 @@ int printArtistSearch(char* artist) {
     return 1;
 }
 
-Node* printSongSearch(int songNumber) {
+Node* songSearch(int songNumber) {
     Node* head = pPlaylist->head;
     if(!head) {
         printf("No songs found! Try running load command first.\n");
@@ -135,10 +137,8 @@ Node* printSongSearch(int songNumber) {
     Node* next = head;
     while(next) {
         if(next->position == songNumber) {
-            foundSong = next;
-            printRecord(next);
-            
-            next = next->next;
+            foundSong = next;            
+            break;
         } else {
             next = next->next;
         }

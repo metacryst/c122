@@ -30,6 +30,8 @@ void mainMenu() {
         printf("2 - Store\n");
         printf("3 - Display\n");
         printf("6 - Edit\n");
+        printf("8 - Rate\n");
+        printf("9 - Play\n");
         printf("11 - Exit\n");
     
     List Playlist = {NULL};
@@ -37,7 +39,7 @@ void mainMenu() {
     
     while(command != 11) {
         printf("\n\n");
-        printf("☾☾ 1=Load, 2=Store, 3=Display, 6=Edit, 11=Exit \n");
+        printf("☾☾ 1=Load, 2=Store, 3=Display, 6=Edit, 8=Rate, 9=Play, 11=Exit \n");
         printf("☾☾ Command: ");
         fgets(commandString, 3, stdin);
         sscanf(commandString, "%d", &command);
@@ -66,6 +68,15 @@ void mainMenu() {
             case 6:
                 printf("->Edit List\n");
                 edit();
+                break;
+            case 8:
+                printf("->Rate Song\n");
+                printList();
+                rate();
+                break;
+            case 9:
+                printf("->Play Song\n");
+                play();
                 break;
             case 11: 
                 printf("->Exit.\n");

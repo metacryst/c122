@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 typedef struct duration {
     int minutes;
@@ -37,10 +38,12 @@ int load();
 int store();
 void display();
 void edit();
+void rate();
+void play();
 
 int insertFront(const Record* recordPointer);
 void printRecord(Node* node);
-void printList();
+int printList();
 void clearList();
 int printArtistSearch(char* artist);
-Node* printSongSearch(int songNumber);
+Node* songSearch(int songNumber);
