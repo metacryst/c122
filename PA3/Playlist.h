@@ -37,6 +37,7 @@ List* pPlaylist;
 int load();
 int store();
 void display();
+void insert();
 void edit();
 void rate();
 void play();
