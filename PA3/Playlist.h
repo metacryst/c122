@@ -34,10 +34,15 @@ typedef struct list
 
 List* pPlaylist;
 
+
+
+
+
 int load();
 int store();
 void display();
 void insert();
+void delete();
 void edit();
 void rate();
 void play();
@@ -45,6 +50,8 @@ void play();
 int insertFront(const Record* recordPointer);
 void printRecord(Node* node);
 int printList();
+int deleteNode();
 void clearList();
 int printArtistSearch(char* artist);
 Node* songSearch(int songNumber);
+Node* songTitleSearch(char* songTitle);
