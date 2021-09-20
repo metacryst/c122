@@ -42,7 +42,7 @@ void mainMenu() {
         printf("☾☾ 1=Load, 2=Store, 3=Display, 6=Edit, 8=Rate, 9=Play, 11=Exit \n");
         printf("☾☾ Command: ");
         fgets(commandString, 3, stdin);
-        sscanf(commandString, "%d", &command);
+        sscanf(commandString, "%d", &command); // convert command to integer
         
         int operationSuccess;
         
