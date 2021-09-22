@@ -47,7 +47,9 @@ void edit();
 void sort();
 void rate();
 void play();
+void shuffle();
 
+int countNodes();
 int insertFront(const Record* recordPointer);
 void printRecord(Node* node);
 int printList();

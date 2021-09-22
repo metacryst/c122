@@ -1,7 +1,20 @@
 #include "Playlist.h"
 
-// indented functions are within local scope only
+int countNodes(Node* node) {
+    int length = 0;
+    
+    if(node) {
+        Node* nextNode = node;
+        while(nextNode) {
+            length+=1;
+            nextNode = nextNode->next;
+        }
+    }
+    
+    return length;
+}
 
+// indented functions are within local scope only
         Node* makeNode(const Record data)
         {
         	Node* newNode = (Node *) malloc(sizeof(Node));
@@ -27,6 +40,7 @@
                 decrementPositions(node->next);
             }
         }
+
 int insertFront(const Record* data)
 {
 	Node* newNode = makeNode(*data);
@@ -135,7 +149,7 @@ void clearList() {
 int printArtistSearch(char* artist) {
     Node* next = pPlaylist->head;
     if(!next) {
-        printf("No songs found! Try running load command first.\n");
+        printf("->No songs found! Try running load command first.\n");
         return 0;
     }
     
@@ -165,7 +179,7 @@ int printArtistSearch(char* artist) {
 Node* songSearch(int songNumber) {
     Node* next = pPlaylist->head;
     if(!next) {
-        printf("No songs found! Try running load command first.\n");
+        printf("->No songs found! Try running load command first.\n");
         return NULL;
     }
     
