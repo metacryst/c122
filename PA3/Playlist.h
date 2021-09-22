@@ -53,6 +53,7 @@ void shuffle();
 int countNodes();
 int insertFront(const Record* recordPointer);
 void printRecord(Node* node);
+void printPlayingRecord(Node* node);
 int printList();
 int deleteNode();
 void clearList();

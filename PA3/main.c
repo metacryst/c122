@@ -2,8 +2,6 @@
 
 void mainMenu() {
         
-    int command = 0;
-    char commandString[3];
         printf("           ______________ \n");
         printf("          /             /| \n");
         printf("         /             / | \n");
@@ -40,6 +38,9 @@ void mainMenu() {
     
     List Playlist = {NULL};
     pPlaylist = &Playlist;
+    
+    int command = 0;
+    char commandString[3];
     
     while(command != 11) {
         printf("\n\n");

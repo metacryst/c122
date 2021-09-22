@@ -75,6 +75,20 @@ void printRecord(Node* node)
     printf("▣ Rating: %d\n", node->data.rating);
     printf("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣\n");
 }
+void printPlayingRecord(Node* node) 
+{
+    printf("\nNOW PLAYING: ");
+    printf("\n");
+    printf("▣▣▣▣▣▣▣▣▣▣-%d-▣▣▣▣▣▣▣▣▣▣▣▣▣▣\n", node->position);
+    printf("▣ Artist: %s\n", node->data.artist);
+    printf("▣ Album: %s\n", node->data.albumTitle);
+    printf("▣ Song: %s\n", node->data.songTitle);
+    printf("▣ Genre: %s\n", node->data.genre);
+    printf("▣ Length: %d:%02u\n", node->data.songLength.minutes, node->data.songLength.seconds);
+    printf("▣ Times Played: %d\n", node->data.timesPlayed);
+    printf("▣ Rating: %d\n", node->data.rating);
+    printf("▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣\n");
+}
 
 int printList() {
 	Node* next = pPlaylist->head;

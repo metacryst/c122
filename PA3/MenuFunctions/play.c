@@ -17,8 +17,7 @@ void play() {
     Node* songToPlay = songSearch(songNumber);
     
     while(songToPlay) {
-        printf("\nNOW PLAYING: ");
-        printRecord(songToPlay);
+        printPlayingRecord(songToPlay);
         songToPlay = songToPlay->next;
         sleep(3);
     }
