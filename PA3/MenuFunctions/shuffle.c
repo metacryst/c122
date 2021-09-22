@@ -9,28 +9,36 @@ void shuffle() {
     // bounds for number generation
     int listBegin = 1;
     int listLength = countNodes(pPlaylist->head);
-    printf("%d", listLength);
     
-    char alreadyPlayed[11];
-    int playCount = 0;
+    int alreadyPlayed[100] = {0};
+    int playedCount = 0;
     
-    while(playCount<listLength) {
-        int songNumber;
-        char songNumberString[4]; 
-        
+    // seed the random number generator
+    srand(time(NULL));
+    
+    while(playedCount<listLength) {        
+        int songNumber = 1;
         // keep re-generating number until it's a new song
-        while(strstr(alreadyPlayed, songNumberString)) {
-            songNumber = (rand() % (listLength - listBegin + 1)) + listBegin;
-            printf("songNumber: %d\n", songNumber);
-            printf("strstr: %s\n", strstr(alreadyPlayed, songNumberString));
-            snprintf(songNumberString, 3, "%d", songNumber);
+        
+        songNumber = (rand() % (listLength - listBegin + 1)) + listBegin;
+        printf("songNumber: %d\n", songNumber);
+        if(alreadyPlayed[songNumber]) {
+            while(alreadyPlayed[songNumber]) {
+                songNumber = (rand() % (listLength - listBegin + 1)) + listBegin;
+                printf("songNumber: %d\n", songNumber);
+            }
         }
         
         Node* songToPlay = songSearch(songNumber);
-        printf("\nNOW PLAYING: %d", songNumber);
+        printf("\nNOW PLAYING:");
         printRecord(songToPlay);
         
-        playCount++;
-        sleep(5);
-    }
+        alreadyPlayed[songNumber] = 1;
+        playedCount++;
+        printf("playedCount = %d\n", playedCount);
+        printf("playedCount<listLength = %d\n", playedCount<listLength);
+        
+        sleep(1);
+        
+    }    
 }

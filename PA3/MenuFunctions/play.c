@@ -20,6 +20,6 @@ void play() {
         printf("\nNOW PLAYING: ");
         printRecord(songToPlay);
         songToPlay = songToPlay->next;
-        sleep(5);
+        sleep(3);
     }
 }
