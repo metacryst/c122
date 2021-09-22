@@ -44,6 +44,7 @@ void display();
 void insert();
 void delete();
 void edit();
+void sort();
 void rate();
 void play();
 
