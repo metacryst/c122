@@ -96,19 +96,14 @@ int insertFront(const Record* data)
     if(data->timesPlayed < 0) {
         return 0;
     }
-    
-    printf("inside insertFront\n");
-    
+        
 	Node* newNode = makeNode(*data);
     newNode->position = 1;
 
 	if (newNode == NULL){
-        printf("NEW NODE NULL\n");
 		return 0;
     }
-    
-    printf("newNode success\n");
-    
+        
 	if(pPlaylist->head) {
         pPlaylist->head->prev = newNode;
         pPlaylist->tail->next = newNode;
@@ -116,7 +111,6 @@ int insertFront(const Record* data)
         newNode->prev = pPlaylist->tail;
         pPlaylist->head = newNode;
 	} else {
-        printf("inside no head condition\n");
         newNode->next = newNode;
         newNode->prev = newNode;
         pPlaylist->head = newNode;
