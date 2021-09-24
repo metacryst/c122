@@ -34,7 +34,7 @@ typedef struct list
 } List;
 
 List* pPlaylist;
-
+int listLength;
 
 
 
@@ -49,14 +49,16 @@ void sort();
 void rate();
 void play();
 void shuffle();
+void shufflePlay(int* songsToPlay);
 
-int countNodes();
-int insertFront(const Record* recordPointer);
 void printRecord(Node* node);
 void printPlayingRecord(Node* node);
 int printList();
+
+int insertFront(const Record* recordPointer);
 int deleteNode();
 void clearList();
+
 int printArtistSearch(char* artist);
 Node* songSearch(int songNumber);
 Node* songTitleSearch(char* songTitle);

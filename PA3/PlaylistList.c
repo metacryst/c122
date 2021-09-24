@@ -1,67 +1,5 @@
 #include "Playlist.h"
 
-int countNodes(Node* node) {
-    int length = 0;
-    
-    if(node) {
-        Node* nextNode = node;
-        while(nextNode) {
-            length+=1;
-            nextNode = nextNode->next;
-        }
-    }
-    
-    return length;
-}
-
-// indented functions are within local scope only
-        Node* makeNode(const Record data)
-        {
-        	Node* newNode = (Node *) malloc(sizeof(Node));
-
-        	if (newNode != NULL)
-        	{
-        		newNode->data = data;
-        		newNode->next = NULL;
-        		newNode->prev = NULL;
-        	}
-
-        	return newNode;
-        }
-        void incrementPositions(Node* node) {
-            if(node) {
-                node->position += 1;
-                incrementPositions(node->next);
-            }
-        }
-        void decrementPositions(Node* node) {
-            if(node) {
-                node->position -= 1;
-                decrementPositions(node->next);
-            }
-        }
-
-int insertFront(const Record* data)
-{
-	Node* newNode = makeNode(*data);
-    newNode->position = 1;
-
-	if (newNode == NULL){
-		return 0;
-    }
-    
-	newNode->next = pPlaylist->head;
-	if(newNode->next) {
-		newNode->next->prev = newNode;
-	}
-	pPlaylist->head = newNode;
-    
-    Node* nextNode = newNode->next;
-    incrementPositions(nextNode);
-    
-	return 1;
-}
-
 void printRecord(Node* node) 
 {
     printf("\n");
@@ -107,6 +45,77 @@ int printList() {
     return 1;
 }
 
+// indented functions are within local scope only
+        void countNodes() {   
+            int count = 0;
+            
+            Node* nodeToCount = pPlaylist->head;
+             
+            if(nodeToCount) {
+                while(nodeToCount) {
+                    count+=1;
+                    nodeToCount = nodeToCount->next;
+                }
+            }
+            
+            listLength = count;
+        }
+
+        Node* makeNode(const Record data)
+        {
+        	Node* newNode = (Node *) malloc(sizeof(Node));
+
+        	if (newNode != NULL)
+        	{
+        		newNode->data = data;
+        		newNode->next = NULL;
+        		newNode->prev = NULL;
+        	}
+
+        	return newNode;
+        }
+        void incrementPositions(Node* node) {
+            if(node) {
+                node->position += 1;
+                incrementPositions(node->next);
+            }
+        }
+        void decrementPositions(Node* node) {
+            if(node) {
+                node->position -= 1;
+                decrementPositions(node->next);
+            }
+        }
+
+int insertFront(const Record* data)
+{
+    if(data->rating > 5 || data->rating<1) {
+        return 0;
+    }
+    if(data->timesPlayed < 0) {
+        return 0;
+    }
+    
+	Node* newNode = makeNode(*data);
+    newNode->position = 1;
+
+	if (newNode == NULL){
+		return 0;
+    }
+    
+	newNode->next = pPlaylist->head;
+	if(newNode->next) {
+		newNode->next->prev = newNode;
+	}
+	pPlaylist->head = newNode;
+    
+    Node* nextNode = newNode->next;
+    incrementPositions(nextNode);
+    countNodes();
+    
+	return 1;
+}
+
 int deleteNode(Node* node) {
     int success=0;
     
@@ -134,8 +143,15 @@ int deleteNode(Node* node) {
         
         free(node);
         success=1;
+    } 
+    // node is only node
+    else {
+        free(node);
+        pPlaylist->head = NULL;
+        success=1;
     }
-    
+        
+    countNodes();
     return success;
 }
 
@@ -158,88 +174,6 @@ void clearList() {
             nodeToDelete = NULL;
         }
     }
-}
-
-int printArtistSearch(char* artist) {
-    Node* next = pPlaylist->head;
-    if(!next) {
-        printf("->No songs found! Try running load command first.\n");
-        return 0;
-    }
     
-    int matches = 0;
-    
-    printf("\n");
-    while(next) {
-        if(!strcmp(next->data.artist, artist)) {
-            printRecord(next);
-            
-            next = next->next;
-            matches++;
-        } else {
-            next = next->next;
-        }
-    }
-    printf("\n");
-    
-    if(matches==0) {
-        printf("No matches found!\n");
-        return 0;
-    }
-    
-    return 1;
-}
-
-Node* songSearch(int songNumber) {
-    Node* next = pPlaylist->head;
-    if(!next) {
-        printf("->No songs found! Try running load command first.\n");
-        return NULL;
-    }
-    
-    Node* foundSong = NULL;
-        
-    printf("\n\n");
-    while(next) {
-        if(next->position == songNumber) {
-            foundSong = next;            
-            next = next->next;
-        } else {
-            next = next->next;
-        }
-    }
-    printf("\n");
-    
-    if(!foundSong) {
-        printf("No matches found!\n");
-    }
-    
-    return foundSong;
-}
-
-Node* songTitleSearch(char* songTitle) {
-    Node* next = pPlaylist->head;
-    if(!next) {
-        printf("No songs found! Try running load command first.\n");
-        return NULL;
-    }
-    
-    Node* foundSong = NULL;
-        
-    printf("\n");
-    while(next) {
-        if(!strcmp(next->data.songTitle, songTitle)) {
-            foundSong = next;
-            next = next->next;
-        } else {
-            next = next->next;
-        }
-    }
-    printf("\n");
-    
-    if(!foundSong) {
-        printf("No matches found!\n");
-    }
-    
-    return foundSong;
+    countNodes();
 }
