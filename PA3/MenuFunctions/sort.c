@@ -69,5 +69,6 @@ void sort() {
     }
     
     printf("Here is your new list, in descending order:\n");
+    sleep(1);
     printList();
 }

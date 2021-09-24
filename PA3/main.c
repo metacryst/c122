@@ -1,7 +1,6 @@
 #include "Playlist.h"
 
-void mainMenu() {
-        
+void mainMenu() {        
         printf("           ______________ \n");
         printf("          /             /| \n");
         printf("         /             / | \n");

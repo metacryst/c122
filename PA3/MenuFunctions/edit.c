@@ -33,8 +33,6 @@ void edit() {
                     artistEdit[strlen(artistEdit)-1]='\0';
                     
                     strcpy(searchedSong->data.artist, artistEdit);
-                    printf("-> Here is your new song!\n");
-                    printRecord(searchedSong);
                     break;
                 case 2: // Album
                     printf("☾ Edit to Make: ");
@@ -43,8 +41,6 @@ void edit() {
                     albumEdit[strlen(albumEdit)-1]='\0';
                     
                     strcpy(searchedSong->data.albumTitle, albumEdit);
-                    printf("-> Here is your new song!\n");
-                    printRecord(searchedSong);
                     break;
                 case 3: // Song
                     printf("☾ Edit to Make: ");
@@ -53,8 +49,6 @@ void edit() {
                     songTitleEdit[strlen(songTitleEdit)-1]='\0';
                     
                     strcpy(searchedSong->data.albumTitle, songTitleEdit);
-                    printf("-> Here is your new song!\n");
-                    printRecord(searchedSong);
                     break;
                 case 4: // Genre
                     printf("☾ Edit to Make: ");
@@ -63,8 +57,6 @@ void edit() {
                     genreEdit[strlen(genreEdit)-1]='\0';
                     
                     strcpy(searchedSong->data.genre, genreEdit);
-                    printf("-> Here is your new song!\n");
-                    printRecord(searchedSong);
                     break;
                 case 5: // Length
                     printf("☾ Edit to Make (Format: m:ss): ");
@@ -96,10 +88,17 @@ void edit() {
                             searchedSong->data.songLength.seconds = integerSeconds;
                             printf("setSeconds: %d\n", searchedSong->data.songLength.seconds);
                         }
-                    printf("-> Here is your new song!\n");
-                    printRecord(searchedSong);
                     break;
+                default:
+                    printf("->Command Not Recognized: %d\n", editSelection);
+                    return;
             }
+            
+            printf("->Here is your new song!\n");
+            printRecord(searchedSong);
+            
+            sleep(1);
+                    
         }
     }
 }

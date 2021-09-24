@@ -60,8 +60,10 @@ void insert() {
     newRecord.songLength = newSongLength;
     
     insertFront(&newRecord);
-
+    
     printf("-> Here is your new song!\n");
     printRecord(pPlaylist->head);
+    
+    sleep(1);
     
 }
