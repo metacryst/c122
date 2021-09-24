@@ -21,7 +21,7 @@ int store() {
     }    
     
     Node* next = pPlaylist->head;
-    while(next) {
+    while(next->next != pPlaylist->head) {
         fputs(next->data.artist, outfile);
             fputs(",", outfile);
         fputs(next->data.albumTitle, outfile);

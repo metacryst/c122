@@ -6,12 +6,15 @@ int load() {
         printf("inFile not found!\n");
         return 0;
     }
-    
+    printf("inside load\n");
     clearList();
+    printf("clearlist finished\n");
     
     char line[250] = "";
     int songsAdded = 0;
     while(fgets(line, 250, infile)) {
+        
+        printf("inside while loop\n");
         
         Duration newSongLength = {0, 0};
         Record newRecord = {"", "", "", "", newSongLength, 0, 0};
@@ -31,7 +34,7 @@ int load() {
                 }
             }
             
-            // printf("artist: %s\n", newRecord.artist);
+            printf("artist: %s\n", newRecord.artist);
         
         char* scannedAlbum;
             scannedAlbum = strtok(NULL, ",");
@@ -39,7 +42,7 @@ int load() {
                 strcpy (newRecord.albumTitle , scannedAlbum);
             }
         
-            // printf("album: %s\n", newRecord.albumTitle);
+            printf("album: %s\n", newRecord.albumTitle);
         
         char* scannedSong;
             scannedSong = strtok(NULL, ",");
@@ -47,7 +50,7 @@ int load() {
                 strcpy (newRecord.songTitle , scannedSong);
             }
         
-            // printf("song: %s\n", newRecord.songTitle);
+            printf("song: %s\n", newRecord.songTitle);
             
         char* scannedGenre;
             scannedGenre = strtok(NULL, ",");
@@ -87,7 +90,9 @@ int load() {
             // printf("rating: %d\n", newRecord.rating);
             
         newRecord.songLength = newSongLength;
-        insertFront(&newRecord);       
+        printf("boutta insertfront\n");
+        insertFront(&newRecord);
+        printf("new song: %s\n", pPlaylist->head->data.songTitle);
         songsAdded++;
     }
     

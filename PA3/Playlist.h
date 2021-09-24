@@ -31,6 +31,7 @@ typedef struct node {
 typedef struct list
 {
 	Node* head;
+    Node* tail;
 } List;
 
 List* pPlaylist;
