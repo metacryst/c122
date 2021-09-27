@@ -4,13 +4,14 @@ void shufflePlay(int* songsToPlay) {
     for(int i=0; i<listLength; i++) {
         printPlayingRecord(songSearch(songsToPlay[i]));
         *(songsToPlay+i) = 0;
-        sleep(3);
+        sleep(1);
     }
 }
 
 void shuffle() {    
     if(!(pPlaylist->head)) {
         printf("->No songs found! Try running load command first.\n");
+        fflush(stdin);
         return;
     }
     

@@ -63,7 +63,4 @@ void insert() {
     
     printf("-> Here is your new song!\n");
     printRecord(pPlaylist->head);
-    
-    sleep(1);
-    
 }

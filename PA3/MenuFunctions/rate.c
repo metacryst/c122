@@ -14,6 +14,11 @@ void rate() {
         fgets(rateString, 3, stdin); 
         int rating;
         sscanf(rateString, "%d", &rating);
+
+        if(rating > 5 || rating < 1) {
+            printf("-> Failed. Rating must be between 1 and 5!\n");
+            return;
+        }
         
         searchedSong->data.rating = rating;
         printf("-> Here is your new song!\n");

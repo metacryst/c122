@@ -4,7 +4,7 @@ void delete() {
     printf("☾ Enter Song Title: ");
         char songTitle[150];
         fgets(songTitle, 150, stdin); 
-        songTitle[strlen(songTitle)-1]='\0';
+        songTitle[strlen(songTitle)-1]='\0'; // replace newline
         
     Node* searchedSong = songTitleSearch(songTitle);
     if(searchedSong) {

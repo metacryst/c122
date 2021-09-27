@@ -1,8 +1,8 @@
 #include "Playlist.h"
 
 int printArtistSearch(char* artist) {
-    Node* next = pPlaylist->head;
-    if(!next) {
+    Node* toPrint = pPlaylist->head;
+    if(!toPrint) {
         printf("->No songs found! Try running load command first.\n");
         return 0;
     }
@@ -10,15 +10,19 @@ int printArtistSearch(char* artist) {
     int matches = 0;
     
     printf("\n");
-    while(next) {
-        if(!strcmp(next->data.artist, artist)) {
-            printRecord(next);
+    while(toPrint->next != pPlaylist->head) {
+        if(!strcmp(toPrint->data.artist, artist)) {
+            printRecord(toPrint);
             
-            next = next->next;
+            toPrint = toPrint->next;
             matches++;
         } else {
-            next = next->next;
+            toPrint = toPrint->next;
         }
+    }
+    if(!strcmp(toPrint->data.artist, artist)) {
+        printRecord(toPrint);
+        matches++;
     }
     printf("\n");
     
@@ -30,36 +34,82 @@ int printArtistSearch(char* artist) {
     return 1;
 }
 
+    int calculateSearchDirection(song, lastFound) {
+        int direction;
+        // if song is in front of us
+        if(song > lastFound) {
+            if(abs(song - lastFound) > listLength/2) { 
+                direction = -1; // loop around thru head
+            } else {
+                direction = 1; // traverse normally
+            }
+        }
+        // if song is behind us
+        if(song < lastFound) {
+            if(abs(song - lastFound) > listLength/2) { 
+                direction = 1; // loop around thru tail
+            } else {
+                direction = -1; // traverse normally
+            }
+        }
+        return direction;
+    }
 Node* songSearch(int songNumber) {
-    Node* next = pPlaylist->head;
-    if(!next) {
+    static Node* lastFoundSong;
+    Node* startingNode;
+
+    if(!pPlaylist->head) {
         printf("->No songs found! Try running load command first.\n");
         return NULL;
     }
-    
-    Node* foundSong = NULL;
-        
+
+    int direction = 1;
+    if(lastFoundSong) {
+        direction = calculateSearchDirection(songNumber, lastFoundSong->position);
+        startingNode = lastFoundSong;
+    } else {
+        direction = calculateSearchDirection(songNumber, 1);
+        startingNode = pPlaylist->head;
+    }
+            
     printf("\n\n");
-    while(next) {
-        if(next->position == songNumber) {
-            foundSong = next;            
-            next = next->next;
-        } else {
-            next = next->next;
+
+    Node* toSearch = startingNode;
+    Node* foundSong;
+    int iterations = 0;
+    while(toSearch != startingNode || iterations==0) {
+        if(direction > 0) { // Forwards
+            if(toSearch->position == songNumber) {
+                foundSong = toSearch;
+                break;
+            } else {
+                toSearch = toSearch->next;
+            }
         }
+        if(direction < 0) { // Backwards
+            if(toSearch->position == songNumber) {
+                foundSong = toSearch;
+                break;
+            } else {
+                toSearch = toSearch->prev;
+            }
+        }
+        iterations++;
     }
     printf("\n");
     
     if(!foundSong) {
         printf("No matches found!\n");
+    } else {
+        lastFoundSong = foundSong;
     }
     
     return foundSong;
 }
 
 Node* songTitleSearch(char* songTitle) {
-    Node* next = pPlaylist->head;
-    if(!next) {
+    Node* toSearch = pPlaylist->head;
+    if(!toSearch) {
         printf("No songs found! Try running load command first.\n");
         return NULL;
     }
@@ -67,13 +117,16 @@ Node* songTitleSearch(char* songTitle) {
     Node* foundSong = NULL;
         
     printf("\n");
-    while(next) {
-        if(!strcmp(next->data.songTitle, songTitle)) {
-            foundSong = next;
-            next = next->next;
+    while(toSearch != pPlaylist->tail) {
+        if(!strcmp(toSearch->data.songTitle, songTitle)) {
+            foundSong = toSearch;
+            toSearch = toSearch->next;
         } else {
-            next = next->next;
+            toSearch = toSearch->next;
         }
+    }
+    if(!strcmp(toSearch->data.songTitle, songTitle)) {
+        foundSong = toSearch;
     }
     printf("\n");
     

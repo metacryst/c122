@@ -35,7 +35,7 @@ void mainMenu() {
         printf("10 - Shuffle Play\n");
         printf("11 - Exit\n");
     
-    List Playlist = {NULL};
+    List Playlist = {NULL, NULL};
     pPlaylist = &Playlist;
     
     int command = 0;

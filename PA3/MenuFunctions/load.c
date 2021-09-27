@@ -12,7 +12,7 @@ int load() {
     char line[250] = "";
     int songsAdded = 0;
     while(fgets(line, 250, infile)) {
-        
+                
         Duration newSongLength = {0, 0};
         Record newRecord = {"", "", "", "", newSongLength, 0, 0};
         
@@ -87,7 +87,7 @@ int load() {
             // printf("rating: %d\n", newRecord.rating);
             
         newRecord.songLength = newSongLength;
-        insertFront(&newRecord);       
+        insertFront(&newRecord);
         songsAdded++;
     }
     
