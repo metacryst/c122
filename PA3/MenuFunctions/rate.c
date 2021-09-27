@@ -1,6 +1,11 @@
 #include "../Playlist.h"
 
 void rate() {
+    int printSuccess = printList();
+    if (!printSuccess) {
+        return;
+    }
+
     printf("☾ Enter Number of Song to Rate: ");
     char selectionString[3];
     fgets(selectionString, 3, stdin);

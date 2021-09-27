@@ -88,7 +88,6 @@ void mainMenu() {
                 break;
             case 8:
                 printf("->Rate Song\n");
-                printList();
                 rate();
                 break;
             case 9:

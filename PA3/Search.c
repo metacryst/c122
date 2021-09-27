@@ -35,7 +35,7 @@ int printArtistSearch(char* artist) {
 }
 
     int calculateSearchDirection(song, lastFound) {
-        int direction;
+        int direction = 1;
         // if song is in front of us
         if(song > lastFound) {
             if(abs(song - lastFound) > listLength/2) { 
