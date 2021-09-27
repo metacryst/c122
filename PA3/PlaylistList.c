@@ -131,6 +131,7 @@ int deleteNode(Node* node) {
     if ((node->prev == node) && (node->next == node)) {
         free(node);
         pPlaylist->head = NULL;
+        pPlaylist->tail = NULL;
         success=1;
     }
     // beginning of list
