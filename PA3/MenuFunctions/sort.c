@@ -3,11 +3,10 @@
 void sort() {
     printf("->Sort Methods: 1=Artist, 2=Album, 3=Rating, 4=Times Played\n");
     printf("☾ Command: ");
-    
-    char commandString[3];
-    fgets(commandString, 3, stdin);
-    int command;
-    sscanf(commandString, "%d", &command);
+        char commandString[3];
+        fgets(commandString, 3, stdin);
+        int command;
+        sscanf(commandString, "%d", &command);
     
 
     printf("\n\n");
@@ -21,7 +20,7 @@ void sort() {
     int endOfList = 0;
     while(!endOfList) {
         Node* node2 = node1->next;
-        if(!node2) {
+        if(node2 == pPlaylist->head) {
             endOfList = 1;
             break;
         }
@@ -29,20 +28,20 @@ void sort() {
         int comparison;
         
         switch(command) {
-            case 1:
+            case 1: // Artist (if node 2 comes before node1, return -1)
                 comparison = strcmp(node2->data.artist, node1->data.artist);
                 break;
-            case 2:
+            case 2: // Album (if node 2 comes before node1, return -1)
                 comparison = strcmp(node2->data.albumTitle, node1->data.albumTitle);
                 break;
-            case 3:
+            case 3: // Rating
                 if(node2->data.rating > node1->data.rating) {
                     comparison = -1;
                 } else {
                     comparison = 1;
                 }
                 break;
-            case 4:
+            case 4: // Times Played
                 if(node2->data.timesPlayed > node1->data.timesPlayed) {
                     comparison = -1;
                 } else {

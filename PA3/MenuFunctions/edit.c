@@ -17,8 +17,8 @@ void edit() {
         Node* searchedSong = songTitleSearch(songString);
         if(searchedSong) {
             printRecord(searchedSong);
-            printf("\n☾ 1=Artist, 2=Album, 3=Song, 4=Genre, 5=Length, 6=Times Played, 7=Rating \n");
-            printf("☾ Enter Number of Field to Edit: ");
+            printf("\n->Edit Methods: 1=Artist, 2=Album, 3=Song, 4=Genre, 5=Length, 6=Times Played, 7=Rating \n");
+            printf("☾ Command: ");
                 char selectionString[3];
                 fgets(selectionString, 3, stdin); 
                 int editSelection;
