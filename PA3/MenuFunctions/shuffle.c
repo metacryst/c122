@@ -11,7 +11,6 @@ void shufflePlay(int* songsToPlay) {
 void shuffle() {    
     if(!(pPlaylist->head)) {
         printf("->No songs found! Try running load command first.\n");
-        fflush(stdin);
         return;
     }
     
@@ -38,6 +37,4 @@ void shuffle() {
     }
     
     shufflePlay(songsToPlay);
-    
-    fflush(stdin);
 }

@@ -39,14 +39,14 @@ void mainMenu() {
     pPlaylist = &Playlist;
     
     int command = 0;
-    char commandString[3];
+    char commandString[5];
     
     while(command != 11) {
         printf("\n\n");
         printf("☾☾ 1=Load, 2=Store, 3=Display, 4=Insert, 5=Delete, 6=Edit,\n");
         printf("☾☾ 7=Sort, 8=Rate, 9=Play, 10=Shuffle Play, 11=Exit \n");
         printf("☾☾ Command: ");
-        fgets(commandString, 3, stdin);
+        fgets(commandString, 5, stdin);
         sscanf(commandString, "%d", &command); // convert command to integer
         
         int operationSuccess;
