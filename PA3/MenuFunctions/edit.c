@@ -47,7 +47,7 @@ void edit() {
                     fgets(songTitleEdit, 150, stdin); 
                     songTitleEdit[strlen(songTitleEdit)-1]='\0';
                     
-                    strcpy(searchedSong->data.albumTitle, songTitleEdit);
+                    strcpy(searchedSong->data.songTitle, songTitleEdit);
                     break;
                 case 4: // Genre
                     printf("☾ Edit to Make: ");
