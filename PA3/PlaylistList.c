@@ -169,22 +169,27 @@ int deleteNode(Node* node) {
 }
 
 void clearList() {
-	Node* node = pPlaylist->head;
+	Node* toDelete = pPlaylist->head;
 
     // delete from front
-    while(node) {
-        if(node->next) {
-            node->next->prev = pPlaylist->tail;
-            pPlaylist->tail->next = node->next;
-            pPlaylist->head = node->next;
+    while(toDelete) {
+        if(toDelete->next != toDelete) {
+            // next pointing back at tail
+            toDelete->next->prev = pPlaylist->tail;
+            // tail pointing forward at next
+            pPlaylist->tail->next = toDelete->next;
+            // head is now next
+            pPlaylist->head = toDelete->next;
             
-            free(node);
-            node = node->next;
+            Node* nextToDelete = toDelete->next;
+            free(toDelete);
+            toDelete = nextToDelete;
         } else {
             pPlaylist->head = NULL;
             pPlaylist->tail = NULL;
             
-            free(node);
+            free(toDelete);
+            toDelete = NULL;
         }
     }
     

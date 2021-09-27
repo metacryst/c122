@@ -1,5 +1,40 @@
 #include "../Playlist.h"
 
+int storeSong(Node* node, FILE* outfile) {
+    fputs(node->data.artist, outfile);
+        fputs(",", outfile);
+    fputs(node->data.albumTitle, outfile);
+        fputs(",", outfile);
+    fputs(node->data.songTitle, outfile);
+        fputs(",", outfile);
+    fputs(node->data.genre, outfile);
+        fputs(",", outfile);
+        
+    char songMinutesString[10];
+        snprintf(songMinutesString, 10, "%d", node->data.songLength.minutes);
+        fputs(songMinutesString, outfile);
+        fputs(":", outfile);
+    char songSecondsString[10];
+        snprintf(songSecondsString, 10, "%d", node->data.songLength.seconds);
+        fputs(songSecondsString, outfile);
+            fputs(",", outfile);
+    
+    char timesPlayedString[10];
+        snprintf(timesPlayedString, 10, "%d", node->data.timesPlayed);
+        fputs(timesPlayedString, outfile);
+            fputs(",", outfile);
+        
+    char ratingString[10];
+        snprintf(ratingString, 10, "%d", node->data.rating);
+        fputs(ratingString, outfile);
+    
+    if(node->next != pPlaylist->head) {
+        fputs("\n", outfile);
+    }
+
+    return 1;
+}
+
 int store() {
     if(!(pPlaylist->head)) {
         printf("No songs to store! Try running load command first.\n");
@@ -20,41 +55,13 @@ int store() {
         return 0;
     }    
     
-    Node* next = pPlaylist->head;
-    while(next->next != pPlaylist->head) {
-        fputs(next->data.artist, outfile);
-            fputs(",", outfile);
-        fputs(next->data.albumTitle, outfile);
-            fputs(",", outfile);
-        fputs(next->data.songTitle, outfile);
-            fputs(",", outfile);
-        fputs(next->data.genre, outfile);
-            fputs(",", outfile);
-            
-        char songMinutesString[10];
-            snprintf(songMinutesString, 10, "%d", next->data.songLength.minutes);
-            fputs(songMinutesString, outfile);
-            fputs(":", outfile);
-        char songSecondsString[10];
-            snprintf(songSecondsString, 10, "%d", next->data.songLength.seconds);
-            fputs(songSecondsString, outfile);
-                fputs(",", outfile);
-        
-        char timesPlayedString[10];
-            snprintf(timesPlayedString, 10, "%d", next->data.timesPlayed);
-            fputs(timesPlayedString, outfile);
-                fputs(",", outfile);
-            
-        char ratingString[10];
-            snprintf(ratingString, 10, "%d", next->data.rating);
-            fputs(ratingString, outfile);
-        
-        if(next->next) {
-            fputs("\n", outfile);
-        }
-        
-        next = next->next;
+    Node* current = pPlaylist->head;
+    while(current->next != pPlaylist->head) {
+        storeSong(current, outfile);
+        current = current->next;
     }
+    // store final song
+    storeSong(current, outfile);
        
     fclose(outfile);
     
