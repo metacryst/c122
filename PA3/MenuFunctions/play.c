@@ -6,7 +6,7 @@ void play() {
         return;
     }
     
-    printf("->Enter Song Number \n");
+    printf("->Enter Starting Song Number \n");
     printf("☾ Command: ");
     
     char songString[3];
@@ -16,9 +16,11 @@ void play() {
     
     Node* songToPlay = songSearch(songNumber);
     
-    while(songToPlay) {
+    while(songToPlay != pPlaylist->tail) {
         printPlayingRecord(songToPlay);
         songToPlay = songToPlay->next;
         sleep(3);
     }
+    printPlayingRecord(songToPlay);
+    sleep(3);
 }
