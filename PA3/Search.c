@@ -62,8 +62,8 @@ Node* songSearch(int songNumber) {
 }
 
 Node* songTitleSearch(char* songTitle) {
-    Node* next = pPlaylist->head;
-    if(!next) {
+    Node* toSearch = pPlaylist->head;
+    if(!toSearch) {
         printf("No songs found! Try running load command first.\n");
         return NULL;
     }
@@ -71,13 +71,16 @@ Node* songTitleSearch(char* songTitle) {
     Node* foundSong = NULL;
         
     printf("\n");
-    while(next) {
-        if(!strcmp(next->data.songTitle, songTitle)) {
-            foundSong = next;
-            next = next->next;
+    while(toSearch != pPlaylist->tail) {
+        if(!strcmp(toSearch->data.songTitle, songTitle)) {
+            foundSong = toSearch;
+            toSearch = toSearch->next;
         } else {
-            next = next->next;
+            toSearch = toSearch->next;
         }
+    }
+    if(!strcmp(toSearch->data.songTitle, songTitle)) {
+        foundSong = toSearch;
     }
     printf("\n");
     
