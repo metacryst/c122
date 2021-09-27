@@ -2,28 +2,27 @@
 
 void edit() {
     printf("☾ Enter Artist: ");
-    char artist[150];
-    fgets(artist, 150, stdin); 
-    artist[strlen(artist)-1]='\0';
+        char artist[150];
+        fgets(artist, 150, stdin); 
+        artist[strlen(artist)-1]='\0'; // replace newline
     printf("->Searching for %s...\n", artist);
     
     int artistSearchSuccess = printArtistSearch(artist);
     if(artistSearchSuccess) {
-        printf("☾ Enter Number of Song to Edit: ");
-        char songString[150];
-        fgets(songString, 150, stdin); 
-        int songNumber;
-        sscanf(songString, "%d", &songNumber);
+        printf("☾ Enter Name of Song to Edit: ");
+            char songString[150];
+            fgets(songString, 150, stdin); 
+            songString[strlen(songString)-1]='\0'; // replace newline
         
-        Node* searchedSong = songSearch(songNumber);
+        Node* searchedSong = songTitleSearch(songString);
         if(searchedSong) {
             printRecord(searchedSong);
             printf("\n☾ 1=Artist, 2=Album, 3=Song, 4=Genre, 5=Length, 6=Times Played, 7=Rating \n");
             printf("☾ Enter Number of Field to Edit: ");
-            char selectionString[3];
-            fgets(selectionString, 3, stdin); 
-            int editSelection;
-            sscanf(selectionString, "%d", &editSelection);
+                char selectionString[3];
+                fgets(selectionString, 3, stdin); 
+                int editSelection;
+                sscanf(selectionString, "%d", &editSelection);
             
             switch(editSelection) {
                 case 1: // Artist
