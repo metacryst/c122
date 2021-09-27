@@ -1,8 +1,8 @@
 #include "Playlist.h"
 
 int printArtistSearch(char* artist) {
-    Node* next = pPlaylist->head;
-    if(!next) {
+    Node* toPrint = pPlaylist->head;
+    if(!toPrint) {
         printf("->No songs found! Try running load command first.\n");
         return 0;
     }
@@ -10,15 +10,19 @@ int printArtistSearch(char* artist) {
     int matches = 0;
     
     printf("\n");
-    while(next) {
-        if(!strcmp(next->data.artist, artist)) {
-            printRecord(next);
+    while(toPrint->next != pPlaylist->head) {
+        if(!strcmp(toPrint->data.artist, artist)) {
+            printRecord(toPrint);
             
-            next = next->next;
+            toPrint = toPrint->next;
             matches++;
         } else {
-            next = next->next;
+            toPrint = toPrint->next;
         }
+    }
+    if(!strcmp(toPrint->data.artist, artist)) {
+        printRecord(toPrint);
+        matches++;
     }
     printf("\n");
     

@@ -29,17 +29,18 @@ void printPlayingRecord(Node* node)
 }
 
 int printList() {
-	Node* next = pPlaylist->head;
-    if(!next) {
+	Node* toPrint = pPlaylist->head;
+    if(!toPrint) {
         printf("No songs found! Try running load command first.\n");
         return 0;
     }
     
     printf("\n\n");
-    while(next) {
-        printRecord(next);
-        next = next->next;
+    while(toPrint->next != pPlaylist->head) {
+        printRecord(toPrint);
+        toPrint = toPrint->next;
     }
+    printRecord(toPrint);
     printf("\n");
     
     return 1;
