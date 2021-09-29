@@ -2,17 +2,22 @@
 using namespace std;
 
 class FitnessAppWrapper {
-public:
+  private:
     string test;
 
+  public:
     FitnessAppWrapper() {
         test = "abc";
-        cout << "Constructor" << endl;
+        cout << "-->Wrapper Running Constructor" << endl;
     }
 
     string getTest() {
         return test;
     }
+};
 
-
+class Plan {
+  private:
+    string name;
+    string date;
 };

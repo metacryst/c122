@@ -3,7 +3,7 @@
 int main() {
     FitnessAppWrapper app;
 
-    cout << app.getTest() << endl;
+    cout << "-->value from getTest(): " << app.getTest() << endl;
 
     return 0;
 }
