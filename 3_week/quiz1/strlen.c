@@ -7,11 +7,8 @@ int strlen_recursive (const char* stringAddress) {
     if(!stringAddress[0]) {
         return 0;
     }
-    
-    int lengthIncrement = 1;
-    lengthIncrement += strlen_recursive((stringAddress+lengthIncrement));
-    
-    return lengthIncrement;
+        
+    return 1 + strlen_recursive(stringAddress+1);
 }
 
 int main() {
@@ -20,11 +17,11 @@ int main() {
     printf("Give a string: ");
         // scanf: Max length of 99 characters; puts a null terminated string in string, thus 99 chars + null is the max
         scanf("%99s", string);
-        printf("This is your string: %s\n", string);
+        printf("This is your string: %s", string);
         printf("\n");
         
     int length = strlen_recursive(string);
-    printf("%d\n", length);
+    printf("This is your length: %d\n", length);
     
     return 0;
 }
