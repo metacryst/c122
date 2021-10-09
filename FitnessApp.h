@@ -1,12 +1,30 @@
 #include <iostream>
 #include <fstream>
-using std::cout;
-using std::cin;
-using std::endl;
-using std::string;
+using namespace std;
+
+class Plan {
+  private:
+    string name;
+    string date;
+    
+  public:
+    Plan(string newName = "", string newDate = "") {
+      name = newName;
+      date = newDate;
+    }
+};
+class DietPlan:Plan {
+  private:
+    unsigned int calories;
+  public:
+    DietPlan(unsigned int newCalories = 2000) {
+      calories = newCalories;
+    }
+};
 
 class FitnessAppWrapper {
-
+  DietPlan dailyDietPlan;
+  
   public:
     FitnessAppWrapper() {
         displayMenu();
@@ -37,9 +55,9 @@ class FitnessAppWrapper {
       cout << endl;
       cout << "Welcome to Fitness! Here are your options: " << endl;
       cout << endl;
-      cout << "1. Load Stream " << endl;
+      cout << "1. Load Daily Diet Plan " << endl;
       cout << endl;
-      cout << "☾☾ Enter command: ";   
+      cout << "☾☾ Enter command: ";
       
       int command = 0;
       cin >> command;
@@ -47,7 +65,11 @@ class FitnessAppWrapper {
       
       switch(command) {
         case 1:
-          cout << "Command is 1." << endl;
+          cout << "Loading Daily Diet Plan:" << endl;
+          fstream infile("dietPlans.txt");
+          dailyDietPlan = new DietPlan();
+          loadDailyDietPlan(infile, dailyDietPlan);
+          
           break;
         default: 
           cout << "Command not recognized!" << endl;
@@ -55,10 +77,5 @@ class FitnessAppWrapper {
       }
     }
     
-};
-
-class Plan {
-  private:
-    string name;
-    string date;
+    void loadDailyDietPlan(fstream& fileStream, DietPlan& dietPlans);
 };
