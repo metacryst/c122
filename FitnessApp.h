@@ -17,6 +17,7 @@ public:
 class DietPlan:Plan {
     friend istream& operator>>(istream&, DietPlan&);
     friend ostream& operator<<(ostream&, DietPlan&);
+    friend fstream& operator<<(fstream&, DietPlan&);
 private:
     unsigned int calories;
     
@@ -34,7 +35,6 @@ private:
 public:
     FitnessAppWrapper() 
     {
-        dietFile.open("dietPlans.txt");
         weeklyDietPlan = new DietPlan[7];
         displayMenu();
     }
@@ -47,7 +47,7 @@ public:
     void loadDailyDietPlan(fstream& fileStream, DietPlan& dietPlan);
     void loadWeeklyDietPlan(fstream& fileStream, DietPlan weeklyDietPlan[]);
     
-    void storeDailyDietPlan(fstream& fileSteam, DietPlan& dietPlan);
+    void storeDailyDietPlan(fstream& fileStream, DietPlan& dietPlan);
     void storeWeeklyDietPlan(fstream& fileStream, DietPlan weeklyDietPlan[]);
     
     void displayDailyDietPlan(DietPlan& dietPlan);
