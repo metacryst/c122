@@ -28,13 +28,29 @@ public:
 
 class FitnessAppWrapper {
 private:
-    DietPlan* dailyDietPlan;
+    DietPlan* weeklyDietPlan;
+    fstream dietFile;
   
 public:
-    FitnessAppWrapper() {
+    FitnessAppWrapper() 
+    {
+        dietFile.open("dietPlans.txt");
+        weeklyDietPlan = new DietPlan[7];
         displayMenu();
+    }
+    ~FitnessAppWrapper()
+    {
+        dietFile.close();
     }
     void displayMenu();
     
     void loadDailyDietPlan(fstream& fileStream, DietPlan& dietPlan);
+    void loadWeeklyDietPlan(fstream& fileStream, DietPlan weeklyDietPlan[]);
+    
+    void storeDailyDietPlan(fstream& fileSteam, DietPlan& dietPlan);
+    void storeWeeklyDietPlan(fstream& fileStream, DietPlan weeklyDietPlan[]);
+    
+    void displayDailyDietPlan(DietPlan& dietPlan);
+    void displayWeeklyDietPlan(DietPlan weeklyDietPlan[]);
+    
 };
