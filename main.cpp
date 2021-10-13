@@ -28,12 +28,16 @@ void FitnessAppWrapper::displayMenu() {
       cout << "1. Load Weekly Diet Plan " << endl;
       cout << "3. Store Weekly Diet Plan " << endl;
       cout << "5. Display Weekly Diet Plan " << endl;
+      cout << "7. Edit Daily Diet Plan " << endl;
       cout << endl;
       
       int command = 0;
       
   while(command != 11) {
       
+      cout << "☾☾ Load, Store, Display, Edit\n";
+      cout << "☾☾ 1,    3,     5,       7   | Diet\n";
+      cout << "☾☾ 2,    4,     6,       8   | Exercise\n";
       cout << "☾☾ Enter Command: ";
       cin >> command;
       
@@ -54,11 +58,17 @@ void FitnessAppWrapper::displayMenu() {
           cout << "-> Stored." << endl;
           break;
         }
-        case 5: {
+        case 5: 
           cout << "-> Displaying Weekly Diet Plan..." << endl;
             displayWeeklyDietPlan(weeklyDietPlan);
           break;
-        }
+        case 7: 
+            displayWeeklyDietPlan(weeklyDietPlan);
+          int day;
+          cout << endl << "☾☾ Enter Day Number: ";
+          cin >> day;
+            editDailyDietPlan(day);
+          break;
         case 11:
           cout << "Exit." << endl;
           break;

@@ -53,4 +53,5 @@ public:
     void displayDailyDietPlan(DietPlan& dietPlan);
     void displayWeeklyDietPlan(DietPlan weeklyDietPlan[]);
     
+    void editDailyDietPlan(int day);
 };

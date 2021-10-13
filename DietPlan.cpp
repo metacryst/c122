@@ -29,7 +29,7 @@ istream& operator>>(istream& lhs, DietPlan& plan)
 // INSERTION
 ostream& operator<<(ostream& lhs, DietPlan& plan)
 {  
-    cout << "inside operator" << endl;
+    // cout << "inside operator" << endl;
     lhs << " |" << plan.name << endl;
     lhs << " |" << plan.calories << endl;
     lhs << " |" << plan.date;
@@ -39,7 +39,6 @@ ostream& operator<<(ostream& lhs, DietPlan& plan)
 
 fstream& operator<<(fstream& fileStream, DietPlan& plan)
 {  
-    cout << "inside overloaded operator" << endl;
     fileStream << plan.name << endl;
     fileStream << plan.calories << endl;
     fileStream << plan.date << endl;
