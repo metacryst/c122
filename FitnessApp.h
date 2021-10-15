@@ -47,7 +47,6 @@ public:
 	    name = copy.name;
         date = copy.date;
     }
-    
     int editGoal(unsigned int newCalories) {
         this->calories = newCalories;
         return newCalories;
