@@ -94,7 +94,6 @@ public:
         weeklyExercisePlan = new ExercisePlan[7];
         dietPlansLoaded = 0;
         exercisePlansLoaded = 0;
-        displayMenu();
     }
     ~FitnessAppWrapper()
     {
@@ -102,6 +101,9 @@ public:
         exerciseFile.close();
     }
     void displayMenu();
+    void runApp() {
+        this->displayMenu();
+    };
     
     // 1.
     void loadDailyDietPlan(fstream& fileStream, DietPlan& dietPlan);

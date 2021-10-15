@@ -97,16 +97,20 @@ void FitnessAppWrapper::displayMenu() {
             }
           break; }
         case 9:
-          cout << "-> Storing Weekly Diet Plan..." << endl;
+          if(dietPlansLoaded) {
+            cout << "-> Storing Weekly Diet Plan..." << endl;
             dietFile.open("dietPlans.txt");
             storeWeeklyDietPlan(dietFile, weeklyDietPlan);
             dietFile.close();
             cout << "-> Stored." << endl;
-          cout << "-> Storing Weekly Exercise Plan..." << endl;
+          }
+          if(exercisePlansLoaded) {
+            cout << "-> Storing Weekly Exercise Plan..." << endl;
             exerciseFile.open("exercisePlans.txt");
             storeWeeklyExercisePlan(exerciseFile, weeklyExercisePlan);
             exerciseFile.close();
             cout << "-> Stored." << endl;
+          }
           cout << "Exit." << endl;
           break;
         default: 
@@ -118,9 +122,9 @@ void FitnessAppWrapper::displayMenu() {
   }
 }
 
-
 int main() {
     FitnessAppWrapper app;
+    app.runApp();
     
     return 0;
 }
