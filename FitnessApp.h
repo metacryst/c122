@@ -79,16 +79,21 @@ public:
 
 class FitnessAppWrapper {
 private:
-    DietPlan* weeklyDietPlan;
-    ExercisePlan* weeklyExercisePlan;
     fstream dietFile;
+    DietPlan* weeklyDietPlan;
+    int dietPlansLoaded;
+    
     fstream exerciseFile;
+    ExercisePlan* weeklyExercisePlan;
+    int exercisePlansLoaded;
   
 public:
     FitnessAppWrapper() 
     {
         weeklyDietPlan = new DietPlan[7];
         weeklyExercisePlan = new ExercisePlan[7];
+        dietPlansLoaded = 0;
+        exercisePlansLoaded = 0;
         displayMenu();
     }
     ~FitnessAppWrapper()
@@ -107,15 +112,20 @@ public:
     
     // 3.
     void storeDailyDietPlan(fstream& fileStream, DietPlan& dietPlan);
-    void storeWeeklyDietPlan(fstream& fileStream, DietPlan weeklyDietPlan[]);
-    
+    int storeWeeklyDietPlan(fstream& fileStream, DietPlan weeklyDietPlan[]);
+    // 4.
+    void storeDailyExercisePlan(fstream& fileStream, ExercisePlan& exercisePlan);
+    int storeWeeklyExercisePlan(fstream& fileStream, ExercisePlan weeklyExercisePlan[]);
     
     // 5.
     void displayDailyDietPlan(DietPlan& dietPlan);
-    void displayWeeklyDietPlan(DietPlan weeklyDietPlan[]);
+    int displayWeeklyDietPlan(DietPlan weeklyDietPlan[]);
     // 6.
     void displayDailyExercisePlan(ExercisePlan& exercisePlan);
-    void displayWeeklyExercisePlan(ExercisePlan weeklyExercisePlan[]);
+    int displayWeeklyExercisePlan(ExercisePlan weeklyExercisePlan[]);
     
-    void editDailyDietPlan(int day);
+    // 7.
+    void editDailyDietPlan();
+    // 8.
+    void editDailyExercisePlan();
 };

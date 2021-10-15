@@ -33,9 +33,9 @@ void FitnessAppWrapper::displayMenu() {
       
       int command = 0;
       
-  while(command != 11) {
+  while(command != 9) {
       
-      cout << "☾☾ Load, Store, Display, Edit\n";
+      cout << "☾☾ Load, Store, Display, Edit| 9=Save & Exit\n";
       cout << "☾☾ 1,    3,     5,       7   | Diet\n";
       cout << "☾☾ 2,    4,     6,       8   | Exercise\n";
       cout << "☾☾ Enter Command: ";
@@ -48,24 +48,32 @@ void FitnessAppWrapper::displayMenu() {
             loadWeeklyDietPlan(dietFile, weeklyDietPlan);
           dietFile.close();
           cout << "-> Loaded." << endl;
-          break;
-        }
+          dietPlansLoaded = 1;
+          break; }
         case 2: {
           cout << "-> Loading Weekly Exercise Plan..." << endl;
           exerciseFile.open("exercisePlans.txt");
             loadWeeklyExercisePlan(exerciseFile, weeklyExercisePlan);
           exerciseFile.close();
           cout << "-> Loaded." << endl;
-          break;
-        }
+          exercisePlansLoaded = 1;
+          break; }
         case 3: {
           cout << "-> Storing Weekly Diet Plan..." << endl;
           dietFile.open("dietPlans.txt");
-            storeWeeklyDietPlan(dietFile, weeklyDietPlan);
+          int stored = storeWeeklyDietPlan(dietFile, weeklyDietPlan);
           dietFile.close();
+          if(stored)
           cout << "-> Stored." << endl;
-          break;
-        }
+          break; }
+        case 4: {
+          cout << "-> Storing Weekly Exercise Plan..." << endl;
+          exerciseFile.open("exercisePlans.txt");
+          int stored = storeWeeklyExercisePlan(exerciseFile, weeklyExercisePlan);
+          exerciseFile.close();
+          if(stored)
+          cout << "-> Stored." << endl;
+          break; }
         case 5: 
           cout << "-> Displaying Weekly Diet Plan..." << endl;
             displayWeeklyDietPlan(weeklyDietPlan);
@@ -74,14 +82,31 @@ void FitnessAppWrapper::displayMenu() {
           cout << "-> Displaying Weekly Exercise Plan..." << endl;
             displayWeeklyExercisePlan(weeklyExercisePlan);
           break;
-        case 7: 
-            displayWeeklyDietPlan(weeklyDietPlan);
-          int day;
-          cout << endl << "☾☾ Enter Day Number: ";
-          cin >> day;
-            editDailyDietPlan(day);
-          break;
-        case 11:
+        case 7: {
+          cout << "-> Edit Weekly Diet Plan..." << endl;
+            int displayed = displayWeeklyDietPlan(weeklyDietPlan);
+            if(displayed) {
+              editDailyDietPlan();
+            }
+          break; }
+        case 8: {
+          cout << "-> Edit Weekly Exercise Plan..." << endl;
+            int displayed = displayWeeklyExercisePlan(weeklyExercisePlan);
+            if(displayed) {
+              editDailyExercisePlan();
+            }
+          break; }
+        case 9:
+          cout << "-> Storing Weekly Diet Plan..." << endl;
+            dietFile.open("dietPlans.txt");
+            storeWeeklyDietPlan(dietFile, weeklyDietPlan);
+            dietFile.close();
+            cout << "-> Stored." << endl;
+          cout << "-> Storing Weekly Exercise Plan..." << endl;
+            exerciseFile.open("exercisePlans.txt");
+            storeWeeklyExercisePlan(exerciseFile, weeklyExercisePlan);
+            exerciseFile.close();
+            cout << "-> Stored." << endl;
           cout << "Exit." << endl;
           break;
         default: 
