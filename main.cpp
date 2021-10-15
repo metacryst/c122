@@ -50,6 +50,14 @@ void FitnessAppWrapper::displayMenu() {
           cout << "-> Loaded." << endl;
           break;
         }
+        case 2: {
+          cout << "-> Loading Weekly Exercise Plan..." << endl;
+          exerciseFile.open("exercisePlans.txt");
+            loadWeeklyExercisePlan(exerciseFile, weeklyExercisePlan);
+          exerciseFile.close();
+          cout << "-> Loaded." << endl;
+          break;
+        }
         case 3: {
           cout << "-> Storing Weekly Diet Plan..." << endl;
           dietFile.open("dietPlans.txt");
@@ -61,6 +69,10 @@ void FitnessAppWrapper::displayMenu() {
         case 5: 
           cout << "-> Displaying Weekly Diet Plan..." << endl;
             displayWeeklyDietPlan(weeklyDietPlan);
+          break;
+        case 6: 
+          cout << "-> Displaying Weekly Exercise Plan..." << endl;
+            displayWeeklyExercisePlan(weeklyExercisePlan);
           break;
         case 7: 
             displayWeeklyDietPlan(weeklyDietPlan);
