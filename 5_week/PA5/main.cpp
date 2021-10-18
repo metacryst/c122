@@ -25,11 +25,6 @@ void FitnessAppWrapper::displayMenu() {
       cout << endl;
       cout << "Welcome to Fitness! Here are your options: " << endl;
       cout << endl;
-      cout << "1. Load Weekly Diet Plan " << endl;
-      cout << "3. Store Weekly Diet Plan " << endl;
-      cout << "5. Display Weekly Diet Plan " << endl;
-      cout << "7. Edit Daily Diet Plan " << endl;
-      cout << endl;
       
       int command = 0;
       
