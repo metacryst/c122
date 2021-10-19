@@ -1,18 +1,21 @@
 #include "iostream"
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>
+#include "Simulation.h"
 using std::cout;
+using std::endl;
+using std::string;
 
 class Data {
 private:
      int customerNumber; // Unique identifier; starts at 1; after 24 hours should be reset to 1
      int serviceTime;   // Random time; varies between express 1-5 and normal 3-8 lanes; units in minutes
      int totalTime;     // totalTime = serviceTime + sum of serviceTimes of customers in line before this customer; units in minutes
+     friend class Queue;
 public:
-    Data(char express = 'n') {
-        customerNumber = customers++;
-        srand (time(NULL));
-        serviceTime = express == 'e' ? rand() % 5 + 1 : rand() % 8 + 3;;
+    Data(int serviceTime, int number) {
+        this->serviceTime = serviceTime;
+        this->customerNumber = number;
     }
 };
 
@@ -22,36 +25,72 @@ private:
      Customer *next;
      friend class Queue;
 public:
-    Customer() {
+    Customer(int serviceTime, int number) {
         // need to figure out about randomly deciding express or regular
         // should probably hava a file or something that is the brain of the random generation
-        this->data = new Data();
+        this->data = new Data(serviceTime, number);
     }
 };
 
 class Queue {
 private:
-     Customer *head;
-     Customer *tail;
+     Customer *front;
+     Customer *back;
 public:
     Queue() {
-        head = nullptr;
-        tail = nullptr;
+        front = nullptr;
+        back = nullptr;
     }
     
-    int enqueue(Customer* newItem) {
-        this->tail->next = newItem;
-        this->tail = newItem;
-        
-        return this->tail == newItem ? 1 : 0;
+    int enqueue(Customer* customer) {
+        if(!isEmpty()) {
+            this->back->next = customer;
+        } else {
+            this->front = customer;
+            this->back = customer;
+        }
+                
+        return this->back == customer ? 1 : 0;
+    }
+    void dequeue(Customer* customer) {
+        Customer* nextCustomer = nullptr;
+        if(!isEmpty()) {
+            nextCustomer = front->next;
+        }
+        if(nextCustomer) {
+            delete(front);
+            front = nextCustomer;
+        } else {
+            delete(front);
+            front = nullptr;
+            back = nullptr;
+        }
     }
     
     bool isEmpty() {
-        return this->head == nullptr ? true : false;
+        return front == nullptr ? true : false;
+    }
+    
+    void serviceCustomers() {
+        if(front->data->serviceTime == 0) {
+            dequeue(front);
+        }
+        Customer* customer = front;
+        while(customer) {
+            customer->data->serviceTime--;
+            customer = customer->next;
+        }
+    }
+    
+    void print() {
+        Customer* customer = front;
+        string customerString = "";
+        while(customer) {
+            customerString = customerString + "<---Customer--";
+        }
+        cout << "## " << customerString << endl;
     }
 };
 
-
-int customers;
 Queue* expressLane;
 Queue* regularLane;
