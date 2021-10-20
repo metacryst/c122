@@ -2,9 +2,7 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>
 #include "Simulation.h"
-using std::cout;
-using std::endl;
-using std::string;
+using std::cout; using std::endl; using std::string; using std:: to_string;
 
 class Data {
 private:
@@ -13,9 +11,10 @@ private:
      int totalTime;     // totalTime = serviceTime + sum of serviceTimes of customers in line before this customer; units in minutes
      friend class Queue;
 public:
-    Data(int serviceTime, int number) {
+    Data(int serviceTime, int number, int totalTime) {
         this->serviceTime = serviceTime;
         this->customerNumber = number;
+        this->totalTime = totalTime;
     }
 };
 
@@ -25,10 +24,9 @@ private:
      Customer *next;
      friend class Queue;
 public:
-    Customer(int serviceTime, int number) {
-        // need to figure out about randomly deciding express or regular
-        // should probably hava a file or something that is the brain of the random generation
-        this->data = new Data(serviceTime, number);
+    Customer(int serviceTime, int number, int totalTime) {
+        this->data = new Data(serviceTime, number, totalTime);
+        this->next = nullptr;
     }
 };
 
@@ -45,6 +43,7 @@ public:
     int enqueue(Customer* customer) {
         if(!isEmpty()) {
             this->back->next = customer;
+            this->back = customer;
         } else {
             this->front = customer;
             this->back = customer;
@@ -72,23 +71,34 @@ public:
     }
     
     void serviceCustomers() {
-        if(front->data->serviceTime == 0) {
+        if(front->data->serviceTime==0) {
+            cout << "  Customer " << front->data->customerNumber << " checking out, after " << front->data->totalTime << " minutes!" << endl;
             dequeue(front);
         }
+        if(front) {
+            front->data->serviceTime--;
+        }
+    }
+    
+    int getTotalTime() {
         Customer* customer = front;
+        int time = 0;
         while(customer) {
-            customer->data->serviceTime--;
+            time += customer->data->serviceTime;
             customer = customer->next;
         }
+        return time;
     }
     
     void print() {
         Customer* customer = front;
-        string customerString = "";
+        string customersString = "";
         while(customer) {
-            customerString = customerString + "<---Customer--";
+            customersString = customersString + "<---C-" + to_string(customer->data->customerNumber) + "-S-" 
+            + to_string(customer->data->serviceTime) + "-- ";
+            customer = customer->next;
         }
-        cout << "## " << customerString << endl;
+        cout << "  " << customersString << endl;
     }
 };
 

@@ -2,22 +2,33 @@
 #include <chrono>
 #include <thread>
 
+int runs = 0;
+
+int generateExpressCustomer() {
+    int newServiceTime = (rand() % 5 + 1);
+    int newTotalTime = expressLane->getTotalTime() + newServiceTime;
+    
+    expressLane->enqueue(new Customer(newServiceTime, runs, newTotalTime));
+    cout << "  Customer " << runs << " has entered the Express Lane!" << endl;
+    int nextCustomerArrival = (rand() % 5 + 1);
+    return nextCustomerArrival;
+}
 
 void simulateExpressLane() {
     expressLane = new Queue();
-    int runs = 0;
     
     int nextCustomerArrival = (rand() % 5 + 1);
-    cout << "next Customer in " << nextCustomerArrival << "minutes" << endl;
+    cout << "  next Customer in " << nextCustomerArrival << "minutes" << endl;
     
     while(runs < 20) {
         cout << runs << endl;
+        if(!expressLane->isEmpty()) {
+            expressLane->serviceCustomers(); // may need to put check at beginning and decrement at end to make more sense
+        }
+        expressLane->print();
         if(nextCustomerArrival == 0) {
-            int serviceTime = (rand() % 5 + 1);
-            expressLane->enqueue(new Customer(serviceTime, runs));
-            nextCustomerArrival = (rand() % 5 + 1);
-            cout << "next Customer in " << nextCustomerArrival << "minutes" << endl;
-            expressLane->print();
+            nextCustomerArrival = generateExpressCustomer();
+            cout << "  next Customer in " << nextCustomerArrival << "minutes" << endl;
         }
         nextCustomerArrival--;
         runs++;
