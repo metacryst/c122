@@ -20,13 +20,16 @@ public:
 
 class Customer {
 private:
-     Data *data;    // The memory for Data will need to be allocated on the heap as well!
-     Customer *next;
+     Data* data;    // The memory for Data will need to be allocated on the heap as well!
+     Customer* next;
      friend class Queue;
 public:
     Customer(int serviceTime, int number, int totalTime) {
         this->data = new Data(serviceTime, number, totalTime);
         this->next = nullptr;
+    }
+    ~Customer() {
+        delete(data);
     }
 };
 
@@ -38,6 +41,9 @@ public:
     Queue() {
         front = nullptr;
         back = nullptr;
+    }
+    ~Queue() {
+        deleteQueue();
     }
     
     int enqueue(Customer* customer) {
@@ -70,14 +76,16 @@ public:
         return front == nullptr ? true : false;
     }
     
-    void serviceCustomers() {
-        if(front->data->serviceTime==0) {
-            cout << "  Customer " << front->data->customerNumber << " checking out, after " << front->data->totalTime << " minutes!" << endl;
-            dequeue(front);
-        }
+    int serviceCustomer() {
         if(front) {
             front->data->serviceTime--;
         }
+        if(front->data->serviceTime==0) {
+            cout << "             " << front->data->customerNumber << " checked out, after " << front->data->totalTime << " minutes!" << endl;
+            dequeue(front);
+            return 1;
+        }
+        return 0;
     }
     
     int getTotalTime() {
@@ -92,13 +100,24 @@ public:
     
     void print() {
         Customer* customer = front;
-        string customersString = "";
+        string queueString = "\033[1;31m    ";
         while(customer) {
-            customersString = customersString + "<---C-" + to_string(customer->data->customerNumber) + "-S-" 
+            queueString = queueString + "<---C-" + to_string(customer->data->customerNumber) + "-S-" 
             + to_string(customer->data->serviceTime) + "-- ";
             customer = customer->next;
         }
-        cout << "  " << customersString << endl;
+        queueString = queueString + "\033[m";
+        cout << "  " << queueString << endl;
+    }
+    
+    void deleteQueue() {
+        Customer* customer = front;
+        Customer* nextCustomer;
+        while(customer) {
+            nextCustomer = customer->next;
+            delete(customer);
+            customer = nextCustomer;
+        }
     }
 };
 

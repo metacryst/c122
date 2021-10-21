@@ -9,7 +9,6 @@ int generateExpressCustomer() {
     int newTotalTime = expressLane->getTotalTime() + newServiceTime;
     
     expressLane->enqueue(new Customer(newServiceTime, runs, newTotalTime));
-    cout << "  Customer " << runs << " has entered the Express Lane!" << endl;
     int nextCustomerArrival = (rand() % 5 + 1);
     return nextCustomerArrival;
 }
@@ -18,18 +17,32 @@ void simulateExpressLane() {
     expressLane = new Queue();
     
     int nextCustomerArrival = (rand() % 5 + 1);
-    cout << "  next Customer in " << nextCustomerArrival << "minutes" << endl;
     
     while(runs < 20) {
+        system("clear");
         cout << runs << endl;
+        cout << endl;
+        cout << endl;
+        
+        int customerCheckedOut = 0;
         if(!expressLane->isEmpty()) {
-            expressLane->serviceCustomers(); // may need to put check at beginning and decrement at end to make more sense
+            customerCheckedOut = expressLane->serviceCustomer();
         }
-        expressLane->print();
+        if(!customerCheckedOut) {
+            cout << endl;
+        }
+        
+        int customerArrived = 0;
         if(nextCustomerArrival == 0) {
             nextCustomerArrival = generateExpressCustomer();
-            cout << "  next Customer in " << nextCustomerArrival << "minutes" << endl;
+            customerArrived = 1;
         }
+        cout << "EXPRESS: ";
+        expressLane->print();
+        if(customerArrived) {
+           cout << "                   " << runs << " has entered the Express Lane!" << endl;
+        }
+        
         nextCustomerArrival--;
         runs++;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
@@ -39,5 +52,5 @@ void simulateExpressLane() {
 
 int main() {
     srand (time(NULL));
-    simulateExpressLane(); // possible move "runs" logic out here and have a function to check express lane
+    simulateExpressLane(); // may need to move timing here: --> simulate express lane, then regular lane, then sleep
 }
