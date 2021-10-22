@@ -1,8 +1,11 @@
 #include "iostream"
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>
-#include "Simulation.h"
-using std::cout; using std::endl; using std::string; using std:: to_string;
+#include <chrono>
+#include <thread>
+using std::cout; using std::cin; using std::endl; using std::string; using std::to_string;
+
+void runTests();
 
 class Data {
 private:
@@ -57,11 +60,11 @@ public:
                 
         return this->back == customer ? 1 : 0;
     }
-    void dequeue(Customer* customer) {
+    void dequeue() {
         Customer* nextCustomer = nullptr;
-        if(!isEmpty()) {
+        if(front) {
             nextCustomer = front->next;
-        }
+        } else {return;}
         if(nextCustomer) {
             delete(front);
             front = nextCustomer;
@@ -81,14 +84,14 @@ public:
             front->data->serviceTime--;
         }
         if(front->data->serviceTime==0) {
-            cout << "             " << front->data->customerNumber << " checked out, after " << front->data->totalTime << " minutes!" << endl;
-            dequeue(front);
+            cout << "             <-" << front->data->customerNumber << " checked out, after " << front->data->totalTime << " minutes!" << endl;
+            dequeue();
             return 1;
         }
         return 0;
     }
     
-    int getTotalTime() {
+    int getTotalServiceTime() {
         Customer* customer = front;
         int time = 0;
         while(customer) {
@@ -100,13 +103,21 @@ public:
     
     void print() {
         Customer* customer = front;
-        string queueString = "\033[1;31m    ";
+        string queueString = "    ";
+        int customers = 0;
         while(customer) {
-            queueString = queueString + "<---C-" + to_string(customer->data->customerNumber) + "-S-" 
-            + to_string(customer->data->serviceTime) + "-- ";
+            queueString = queueString + "<-C-" + to_string(customer->data->customerNumber) + "-S-" 
+            + to_string(customer->data->serviceTime) + "- ";
+            customers++;
+            if(customers%4 == 0) {
+                cout << "INSIDE CONDITION" << endl;
+                queueString = queueString;
+                cout << "  " << queueString << endl;
+                queueString = "    ";
+            }
             customer = customer->next;
         }
-        queueString = queueString + "\033[m";
+        queueString = queueString;
         cout << "  " << queueString << endl;
     }
     
@@ -120,6 +131,3 @@ public:
         }
     }
 };
-
-Queue* expressLane;
-Queue* regularLane;
