@@ -2,16 +2,16 @@
 
 
 int enqueueOnEmptyQueue(Queue* testQueue) {
-    testQueue->enqueue(new Customer(3, 1, 3)); // serviceTime, Number, total time
-    if(!(testQueue->isEmpty()) && testQueue->getTotalServiceTime()==3) {
+    testQueue->enqueue(new Customer(0, 1, testQueue->getTotalServiceTime())); // express, Number, total time
+    if(!(testQueue->isEmpty())) {
         return 1;
     } else {
         return 0;
     }
 }
 int enqueueOnOneNodeQueue(Queue* testQueue) {
-    testQueue->enqueue(new Customer(4, 2, 7)); 
-    if(!(testQueue->isEmpty()) && testQueue->getTotalServiceTime()==7) {
+    testQueue->enqueue(new Customer(1, 2, testQueue->getTotalServiceTime())); 
+    if(!(testQueue->isEmpty()) && testQueue->getTotalServiceTime()>3) {
         return 1;
     } else {
         return 0;
@@ -19,7 +19,7 @@ int enqueueOnOneNodeQueue(Queue* testQueue) {
 }
 int dequeueOnTwoNodeQueue(Queue* testQueue) {
     testQueue->dequeue(); 
-    if(!(testQueue->isEmpty()) && testQueue->getTotalServiceTime()==4) {
+    if(!(testQueue->isEmpty())) {
         return 1;
     } else {
         return 0;

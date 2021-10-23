@@ -1,11 +1,5 @@
 #include "Shopping.h"
 
-void generateExpressCustomer(Queue* expressLane, int runs) {
-    int newServiceTime = (rand() % 5 + 1);
-    int newTotalTime = expressLane->getTotalServiceTime() + newServiceTime;
-    
-    expressLane->enqueue(new Customer(newServiceTime, runs, newTotalTime));
-}
 void simulateExpressLane(Queue* expressLane, int nextCustomerArrival, int runs) {
         cout << endl;
         cout << endl;
@@ -23,7 +17,8 @@ void simulateExpressLane(Queue* expressLane, int nextCustomerArrival, int runs) 
         
         int customerArrived = 0;
         if(nextCustomerArrival == 0) {
-            generateExpressCustomer(expressLane, runs);
+            int totalTime = expressLane->getTotalServiceTime();
+            expressLane->enqueue(new Customer(1, runs, totalTime));
             customerArrived = 1;
         }
         cout << "EXPRESS: ";
@@ -37,12 +32,6 @@ void simulateExpressLane(Queue* expressLane, int nextCustomerArrival, int runs) 
         cout << "\033[1;31m---------------------------------------------------------\033[m" << endl;
 }
 
-void generateRegularCustomer(Queue* regularLane, int runs) {
-    int newServiceTime = (rand() % (8 - 3 + 1) + 3);
-    int newTotalTime = regularLane->getTotalServiceTime() + newServiceTime;
-    
-    regularLane->enqueue(new Customer(newServiceTime, runs, newTotalTime));
-}
 void simulateRegularLane(Queue* regularLane, int nextCustomerArrival, int runs) {
         cout << endl;
         cout << endl;
@@ -58,7 +47,8 @@ void simulateRegularLane(Queue* regularLane, int nextCustomerArrival, int runs) 
         
         int customerArrived = 0;
         if(nextCustomerArrival == 0) {
-            generateRegularCustomer(regularLane, runs);
+            int totalTime = regularLane->getTotalServiceTime();
+            regularLane->enqueue(new Customer(0, runs, totalTime));
             customerArrived = 1;
         }
         cout << "REGULAR: ";
