@@ -1,22 +1,45 @@
 #include <iostream>
-using std::string; using std::cout; using std::endl;
+#include <fstream>
+#include <sstream>
+using std::string; using std::cout; using std::endl; using std::fstream; using std::istringstream;
 
 class MorseNode{
-    char character;
+    string character;
+    string morse;
     MorseNode* left;
     MorseNode* right;
-    
-    MorseNode(char character, string morse) {
+  public:
+    MorseNode(string character, string morse) {
         left = nullptr;
         right = nullptr;
+        this->character = character;
+        this->morse = morse;
     }
 };
 
 class MorseTree{
-    MorseNode _root;
-public:
-    MorseTree() {
-        cout << "mousetree" << endl;
-        // read from file, make tree
+    fstream MorseTable;
+  public:
+    MorseTree() 
+    {
+        cout << "morsetree" << endl;
+        MorseTable.open("MorseTable.txt");
+        string line = "";
+        while(getline(MorseTable,line)) {
+            istringstream iss(line);
+            string englishCharacter; iss >> englishCharacter;
+            string morse = "";
+            string morseCharacter = "";
+            while (iss >> morseCharacter) {
+                morse += morseCharacter;
+            }
+            addNewNode(englishCharacter, morse);
+        }
+        MorseTable.close();
+    }
+    
+    void addNewNode(string englishCharacter, string morse) 
+    {
+        MorseNode* newNode = new MorseNode(englishCharacter, morse);
     }
 };
