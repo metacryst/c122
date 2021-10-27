@@ -1,5 +1,6 @@
-#include "tree.h"
+#include "AvlTree.h"
 
 int main() {
-    MorseTree* tree = new MorseTree();
+    MorseTree* tree = new MorseTree();    
+    
 }

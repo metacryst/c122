@@ -1,8 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <sys/ioctl.h>
+#include <unistd.h>
 using std::string; using std::cout; using std::endl; using std::fstream; using std::istringstream; using std::max;
-using std::abs;
+using std::abs; using std::cin;
 
 class MorseNode{
     string character;
@@ -122,23 +124,70 @@ class MorseTree{
         printDiagramHelper(_root);}
     void printDiagramHelper(MorseNode* node) {
         if(node==nullptr) return;
+            
+        // get width of terminal
+        struct winsize w;
+        ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+        int width = w.ws_col;
         
-        // get first node (root)
-        // set left print space to half of terminal
-        // add node to list
-        // print nodes in list
-        //    for each child child of nodes in list, print right or left
-        // edge left print space left by one node (so 2 spaces?)
-        // if we could dynamically get width of terminal it would work
+        // create list
+        string treeRow[width] = {NULL};
         
-        cout << node->character << " " << node->depth << " " << node->height << endl;
-        if(node->left) {
-            cout << "/" << endl;
-            printDiagramHelper(node->left);
-        }
-        if(node->right) {
-           cout << "\\" << endl;;
-           printDiagramHelper(node->right);
-        }
+        // insert root into first row
+        int rootSpot = (width/2)-1;
+        treeRow[rootSpot] = _root->character; // find middle of terminal
+        
+        
+        
+        
+
+        
+        
+        
+        
+        // cout << node->character << " " << node->depth << " " << node->height << endl;
+        // if(node->left) {
+        //     cout << leftSpaces << "/" << endl;
+        //     printDiagramHelper(node->left);
+        // }
+        // if(node->right) {
+        //    cout << "\\" << endl;;
+        //    printDiagramHelper(node->right);
+        // }
     }
 };
+
+
+
+
+    
+    // MorseNode* addNewNode(string englishCharacter, string morse) {
+    //     MorseNode* thisNode = _root;
+    //     if(!thisNode) {
+    //         _root = new MorseNode(englishCharacter, morse);
+    //         goto NodeFound;
+    //     }
+        
+    //     LOOP:
+    //     if(englishCharacter < thisNode->character) {
+    //         cout << "left" << endl;
+    //         if(thisNode->left) {thisNode = thisNode->left;}
+    //         else {
+    //             thisNode->left = new MorseNode(englishCharacter, morse);
+    //             goto NodeFound;
+    //         }
+    //     } 
+    //     else if(englishCharacter > thisNode->character) {
+    //         cout << "right" << endl;
+    //         if(thisNode->right) {thisNode = thisNode->right;}
+    //         else {
+    //             thisNode->right = new MorseNode(englishCharacter, morse);
+    //             goto NodeFound;
+    //         }
+    //     }
+    //     goto LOOP;
+        
+        
+    //     NodeFound:
+    //     return thisNode;
+    // }
