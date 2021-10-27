@@ -2,5 +2,4 @@
 
 int main() {
     MorseTree* tree = new MorseTree();    
-    
 }

@@ -3,6 +3,7 @@
 #include <sstream>
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <iterator>
 using std::string; using std::cout; using std::endl; using std::fstream; using std::istringstream; using std::max;
 using std::abs; using std::cin;
 
@@ -128,20 +129,40 @@ class MorseTree{
         // get width of terminal
         struct winsize w;
         ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-        int width = w.ws_col;
+        int wWidth = w.ws_col;
+        int wHeight = w.ws_row;
         
-        // create list
-        string treeRow[width] = {NULL};
+        // create list, initialize with spaces
+        string* treeRow = new string[wWidth];
+        for(int i=0; i<(wWidth-1); i++) {
+            treeRow[i] = " ";
+        }
         
         // insert root into first row
-        int rootSpot = (width/2)-1;
-        treeRow[rootSpot] = _root->character; // find middle of terminal
+        int rootPos = (wWidth/2)-1;
+        treeRow[rootPos] = _root->character; // find middle of terminal
+        
+        // print
+        for(int i=0; i<(wWidth-1); i++) {
+            cout << treeRow[i];
+        }
         
         
+        int iterations = 1;
+        int leftMostNode = rootPos;
+        while(iterations<wHeight) {
+            // go thru string array, find node
+            // set node left and node right to / and \
+            
+            iterations++;
+            leftMostNode--;
+        }
+        // loop
+        //
         
         
 
-        
+        delete[] treeRow;
         
         
         
