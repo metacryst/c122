@@ -287,14 +287,14 @@ class MorseTree{
             nextRow[i] = nullptr;
         }
         
-        // insert root into first row
-        int rootPos = (winWidth/2)-1;
+        // insert root into first row (division is rounded down)
+        int rootPos = winWidth%2==0 ? (winWidth/2) : (winWidth/2)-1;
         treeRow[rootPos] = _root; // find middle of terminal
         
         // print Tree
         int linesPrinted = 0;
         int leftDistance = rootPos;
-        while(linesPrinted<winHeight) {
+        while(linesPrinted<winHeight && leftDistance>=1) {
             cout << "In while loop? " << linesPrinted << winHeight << endl;
             for(int i=0; i<(winWidth); i++) { // Print, check for nodes to grab children of
                 cout << (treeRow[i] ? treeRow[i]->character : " ");
