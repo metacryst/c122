@@ -134,7 +134,7 @@ class MorseTree{
         
         // create list, initialize with spaces
         string* treeRow = new string[wWidth];
-        for(int i=0; i<(wWidth-1); i++) {
+        for(int i=0; i<(wWidth); i++) {
             treeRow[i] = " ";
         }
         
@@ -143,7 +143,7 @@ class MorseTree{
         treeRow[rootPos] = _root->character; // find middle of terminal
         
         // print
-        for(int i=0; i<(wWidth-1); i++) {
+        for(int i=0; i<(wWidth); i++) {
             cout << treeRow[i];
         }
         

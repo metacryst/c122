@@ -1,8 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-using std::string; using std::cout; using std::endl; using std::fstream; using std::istringstream; using std::max;
-using std::abs;
+using namespace std;
 
 class MorseNode{
     string character;
@@ -20,10 +19,20 @@ class MorseNode{
         this->character = character;
         this->morse = morse;
     }
+    
+    bool setHeight() {
+        int rightHeight = right ? right->height : -1;
+        int leftHeight = left ? left->height : -1;
+        height = max(rightHeight, leftHeight) + 1;
+        
+        int balanceFactor = rightHeight-leftHeight;
+        return balanceFactor<=1 ? true : false;
+    }
 };
 
 class MorseTree{
     fstream MorseTable;
+    fstream convertFile;
     MorseNode* _root;
     
     public:
@@ -43,27 +52,137 @@ class MorseTree{
             insert(englishCharacter, morse);
         }
         
-        printPreorder();
-        printDiagram();
         MorseTable.close();
     }
     
+    string search(string character) {
+        if(_root->character == character) return _root->morse;
+        else return searchHelper(character, _root);
+    }
+    string searchHelper(string character, MorseNode* node) {
+        if(node==nullptr) return "";
+        if(node->character == character) return node->morse;
+        
+        return (character < node->character) ? searchHelper(character, node->left) : searchHelper(character, node->right);
+    }
     
+    string convert(string file) {
+        convertFile.open(file);
+        
+        string line = "";
+        string englishWord = "";
+        string englishCharacter = "";
+        string morseMatch = "";
+        
+        while(getline(convertFile,line)) {
+            transform(line.begin(), line.end(), line.begin(), ::toupper);
+            istringstream iss(line);
+            while (iss >> englishWord) {
+                while(englishWord!="") {
+                    englishCharacter = string(1, englishWord[0]);
+                    morseMatch = search(englishCharacter);
+                    if(morseMatch != "") {
+                        cout << "Found morse: " << morseMatch << endl;
+                    } else {
+                        cout << "No morse found: " << englishCharacter << endl;
+                    }
+                    englishWord.erase(0,1);
+                }
+            }
+        }
+        convertFile.close();
+        
+        return line;
+    }
+        
+    MorseNode* rotateRight(MorseNode* root) {
+		// 1. insert node in right with old root values
+		MorseNode* newRight = new MorseNode(root->character, root->morse);
+		newRight->right = (root->right);
+		root->right = (newRight);
+		
+		// 2. set root value to values of left
+		MorseNode* toDelete = root->left; 
+		root->character = (toDelete->character);
+        root->morse = (toDelete->morse);
+		
+		// 3. delete (now duplicated) left, storing away LR child
+		MorseNode* toDelete_left = toDelete->left;
+		MorseNode* toDelete_right = toDelete->right;
+		root->left = toDelete_left;
+            // calculate new left's height
+        root->left->setHeight();
+		
+		// 4. update new right node with LR child
+		newRight->left = toDelete_right;		
+			// calculate new right's height
+		newRight->setHeight();
+								
+		// Return the new root
+		return root;
+    }
+    
+    MorseNode* rotateLeft(MorseNode* root) {
+        // 1. insert node in left with old root values
+		MorseNode* newLeft = new MorseNode(root->character, root->morse);
+		newLeft->left = (root->left);
+		root->left = (newLeft);
+		
+		// 2. set root value to values of right
+		MorseNode* toDelete = root->right;
+		root->character = (toDelete->character);
+        root->morse = (toDelete->morse);
+		
+		// 3. delete (now duplicated) right, storing away RL child
+        MorseNode* toDelete_right = toDelete->right;
+		MorseNode* toDelete_left = toDelete->left;
+		root->right = toDelete_right;
+            // calculate new right's height
+        root->right->setHeight();
+		
+		// 4. update new left node with RL child
+		newLeft->right = toDelete_left;	
+			// calculate new left's height
+		newLeft->setHeight();
+								
+		// Return the new root
+		return root;
+    }
+    
+    void balance(MorseNode* root) {
+        MorseNode* left = root->left;
+		MorseNode* right = root->right;
+		
+		int left_height = (left) ? left->height : -1;
+        int LL_height = (left && left->left) ? left->left->height : -1;
+	    int LR_height = (left && left->right) ? left->right->height : -1;
+		
+    	int right_height = (right) ? right->height : -1;
+		int RL_height = (right && right->left) ? right->left->height : -1;
+		int RR_height = (right && right->right) ? right->right->height : -1;
+    			
+		if(left_height > right_height) {
+			if(LR_height > LL_height) { // LR ROTATION				
+				rotateLeft(left);
+				rotateRight(root);
+			} else {
+				rotateRight(root);
+			}
+		} else if(right_height > left_height) {
+			if(RL_height > RR_height) { // RL ROTATION	
+				rotateRight(right);
+				rotateLeft(root);
+			} else {
+				rotateLeft(root);
+			}
+		}
+    };
     
     void setHeight(MorseNode* node) {
-        MorseNode* right = node->right;
-        int rightHeight = (right ? right->height : -1);
-        MorseNode* left = node->left;
-        int leftHeight = (left ? left->height : -1);
-        
-        int nodeHeight=max(rightHeight, leftHeight) + 1;
-        node->height = nodeHeight;
-        
-        int balanceFactor = rightHeight-leftHeight;
-        if(balanceFactor>1) {
+        bool balanced = node->setHeight();
+        if(!balanced) {
+            balance(node);
         }
-        
-        return;
     }
     
     
@@ -75,7 +194,8 @@ class MorseTree{
             _root->height = 0;
             return;
         }
-        insertHelper(englishCharacter, morse, _root);}
+        insertHelper(englishCharacter, morse, _root);
+    }
     MorseNode* insertHelper(string englishCharacter, string morse, MorseNode* currentNode) {
         if(currentNode == nullptr) {
             MorseNode* newNode = new MorseNode(englishCharacter, morse);
