@@ -1,6 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <sys/ioctl.h>
+#include <unistd.h>
+#include <iterator>
 using namespace std;
 
 class MorseNode{
@@ -55,6 +58,21 @@ class MorseTree{
         MorseTable.close();
     }
     
+    void destroyMorseTree(MorseNode* node) {
+        if(!node->left && !node->right) {
+            delete(node);
+        } else if(node->left) {
+            destroyMorseTree(node->left);
+            node->left = nullptr;
+        } else if(node->right) {
+            destroyMorseTree(node->right);
+            node->right = nullptr;
+        }
+    }
+    ~MorseTree() {
+        destroyMorseTree(_root);
+    }
+    
     string search(string character) {
         if(_root->character == character) return _root->morse;
         else return searchHelper(character, _root);
@@ -69,6 +87,8 @@ class MorseTree{
     string convert(string file) {
         convertFile.open(file);
         
+        string morseMessage = "";
+        
         string line = "";
         string englishWord = "";
         string englishCharacter = "";
@@ -82,15 +102,23 @@ class MorseTree{
                     englishCharacter = string(1, englishWord[0]);
                     morseMatch = search(englishCharacter);
                     if(morseMatch != "") {
-                        cout << "Found morse: " << morseMatch << endl;
+                        // cout << "Found morse: " << morseMatch << endl;
+                        morseMessage += morseMatch;
+                        morseMessage += " ";
                     } else {
-                        cout << "No morse found: " << englishCharacter << endl;
+                        // cout << "No morse found: " << englishCharacter << endl;
                     }
                     englishWord.erase(0,1);
                 }
+                // cout << "Printing spaces" << endl;
+                morseMessage += "   ";
             }
         }
         convertFile.close();
+        
+        cout << endl;
+        cout << "Here is your message: " << endl;
+        cout << morseMessage << endl;
         
         return line;
     }
@@ -237,28 +265,78 @@ class MorseTree{
         printInorderHelper(node->right);
     }
     
-    void printDiagram() {
+    void printDiagram() { // for a balanced tree
         if(_root==nullptr) return;
         printDiagramHelper(_root);}
     void printDiagramHelper(MorseNode* node) {
         if(node==nullptr) return;
+            
+        // get width of terminal
+        struct winsize w;
+        ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+        int winWidth = w.ws_col;
+        int winHeight = w.ws_row;
         
-        // get first node (root)
-        // set left print space to half of terminal
-        // add node to list
-        // print nodes in list
-        //    for each child child of nodes in list, print right or left
-        // edge left print space left by one node (so 2 spaces?)
-        // if we could dynamically get width of terminal it would work
+        // create list, initialize with spaces
+        MorseNode** treeRow = new MorseNode*[winWidth];
+        for(int i=0; i<(winWidth); i++) {
+            treeRow[i] = nullptr;
+        }
+        MorseNode** nextRow = new MorseNode*[winWidth];
+        for(int i=0; i<(winWidth); i++) {
+            nextRow[i] = nullptr;
+        }
         
-        cout << node->character << " " << node->depth << " " << node->height << endl;
-        if(node->left) {
-            cout << "/" << endl;
-            printDiagramHelper(node->left);
+        // insert root into first row
+        int rootPos = (winWidth/2)-1;
+        treeRow[rootPos] = _root; // find middle of terminal
+        
+        // print Tree
+        int linesPrinted = 0;
+        int leftDistance = rootPos;
+        while(linesPrinted<winHeight) {
+            cout << "In while loop? " << linesPrinted << winHeight << endl;
+            for(int i=0; i<(winWidth); i++) { // Print, check for nodes to grab children of
+                cout << (treeRow[i] ? treeRow[i]->character : " ");
+            }
+            
+            // travel across row, putting nodes in their positions
+            // so, for filled row 3 of tree, there should be 4 iterations because there are 4 nodes
+            for(int i=0; i<=winWidth; i+=leftDistance) { // travel across row, looking for nodes in their natural positions
+                if(treeRow[i]) {
+                    if(treeRow[i]->left) {
+                        nextRow[i-leftDistance/2] = treeRow[i]->left;
+                    }
+                    if(treeRow[i]->right) {
+                        nextRow[i+leftDistance/2] = treeRow[i]->right;
+                    }
+                }
+            } 
+            
+            for(int i=0; i<(winWidth); i++) { // Set row to next row
+                treeRow[i] = nextRow[i];
+                nextRow[i] = nullptr;
+            }
+            leftDistance/=2;
+            linesPrinted++;
         }
-        if(node->right) {
-           cout << "\\" << endl;;
-           printDiagramHelper(node->right);
-        }
+        
+        
+
+        delete[] treeRow;
+        delete[] nextRow;
+        
+        
+        
+        
+        // cout << node->character << " " << node->depth << " " << node->height << endl;
+        // if(node->left) {
+        //     cout << "/" << endl;
+        //     printDiagramHelper(node->left);
+        // }
+        // if(node->right) {
+        //    cout << "\\" << endl;;
+        //    printDiagramHelper(node->right);
+        // }
     }
 };
