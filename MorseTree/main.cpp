@@ -8,4 +8,7 @@ int main() {
     tree->printDiagram();
     
     string convertedString = tree->convert("Convert.txt");
+    
+    
+    // tree->printBasicDiagram();
 }

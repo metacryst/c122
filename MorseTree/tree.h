@@ -190,18 +190,26 @@ class MorseTree{
 		int RR_height = (right && right->right) ? right->right->height : -1;
     			
 		if(left_height > right_height) {
-			if(LR_height > LL_height) { // LR ROTATION				
+			if(LR_height > LL_height) { // LR ROTATION
+                cout << "  LR Rotation: " << root->character << endl;				
 				rotateLeft(left);
 				rotateRight(root);
+                cout << "  New Root: " << root->character << endl;
 			} else {
+                cout << "  R Rotation: " << root->character << endl;
 				rotateRight(root);
+                cout << "  New Root: " << root->character << endl;
 			}
 		} else if(right_height > left_height) {
 			if(RL_height > RR_height) { // RL ROTATION	
+                cout << "  RL Rotation: " << root->character << endl;
 				rotateRight(right);
 				rotateLeft(root);
+                cout << "  New Root: " << root->character << endl;
 			} else {
+                cout << "  L Rotation: " << root->character << endl;
 				rotateLeft(root);
+                cout << "  New Root: " << root->character << endl;
 			}
 		}
     };
@@ -209,12 +217,14 @@ class MorseTree{
     void setHeight(MorseNode* node) {
         bool balanced = node->setHeight();
         if(!balanced) {
+            cout << "~~Balancing: " << node->character << endl;
             balance(node);
         }
     }
     
     
     void insert(string englishCharacter, string morse){
+        cout << "~~ADDING " << englishCharacter << endl;
         if(_root == nullptr) {
             MorseNode* newNode = new MorseNode(englishCharacter, morse);
              _root = newNode;
@@ -222,7 +232,9 @@ class MorseTree{
             _root->height = 0;
             return;
         }
+        cout << "~~~~~~~~" << endl;
         insertHelper(englishCharacter, morse, _root);
+        cout << endl;
     }
     MorseNode* insertHelper(string englishCharacter, string morse, MorseNode* currentNode) {
         if(currentNode == nullptr) {
@@ -239,6 +251,7 @@ class MorseTree{
             currentNode->right->depth = currentNode->depth + 1;
         }
         
+        cout << "~~setHeight: " << currentNode->character << endl;
         setHeight(currentNode);
         return currentNode;
     }
@@ -294,15 +307,19 @@ class MorseTree{
         // print Tree
         int linesPrinted = 0;
         int leftDistance = rootPos;
-        while(linesPrinted<winHeight && leftDistance>=1) {
-            cout << "In while loop? " << linesPrinted << winHeight << endl;
+        while(linesPrinted<winHeight) {
+            // cout << leftDistance << endl;
             for(int i=0; i<(winWidth); i++) { // Print, check for nodes to grab children of
-                cout << (treeRow[i] ? treeRow[i]->character : " ");
+                if(i>leftDistance && i<(winWidth-leftDistance)) {
+                    cout << (treeRow[i] ? treeRow[i]->character : "_");
+                } else {
+                    cout << (treeRow[i] ? treeRow[i]->character : " ");
+                }
+                
             }
             
             // travel across row, putting nodes in their positions
-            // so, for filled row 3 of tree, there should be 4 iterations because there are 4 nodes
-            for(int i=0; i<=winWidth; i+=leftDistance) { // travel across row, looking for nodes in their natural positions
+            for(int i=0; i<=winWidth; i++) { // travel across row, looking for nodes in their natural positions
                 if(treeRow[i]) {
                     if(treeRow[i]->left) {
                         nextRow[i-leftDistance/2] = treeRow[i]->left;
@@ -321,22 +338,27 @@ class MorseTree{
             linesPrinted++;
         }
         
-        
+        cout << endl;
 
         delete[] treeRow;
         delete[] nextRow;
         
         
         
-        
-        // cout << node->character << " " << node->depth << " " << node->height << endl;
-        // if(node->left) {
-        //     cout << "/" << endl;
-        //     printDiagramHelper(node->left);
-        // }
-        // if(node->right) {
-        //    cout << "\\" << endl;;
-        //    printDiagramHelper(node->right);
-        // }
+    }
+    
+    void printBasicDiagram() { // for a balanced tree
+        if(_root==nullptr) return;
+        printBasicDiagramHelper(_root);}
+    void printBasicDiagramHelper(MorseNode* node) {
+        cout << node->character << " " << node->depth << " " << node->height << endl;
+        if(node->left) {
+            cout << "/" << endl;
+            printBasicDiagramHelper(node->left);
+        }
+        if(node->right) {
+           cout << "\\" << endl;;
+           printBasicDiagramHelper(node->right);
+        }
     }
 };
