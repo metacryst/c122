@@ -6,7 +6,7 @@
 #include <iterator>
 using namespace std;
 
-class MorseNode{
+class MorseNode {
     string character;
     string morse;
     MorseNode* left;
@@ -235,6 +235,9 @@ class MorseTree{
         cout << "~~~~~~~~" << endl;
         insertHelper(englishCharacter, morse, _root);
         cout << endl;
+        // printDiagram();
+        cout << endl;
+        cout << endl;
     }
     MorseNode* insertHelper(string englishCharacter, string morse, MorseNode* currentNode) {
         if(currentNode == nullptr) {
@@ -315,7 +318,6 @@ class MorseTree{
                 } else {
                     cout << (treeRow[i] ? treeRow[i]->character : " ");
                 }
-                
             }
             
             // travel across row, putting nodes in their positions
