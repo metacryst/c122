@@ -28,7 +28,7 @@ class MorseNode {
         int leftHeight = left ? left->height : -1;
         height = max(rightHeight, leftHeight) + 1;
         
-        int balanceFactor = rightHeight-leftHeight;
+        int balanceFactor = abs(rightHeight-leftHeight);
         return balanceFactor<=1 ? true : false;
     }
 };
@@ -139,7 +139,7 @@ class MorseTree{
 		MorseNode* toDelete_right = toDelete->right;
 		root->left = toDelete_left;
             // calculate new left's height
-        root->left->setHeight();
+        if(root->left){root->left->setHeight();}
 		
 		// 4. update new right node with LR child
 		newRight->left = toDelete_right;		
@@ -166,7 +166,7 @@ class MorseTree{
 		MorseNode* toDelete_left = toDelete->left;
 		root->right = toDelete_right;
             // calculate new right's height
-        root->right->setHeight();
+        if(root->right){root->right->setHeight();}
 		
 		// 4. update new left node with RL child
 		newLeft->right = toDelete_left;	
@@ -191,25 +191,17 @@ class MorseTree{
     			
 		if(left_height > right_height) {
 			if(LR_height > LL_height) { // LR ROTATION
-                cout << "  LR Rotation: " << root->character << endl;				
 				rotateLeft(left);
 				rotateRight(root);
-                cout << "  New Root: " << root->character << endl;
 			} else {
-                cout << "  R Rotation: " << root->character << endl;
 				rotateRight(root);
-                cout << "  New Root: " << root->character << endl;
 			}
 		} else if(right_height > left_height) {
 			if(RL_height > RR_height) { // RL ROTATION	
-                cout << "  RL Rotation: " << root->character << endl;
 				rotateRight(right);
 				rotateLeft(root);
-                cout << "  New Root: " << root->character << endl;
 			} else {
-                cout << "  L Rotation: " << root->character << endl;
 				rotateLeft(root);
-                cout << "  New Root: " << root->character << endl;
 			}
 		}
     };
@@ -217,14 +209,12 @@ class MorseTree{
     void setHeight(MorseNode* node) {
         bool balanced = node->setHeight();
         if(!balanced) {
-            cout << "~~Balancing: " << node->character << endl;
             balance(node);
         }
     }
     
     
     void insert(string englishCharacter, string morse){
-        cout << "~~ADDING " << englishCharacter << endl;
         if(_root == nullptr) {
             MorseNode* newNode = new MorseNode(englishCharacter, morse);
              _root = newNode;
@@ -232,10 +222,9 @@ class MorseTree{
             _root->height = 0;
             return;
         }
-        cout << "~~~~~~~~" << endl;
         insertHelper(englishCharacter, morse, _root);
         cout << endl;
-        // printDiagram();
+        printDiagram();
         cout << endl;
         cout << endl;
     }
@@ -254,7 +243,6 @@ class MorseTree{
             currentNode->right->depth = currentNode->depth + 1;
         }
         
-        cout << "~~setHeight: " << currentNode->character << endl;
         setHeight(currentNode);
         return currentNode;
     }
@@ -311,17 +299,20 @@ class MorseTree{
         int linesPrinted = 0;
         int leftDistance = rootPos;
         while(linesPrinted<winHeight) {
-            // cout << leftDistance << endl;
+            
+            bool rowEmpty = true;
             for(int i=0; i<(winWidth); i++) { // Print, check for nodes to grab children of
+                if(treeRow[i]) rowEmpty=false;
                 if(i>leftDistance && i<(winWidth-leftDistance)) {
                     cout << (treeRow[i] ? treeRow[i]->character : "_");
                 } else {
                     cout << (treeRow[i] ? treeRow[i]->character : " ");
                 }
             }
-            
+            if(rowEmpty) return;
+
             // travel across row, putting nodes in their positions
-            for(int i=0; i<=winWidth; i++) { // travel across row, looking for nodes in their natural positions
+            for(int i=0; i<(winWidth); i++) { // travel across row, looking for nodes in their natural positions
                 if(treeRow[i]) {
                     if(treeRow[i]->left) {
                         nextRow[i-leftDistance/2] = treeRow[i]->left;
@@ -336,6 +327,7 @@ class MorseTree{
                 treeRow[i] = nextRow[i];
                 nextRow[i] = nullptr;
             }
+            
             leftDistance/=2;
             linesPrinted++;
         }
