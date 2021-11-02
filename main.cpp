@@ -1,6 +1,5 @@
 #include "ClassList.h"
 
-
 class Menu {
 public:
 Menu() {
@@ -10,12 +9,17 @@ Menu() {
     cout << "7. Exit " << endl;
     cout << endl;
     
+    List<Data>* classList = new List<Data>;
+    fstream classFile;
+    
     int command;
     while(command!=7) {
         cout << "--Enter Command: "; cin>>command;
         switch(command) {
             case 1:
-                load();
+                classFile.open("classList.csv");
+                load(classList, classFile);
+                classFile.close();
                 break;
             case 7:
                 return;

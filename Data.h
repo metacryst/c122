@@ -1,19 +1,26 @@
 #include <iostream>
 using namespace std;
 
+
+class Stack {
+    int* top;
+};
+
 class Data {
-    int recordNumber;
-    long long IDnumber;
+public:
+    string recordNumber;
+    string IDnumber;
     string name;
     string email;
-    int units;
+    string units;
     string program;
     string level;
     
     int numAbsences;
     Stack* allAbsences;
-};
-
-class Stack {
     
+    Data() {
+        numAbsences=0;
+        allAbsences=new Stack;
+    }
 };
