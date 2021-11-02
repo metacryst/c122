@@ -1,19 +1,31 @@
-#include <iostream>
-using namespace std;
+#include "ClassList.h"
 
-void displayMenu() {
+
+class Menu {
+public:
+Menu() {
+    cout << endl;
     cout << "Hello! Here are your options: " << endl;
-    cout << "1. Import List: " << endl;
+    cout << "1. Import List " << endl;
+    cout << "7. Exit " << endl;
+    cout << endl;
+    
+    int command;
+    while(command!=7) {
+        cout << "--Enter Command: "; cin>>command;
+        switch(command) {
+            case 1:
+                load();
+                break;
+            case 7:
+                return;
+        }
+    }
 }
+};
+
 
 
 int main() {
-    displayMenu();
-    
-    time_t t = time(0);   // get time now
-    struct tm * now = localtime( & t );
-    cout<< (now->tm_year + 1900) << '-'
-        << (now->tm_mon + 1) << '-'
-        << now->tm_mday
-        << endl;
+    Menu* menu = new Menu();    
 }
