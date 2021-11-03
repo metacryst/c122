@@ -9,8 +9,9 @@ class Node {
     T* data;
     Node<T>* next;
     
-    Node(Data* newData) {
-        data = newData;
+    Node() {
+        this->data = nullptr;
+        this->next = nullptr;
     }
 };
 
@@ -25,14 +26,13 @@ public:
     void add(Data* newStudent) {
         cout << "adding " << newStudent->name << endl;
         
-        Node<T>* next = nullptr;
-        if(head) {
-           next = head->next;  
-        }
-        head = new Node<Data>(newStudent);
-        head->next = next;
+        Node<T>* next = this->head;
         
-        cout << "Head next: " << head->next->data;
+        this->head = new Node<Data>;
+        this->head->data = newStudent;
+        this->head->next = next;
+        
+        cout << endl;
     }
     
 };

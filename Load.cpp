@@ -1,7 +1,7 @@
 #include "ClassList.h"
 
 bool load(List<Data>* list, fstream& classFile) {
-    cout << "Loading list...\n" << endl;
+    //cout << "Loading list...\n" << endl;
     string line;
     getline(classFile, line);
     
@@ -12,14 +12,14 @@ bool load(List<Data>* list, fstream& classFile) {
         string recordNumber;
         getline(lineStream, recordNumber, ',');
         newStudent->recordNumber = recordNumber;
-        cout << recordNumber << " ";
-        cout << endl;
+        //cout << recordNumber << " ";
+        //cout << endl;
         
         string IDnumber;
         getline(lineStream, IDnumber, ',');
         newStudent->IDnumber = IDnumber;
-        cout << IDnumber << " ";
-        cout << endl;
+        //cout << IDnumber << " ";
+        //cout << endl;
         
         string firstName;
         getline(lineStream, firstName, ',');
@@ -27,32 +27,32 @@ bool load(List<Data>* list, fstream& classFile) {
         getline(lineStream, lastName, ',');
         string firstLast = firstName + "," + lastName;
         newStudent->name = firstLast;
-        cout << firstLast << " ";
-        cout << endl;
+        //cout << firstLast << " ";
+        //cout << endl;
         
         string email;
         getline(lineStream, email, ',');
         newStudent->email = email;
-        cout << newStudent->email << " ";
-        cout << endl;
+        //cout << newStudent->email << " ";
+        //cout << endl;
         
         string units;
         getline(lineStream, units, ',');
         newStudent->units = units;
-        cout << units << " ";
-        cout << endl;
+        //cout << units << " ";
+        //cout << endl;
         
         string program;
         getline(lineStream, program, ',');
         newStudent->program = program;
-        cout << program << " ";
-        cout << endl;
+        //cout << program << " ";
+        //cout << endl;
         
         string level;
         getline(lineStream, level, ',');
         newStudent->level = level;
-        cout << newStudent->level << " ";
-        cout << endl;
+        //cout << newStudent->level << " ";
+        //cout << endl;
         
         list->add(newStudent);
     }
