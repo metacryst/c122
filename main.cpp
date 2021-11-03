@@ -6,6 +6,7 @@ Menu() {
     cout << endl;
     cout << "Hello! Here are your options: " << endl;
     cout << "1. Import List " << endl;
+    cout << "4. Mark Absences" << endl;
     cout << "7. Exit " << endl;
     cout << endl;
     
@@ -16,10 +17,15 @@ Menu() {
     while(command!=7) {
         cout << "--Enter Command: "; cin>>command;
         switch(command) {
-            case 1:
+            case 1: {
                 classFile.open("classList.csv");
-                load(classList, classFile);
+                bool loaded=load(classList, classFile);
+                if(loaded) printf("Loaded!\n");
                 classFile.close();
+                break;
+            }
+            case 4:
+                markAbsences(classList);
                 break;
             case 7:
                 return;

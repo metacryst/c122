@@ -17,32 +17,22 @@ class Node {
 
 template <class T>
 class List {
-    Node<T>* head;
 public:
+    Node<T>* head;
+    
     List() {
         head=nullptr;
     }
     
-    void add(Data* newStudent) {
-        cout << "adding " << newStudent->name << endl;
-        
+    void add(Data* newStudent) {        
         Node<T>* next = this->head;
         
         this->head = new Node<Data>;
         this->head->data = newStudent;
-        this->head->next = next;
-        
-        cout << endl;
+        this->head->next = next;        
     }
     
 };
 
 bool load(List<Data>* list, fstream& classFile);
-
-
-// time_t t = time(0);   // get time now
-//     struct tm* now = localtime( & t );
-//     cout<< (now->tm_year + 1900) << '-'
-//         << (now->tm_mon + 1) << '-'
-//         << now->tm_mday
-//         << endl;
+bool markAbsences(List<Data>* classList);
