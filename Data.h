@@ -1,9 +1,29 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
 
 class Stack {
-    int* top;
+    vector<string> absences;
+    
+    public:
+    Stack() {
+        absences.push_back("None");
+    }
+    
+    void push(string absence) {
+        absences.push_back(absence);
+    }
+    
+    void pop() {
+        if(absences.back() != "None") {
+            absences.pop_back();
+        }
+    }
+    
+    string peek() {
+        return absences.back();
+    }
 };
 
 class Data {
