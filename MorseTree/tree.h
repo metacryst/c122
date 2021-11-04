@@ -4,6 +4,7 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <iterator>
+#include <termios.h>
 using namespace std;
 
 class MorseNode {
@@ -38,7 +39,7 @@ class MorseTree{
     fstream convertFile;
     MorseNode* _root;
     
-    public:
+  public:
     MorseTree() {
         _root = nullptr;
         MorseTable.open("MorseTable.txt");
@@ -84,6 +85,45 @@ class MorseTree{
         return (character < node->character) ? searchHelper(character, node->left) : searchHelper(character, node->right);
     }
     
+    void readInput() {
+        struct termios old_tio, new_tio;
+        unsigned char c;
+
+        /* get the terminal settings for stdin */
+        tcgetattr(STDIN_FILENO,&old_tio);
+
+        /* we want to keep the old setting to restore them a the end */
+        new_tio=old_tio;
+
+        /* disable canonical mode (buffered i/o) and local echo */
+        new_tio.c_lflag &=(~ICANON & ~ECHO);
+
+        /* set the new settings immediately */
+        tcsetattr(STDIN_FILENO,TCSANOW,&new_tio);
+        
+        cout << "MORSE TRANSLATOR" << endl;
+        cout << "Type = to quit." << endl;
+        do {
+            c=getchar();
+            if(c==' ') {
+                printf("\033[1;91m   |   \033[m");
+                //printf("\r");
+                continue;
+            }
+            
+            string englishCharacter = string(1, c);
+            transform(englishCharacter.begin(), englishCharacter.end(), englishCharacter.begin(), ::toupper);
+            string morseMatch = search(englishCharacter);
+            
+            printf("%s ", morseMatch.c_str());
+        } while(c!='=');
+        
+        cout << endl;
+        cout << endl;
+        /* restore the former settings */
+        tcsetattr(STDIN_FILENO,TCSANOW,&old_tio);
+    }
+    
     string convert(string file) {
         convertFile.open(file);
         
@@ -102,7 +142,7 @@ class MorseTree{
                     englishCharacter = string(1, englishWord[0]);
                     morseMatch = search(englishCharacter);
                     if(morseMatch != "") {
-                        // cout << "Found morse: " << morseMatch << endl;
+                        cout << "Found morse: " << morseMatch << endl;
                         morseMessage += morseMatch;
                         morseMessage += " ";
                     } else {
@@ -223,10 +263,6 @@ class MorseTree{
             return;
         }
         insertHelper(englishCharacter, morse, _root);
-        cout << endl;
-        printDiagram();
-        cout << endl;
-        cout << endl;
     }
     MorseNode* insertHelper(string englishCharacter, string morse, MorseNode* currentNode) {
         if(currentNode == nullptr) {
@@ -304,9 +340,17 @@ class MorseTree{
             for(int i=0; i<(winWidth); i++) { // Print, check for nodes to grab children of
                 if(treeRow[i]) rowEmpty=false;
                 if(i>leftDistance && i<(winWidth-leftDistance)) {
-                    cout << (treeRow[i] ? treeRow[i]->character : "_");
+                    if(treeRow[i]) {
+                        printf("\033[1;91m%s\033[m", treeRow[i]->character.c_str());
+                    } else {
+                        printf("_");
+                    }
                 } else {
-                    cout << (treeRow[i] ? treeRow[i]->character : " ");
+                    if(treeRow[i]) {
+                        printf("\033[0;91m%s\033[m", treeRow[i]->character.c_str());
+                    } else {
+                        printf(" ");
+                    }
                 }
             }
             if(rowEmpty) return;
