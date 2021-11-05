@@ -1,10 +1,10 @@
 #include "ClassList.h"
 
-bool load(List<Data>* list, fstream& classFile) {
+bool LoadMaster(List<Data>* classList, fstream& masterList) {
     string line;
-    getline(classFile, line);
+    getline(masterList, line);
     
-    while(getline(classFile, line)) {
+    while(getline(masterList, line)) {
         istringstream lineStream(line);
         Data* newStudent = new Data();
         
@@ -53,9 +53,19 @@ bool load(List<Data>* list, fstream& classFile) {
         //cout << newStudent->level << " ";
         //cout << endl;
         
-        list->add(newStudent);
+        
+        
+        
+        getline(masterList, line);
+        istringstream line2Stream(line);
+        
+        string numAbsencesString;
+        getline(line2Stream, numAbsencesString, ',');
+        newStudent->numAbsences = stoi(numAbsencesString);
+        
+        string absence;
+        while(getline(line2Stream, absence, ',')) {
+            newStudent->allAbsences->push(absence); // gonna be in the wrong order
+        }
     }
-    
-    
-    return true;
 }

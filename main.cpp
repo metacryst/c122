@@ -28,8 +28,17 @@ Menu() {
                 classFile.close();
                 break;
             }
+            case 2: {
+                masterFile.open("master.txt");
+                bool masterLoaded=loadMaster(classList, masterFile);
+                if(masterLoaded) printf("-> Loaded!\n\n");
+                masterFile.close();
+                break;
+            }
             case 3: {
-                masterFile.open("masterList.txt");
+                masterFile.open("master.txt");
+                bool stored=store(classList, masterFile);
+                if(stored) printf("-> Stored!\n\n");
                 masterFile.close();
                 break;
             }

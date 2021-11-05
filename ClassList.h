@@ -36,3 +36,5 @@ public:
 
 bool load(List<Data>* list, fstream& classFile);
 bool markAbsences(List<Data>* classList);
+bool store(List<Data>* classList, fstream& masterFile);
+bool loadMaster(List<Data>* classList, fstream& masterFile);

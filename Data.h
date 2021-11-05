@@ -24,6 +24,22 @@ class Stack {
     string peek() {
         return absences.back();
     }
+    
+    bool isEmpty() {
+        return absences.back()=="None";
+    }
+    
+    string getAbsencesString() {
+        string absenceString = "";
+        
+        for (vector<string>::iterator t=absences.begin(); t!=absences.end(); ++t) {
+            if(*t != "None") {
+                absenceString += ",";
+                absenceString += *t + ",";
+            }
+        }
+        return absenceString;
+    }
 };
 
 class Data {
