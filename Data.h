@@ -10,7 +10,7 @@ class Stack {
     Stack() {
         absences.push_back("None");
     }
-    
+
     void push(string absence) {
         absences.push_back(absence);
     }
@@ -34,7 +34,6 @@ class Stack {
         
         for (vector<string>::iterator t=absences.begin(); t!=absences.end(); ++t) {
             if(*t != "None") {
-                absenceString += ",";
                 absenceString += *t + ",";
             }
         }
@@ -58,5 +57,8 @@ public:
     Data() {
         numAbsences=0;
         allAbsences=new Stack;
+    }
+    ~Data() {
+        delete(allAbsences);
     }
 };

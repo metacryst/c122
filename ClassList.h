@@ -13,6 +13,11 @@ class Node {
         this->data = nullptr;
         this->next = nullptr;
     }
+    ~Node() {
+        delete(data);
+    }
+    
+    
 };
 
 template <class T>
@@ -23,6 +28,9 @@ public:
     List() {
         head=nullptr;
     }
+    ~List() {
+        destroy();
+    }
     
     void add(Data* newStudent) {        
         Node<T>* next = this->head;
@@ -30,6 +38,14 @@ public:
         this->head = new Node<Data>;
         this->head->data = newStudent;
         this->head->next = next;        
+    }
+    
+    void destroy() {
+        while(head) {
+            Node<Data>* temp=head->next;
+            delete(head);
+            head=temp;
+        }
     }
     
 };

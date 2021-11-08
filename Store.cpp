@@ -14,9 +14,11 @@ bool store(List<Data>* classList, fstream& masterFile) {
         masterFile << student->data->email << ",";
         masterFile << student->data->units << ",";
         masterFile << student->data->program << ",";
-        masterFile << student->data->level;
-        masterFile << to_string(student->data->numAbsences);
+        masterFile << student->data->level << ",";
         
+        masterFile << "\n";
+        masterFile << to_string(student->data->numAbsences);
+        masterFile << ",";
         masterFile << student->data->allAbsences->getAbsencesString();
         
         masterFile << "\n";
