@@ -10,6 +10,7 @@ Menu() {
     cout << "2. Load Master List " << endl;
     cout << "3. Store Master List " << endl;
     cout << "4. Mark Absences" << endl;
+    cout << "5. Edit Absences" << endl;
     cout << "7. Exit " << endl;
     cout << endl;
     
@@ -19,9 +20,9 @@ Menu() {
     
     int command;
     while(command!=7) {
-        cout << "~~1=Import List, 2=Load Master List, 3=Store Master List," << endl;
-        cout << "~~4=Mark Absences, 7=Exit " << endl;
-        cout << "~~Enter Command: "; cin>>command;
+        cout << "~~ 1=Import List, 2=Load Master List, 3=Store Master List," << endl;
+        cout << "~~ 4=Mark Absences, 5=Edit Absences, 7=Exit " << endl;
+        cout << "~~ Enter Command: "; cin>>command;
         switch(command) {
             case 1: {
                 classFile.open("classList.csv");
@@ -47,10 +48,16 @@ Menu() {
             case 4:
                 markAbsences(classList);
                 cout << endl;
+                break;
+            case 5: {
+                bool edited = editAbsences(classList);
+                if(edited) {
+                    cout << "-> Absence Removed." << endl;
+                }
                 cout << endl;
-                cout << "  ~~~~~~END OF CLASS~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
                 cout << endl;
                 break;
+            }
             case 7:
                 return;
         }

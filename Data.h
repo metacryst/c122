@@ -39,6 +39,18 @@ class Stack {
         }
         return absenceString;
     }
+    
+    bool removeAbsence(string absence) {
+        int i = 0;
+        for (vector<string>::iterator t=absences.begin(); t!=absences.end(); ++t) {
+            if(*t == absence) {
+                absences.erase(absences.begin() + i);
+                return true;
+            }
+            i++;
+        }
+        return false;
+    }
 };
 
 class Data {

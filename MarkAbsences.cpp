@@ -62,7 +62,9 @@ bool markAbsences(List<Data>* classList) {
     }
     
     
-    
+    cout << endl;
+    cout << endl;
+    cout << "  ~~~~~~END OF CLASS~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         
     return true;
 }
