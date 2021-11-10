@@ -1,6 +1,8 @@
 #include "ClassList.h"
 
 bool load(List<Data>* list, fstream& classFile) {
+    list->destroy();
+    
     string line;
     getline(classFile, line);
     

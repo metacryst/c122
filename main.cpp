@@ -11,6 +11,7 @@ Menu() {
     cout << "3. Store Master List " << endl;
     cout << "4. Mark Absences" << endl;
     cout << "5. Edit Absences" << endl;
+    cout << "6. Get Reports" << endl;
     cout << "7. Exit " << endl;
     cout << endl;
     
@@ -21,7 +22,7 @@ Menu() {
     int command;
     while(command!=7) {
         cout << "~~ 1=Import List, 2=Load Master List, 3=Store Master List," << endl;
-        cout << "~~ 4=Mark Absences, 5=Edit Absences, 7=Exit " << endl;
+        cout << "~~ 4=Mark Absences, 5=Edit Absences, 6=Get Reports, 7=Exit " << endl;
         cout << "~~ Enter Command: "; cin>>command;
         switch(command) {
             case 1: {
@@ -39,7 +40,7 @@ Menu() {
                 break;
             }
             case 3: {
-                masterFile.open("master.txt");
+                masterFile.open("master.txt", ofstream::out | ofstream::trunc);
                 bool stored=store(classList, masterFile);
                 if(stored) printf("-> Stored!\n\n");
                 masterFile.close();
@@ -55,6 +56,11 @@ Menu() {
                     cout << "-> Absence Removed." << endl;
                 }
                 cout << endl;
+                cout << endl;
+                break;
+            }
+            case 6: {
+                bool reported = generateReports(classList);
                 cout << endl;
                 break;
             }

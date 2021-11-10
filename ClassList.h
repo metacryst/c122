@@ -55,3 +55,4 @@ bool markAbsences(List<Data>* classList);
 bool store(List<Data>* classList, fstream& masterFile);
 bool loadMaster(List<Data>* classList, fstream& masterFile);
 bool editAbsences(List<Data>* classList);
+bool generateReports(List<Data>* classList);
