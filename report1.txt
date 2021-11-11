@@ -1,0 +1,30 @@
+"Mort,Kris"
+Last Absence: 2021-11-10
+
+"Willis,Bruce"
+Last Absence: 2021-11-5
+
+"Smith,Jane"
+Last Absence: 2021-11-9
+
+"Sam,Theo"
+Last Absence: 2021-11-10
+
+"Payton,Ella"
+Last Absence: None
+
+"James,Hannah"
+Last Absence: 2021-11-10
+
+"Art,Bruce"
+Last Absence: 2021-11-10
+
+"Leinart,Timothy"
+Last Absence: 2021-11-8
+
+"Beck,Sara"
+Last Absence: None
+
+"Smith,John"
+Last Absence: 2021-11-10
+

@@ -1,0 +1,16 @@
+"Smith,Jane"
+Absences: 2
+Last Absence: 2021-11-9
+
+"James,Hannah"
+Absences: 2
+Last Absence: 2021-11-10
+
+"Art,Bruce"
+Absences: 2
+Last Absence: 2021-11-10
+
+"Smith,John"
+Absences: 2
+Last Absence: 2021-11-10
+

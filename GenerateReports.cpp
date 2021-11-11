@@ -11,11 +11,18 @@ bool generateReports(List<Data>* classList) {
     cin >> report;
     
     if(report==1) {
+        ofstream report1("report1.txt");
+        
         Node<Data>* student=classList->head;
         int i=0;
         printf("\n");
         while(student) {      
             i++;
+                
+            report1 << student->data->name;
+            report1 << "\n";
+            report1 << "Last Absence: " << student->data->allAbsences->peek();
+            report1 << "\n\n";
                 
             printf("  ▣▣▣▣▣▣▣▣▣▣-%d-▣▣▣▣▣▣▣▣▣▣▣▣▣▣\n", i);
             printf("  ▣ Name: %s\n", student->data->name.c_str());
@@ -25,11 +32,14 @@ bool generateReports(List<Data>* classList) {
             student=student->next;
             
         }
+        report1.close();
         return true;
     } else if(report==2) {
         int absences = 0;
         cout << "-> Enter Number of Absences to Search For: ";
         cin >> absences;
+        
+        ofstream report2("report2.txt");
         
         Node<Data>* student=classList->head;
         int i=0;
@@ -39,6 +49,13 @@ bool generateReports(List<Data>* classList) {
             if(student->data->numAbsences!=absences) {student=student->next; continue;}  
             studentFound=true;
             i++;
+            
+            report2 << student->data->name;
+            report2 << "\n";
+            report2 << "Absences: " << to_string(student->data->numAbsences);
+            report2 << "\n";
+            report2 << "Last Absence: " << student->data->allAbsences->peek();
+            report2 << "\n\n";
                 
             printf("  ▣▣▣▣▣▣▣▣▣▣-%d-▣▣▣▣▣▣▣▣▣▣▣▣▣▣\n", i);
             printf("  ▣ Name: %s\n", student->data->name.c_str());
@@ -52,6 +69,7 @@ bool generateReports(List<Data>* classList) {
         if(!studentFound) {
             printf("-> No students found!\n");
         }
+        report2.close();
         return true;
     }
     cout << "-> Command not Recognized! " << endl;
