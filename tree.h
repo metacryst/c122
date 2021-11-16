@@ -41,6 +41,7 @@ class TransactionNode: public Node {
     friend class AVLTree;
   public:
     TransactionNode(string _data, int units);
+    ~TransactionNode();
     void printData();
 };
 
@@ -78,25 +79,25 @@ class AVLTree{
         return (data < node->data) ? searchHelper(data, node->left) : searchHelper(data, node->right);
     }
         
-    Node* rotateRight(Node* root) {
-		// 1. insert node in right with old root values
-		Node* newRight = new Node(root->data, root->morse);
+    TransactionNode* rotateRight(TransactionNode* root) {
+		// 1. insert in right with old root values
+		TransactionNode* newRight = new TransactionNode(root->data, root->units);
 		newRight->right = (root->right);
 		root->right = (newRight);
 		
 		// 2. set root value to values of left
-		Node* toDelete = root->left; 
+		TransactionNode* toDelete = root->left; 
 		root->data = (toDelete->data);
         root->morse = (toDelete->morse);
 		
 		// 3. delete (now duplicated) left, storing away LR child
-		Node* toDelete_left = toDelete->left;
-		Node* toDelete_right = toDelete->right;
+		TransactionNode* toDelete_left = toDelete->left;
+		TransactionNode* toDelete_right = toDelete->right;
 		root->left = toDelete_left;
             // calculate new left's height
         if(root->left){root->left->setHeight();}
 		
-		// 4. update new right node with LR child
+		// 4. update new right with LR child
 		newRight->left = toDelete_right;		
 			// calculate new right's height
 		newRight->setHeight();
@@ -105,25 +106,25 @@ class AVLTree{
 		return root;
     }
     
-    Node* rotateLeft(Node* root) {
-        // 1. insert node in left with old root values
-		Node* newLeft = new Node(root->data, root->morse);
+    TransactionNode* rotateLeft(TransactionNode* root) {
+        // 1. insert in left with old root values
+		TransactionNode* newLeft = new TransactionNode(root->data, root->units);
 		newLeft->left = (root->left);
 		root->left = (newLeft);
 		
 		// 2. set root value to values of right
-		Node* toDelete = root->right;
+		TransactionNode* toDelete = root->right;
 		root->data = (toDelete->data);
         root->morse = (toDelete->morse);
 		
 		// 3. delete (now duplicated) right, storing away RL child
-        Node* toDelete_right = toDelete->right;
-		Node* toDelete_left = toDelete->left;
+        TransactionNode* toDelete_right = toDelete->right;
+		TransactionNode* toDelete_left = toDelete->left;
 		root->right = toDelete_right;
             // calculate new right's height
         if(root->right){root->right->setHeight();}
 		
-		// 4. update new left node with RL child
+		// 4. update new left with RL child
 		newLeft->right = toDelete_left;	
 			// calculate new left's height
 		newLeft->setHeight();
@@ -132,9 +133,9 @@ class AVLTree{
 		return root;
     }
     
-    void balance(Node* root) {
-        Node* left = root->left;
-		Node* right = root->right;
+    void balance(TransactionNode* root) {
+        TransactionNode* left = root->left;
+		TransactionNode* right = root->right;
 		
 		int left_height = (left) ? left->height : -1;
         int LL_height = (left && left->left) ? left->left->height : -1;
@@ -169,28 +170,28 @@ class AVLTree{
     }
     
     
-    void insert(string englishCharacter, string morse){
+    void insert(string data, int units){
         if(_root == nullptr) {
-            Node* newNode = new Node(englishCharacter, morse);
+            TransactionNode* newNode = new TransactionNode(data, units);
              _root = newNode;
             _root->depth = 0;
             _root->height = 0;
             return;
         }
-        insertHelper(englishCharacter, morse, _root);
+        insertHelper(data, units, _root);
     }
-    Node* insertHelper(string englishCharacter, string morse, Node* currentNode) {
+    TransactionNode* insertHelper(string data, int units, TransactionNode* currentNode) {
         if(currentNode == nullptr) {
-            Node* newNode = new Node(englishCharacter, morse);
+            TransactionNode* newNode = new TransactionNode(data, units);
             newNode->height = 0;
             return newNode;
         }
         
-        if(englishCharacter < currentNode->character) {
-            currentNode->left = insertHelper(englishCharacter, morse, currentNode->left);
+        if(units < currentNode->units) {
+            currentNode->left = insertHelper(data, units, currentNode->left);
             currentNode->left->depth = currentNode->depth + 1;
-        } else if(englishCharacter > currentNode->character) {
-            currentNode->right = insertHelper(englishCharacter, morse, currentNode->right);
+        } else if(units > currentNode->units) {
+            currentNode->right = insertHelper(data, units, currentNode->right);
             currentNode->right->depth = currentNode->depth + 1;
         }
         
@@ -204,26 +205,26 @@ class AVLTree{
         cout << endl;}
     void printPreorderHelper(Node* node) {
         if(node==nullptr) {return;};
-        cout << node->character << " ";
+        cout << node->data << " ";
         printPreorderHelper(node->left);
         printPreorderHelper(node->right);
     }
     
-    void printInorder() {
+    public: void printInorder() {
         if(_root==nullptr) {return;};
         printInorderHelper(_root);
         cout << endl;}
-    void printInorderHelper(Node* node) {
+    private: void printInorderHelper(Node* node) {
         if(node==nullptr) {return;};
         printInorderHelper(node->left);
-        cout << node->character << " ";
+        cout << node->data << " ";
         printInorderHelper(node->right);
     }
     
-    void printDiagram() { // for a balanced tree
+    public: void printDiagram() { // for a balanced tree
         if(_root==nullptr) return;
         printDiagramHelper(_root);}
-    void printDiagramHelper(Node* node) {
+    private: void printDiagramHelper(Node* node) {
         if(node==nullptr) return;
             
         // get width of terminal
@@ -300,10 +301,10 @@ class AVLTree{
         
     }
     
-    void printBasicDiagram() { // for a balanced tree
+    public: void printBasicDiagram() { // for a balanced tree
         if(_root==nullptr) return;
         printBasicDiagramHelper(_root);}
-    void printBasicDiagramHelper(Node* node) {
+    private: void printBasicDiagramHelper(Node* node) {
         cout << node->data << " " << node->depth << " " << node->height << endl;
         if(node->left) {
             cout << "/" << endl;
