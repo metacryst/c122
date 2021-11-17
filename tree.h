@@ -40,7 +40,9 @@ class TransactionNode: public Node {
     
     friend class AVLTree;
   public:
-    TransactionNode(string _data, int units);
+    TransactionNode(string _data, int _units) : Node(_data) {
+        this->units=_units;
+    };
     ~TransactionNode();
     void printData();
 };
@@ -79,20 +81,20 @@ class AVLTree{
         return (data < node->data) ? searchHelper(data, node->left) : searchHelper(data, node->right);
     }
         
-    TransactionNode* rotateRight(TransactionNode* root) {
+    Node* rotateRight(Node* root) {
 		// 1. insert in right with old root values
-		TransactionNode* newRight = new TransactionNode(root->data, root->units);
+		Node* newRight = new TransactionNode(root->data, static_cast<TransactionNode*>(root)->units);
 		newRight->right = (root->right);
 		root->right = (newRight);
 		
 		// 2. set root value to values of left
-		TransactionNode* toDelete = root->left; 
+		Node* toDelete = root->left; 
 		root->data = (toDelete->data);
         root->morse = (toDelete->morse);
 		
 		// 3. delete (now duplicated) left, storing away LR child
-		TransactionNode* toDelete_left = toDelete->left;
-		TransactionNode* toDelete_right = toDelete->right;
+		Node* toDelete_left = toDelete->left;
+		Node* toDelete_right = toDelete->right;
 		root->left = toDelete_left;
             // calculate new left's height
         if(root->left){root->left->setHeight();}
@@ -106,20 +108,20 @@ class AVLTree{
 		return root;
     }
     
-    TransactionNode* rotateLeft(TransactionNode* root) {
+    Node* rotateLeft(Node* root) {
         // 1. insert in left with old root values
-		TransactionNode* newLeft = new TransactionNode(root->data, root->units);
+		Node* newLeft = new TransactionNode(root->data, static_cast<TransactionNode*>(root)->units);
 		newLeft->left = (root->left);
 		root->left = (newLeft);
 		
 		// 2. set root value to values of right
-		TransactionNode* toDelete = root->right;
+		Node* toDelete = root->right;
 		root->data = (toDelete->data);
         root->morse = (toDelete->morse);
 		
 		// 3. delete (now duplicated) right, storing away RL child
-        TransactionNode* toDelete_right = toDelete->right;
-		TransactionNode* toDelete_left = toDelete->left;
+        Node* toDelete_right = toDelete->right;
+		Node* toDelete_left = toDelete->left;
 		root->right = toDelete_right;
             // calculate new right's height
         if(root->right){root->right->setHeight();}
@@ -133,9 +135,9 @@ class AVLTree{
 		return root;
     }
     
-    void balance(TransactionNode* root) {
-        TransactionNode* left = root->left;
-		TransactionNode* right = root->right;
+    void balance(Node* root) {
+        Node* left = root->left;
+		Node* right = root->right;
 		
 		int left_height = (left) ? left->height : -1;
         int LL_height = (left && left->left) ? left->left->height : -1;
@@ -172,7 +174,7 @@ class AVLTree{
     
     void insert(string data, int units){
         if(_root == nullptr) {
-            TransactionNode* newNode = new TransactionNode(data, units);
+            Node* newNode = new TransactionNode(data, units);
              _root = newNode;
             _root->depth = 0;
             _root->height = 0;
@@ -180,17 +182,17 @@ class AVLTree{
         }
         insertHelper(data, units, _root);
     }
-    TransactionNode* insertHelper(string data, int units, TransactionNode* currentNode) {
+    Node* insertHelper(string data, int units, Node* currentNode) {
         if(currentNode == nullptr) {
-            TransactionNode* newNode = new TransactionNode(data, units);
+            Node* newNode = new TransactionNode(data, units);
             newNode->height = 0;
             return newNode;
         }
         
-        if(units < currentNode->units) {
+        if(units < static_cast<TransactionNode*>(currentNode)->units) {
             currentNode->left = insertHelper(data, units, currentNode->left);
             currentNode->left->depth = currentNode->depth + 1;
-        } else if(units > currentNode->units) {
+        } else if(units > static_cast<TransactionNode*>(currentNode)->units) {
             currentNode->right = insertHelper(data, units, currentNode->right);
             currentNode->right->depth = currentNode->depth + 1;
         }

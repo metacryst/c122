@@ -26,11 +26,11 @@ class DataAnalysis {
         istringstream lineStream(line);
         
         string data;
-        getline(lineStream, data, ",");
-        getline(lineStream, data, ",");
+        getline(lineStream, data, ',');
+        getline(lineStream, data, ',');
         
         string transaction;
-        getline(lineStream, transaction, ",");
+        getline(lineStream, transaction, ',');
         
     }
     
