@@ -22,7 +22,9 @@ class Node {
         left=nullptr;
         right=nullptr;
     }
-    virtual ~Node()=0;
+    virtual ~Node() {
+        
+    }
     virtual void printData()=0;
     
     bool setHeight() {
@@ -40,11 +42,17 @@ class TransactionNode: public Node {
     
     friend class AVLTree;
   public:
-    TransactionNode(string _data, int _units) : Node(_data) {
+    TransactionNode(string _data, int _units) : Node(_data) 
+    {
         this->units=_units;
     };
-    ~TransactionNode();
-    void printData();
+    ~TransactionNode() 
+    {
+        
+    }
+    void printData() {
+        cout << units << endl;
+    };
 };
 
 class AVLTree{
@@ -90,7 +98,7 @@ class AVLTree{
 		// 2. set root value to values of left
 		Node* toDelete = root->left; 
 		root->data = (toDelete->data);
-        root->morse = (toDelete->morse);
+        static_cast<TransactionNode*>(root)->units = static_cast<TransactionNode*>(toDelete)->units;
 		
 		// 3. delete (now duplicated) left, storing away LR child
 		Node* toDelete_left = toDelete->left;
@@ -117,7 +125,7 @@ class AVLTree{
 		// 2. set root value to values of right
 		Node* toDelete = root->right;
 		root->data = (toDelete->data);
-        root->morse = (toDelete->morse);
+        static_cast<TransactionNode*>(root)->units = static_cast<TransactionNode*>(toDelete)->units;
 		
 		// 3. delete (now duplicated) right, storing away RL child
         Node* toDelete_right = toDelete->right;
@@ -172,7 +180,7 @@ class AVLTree{
     }
     
     
-    void insert(string data, int units){
+    public: void insert(string data, int units) {
         if(_root == nullptr) {
             Node* newNode = new TransactionNode(data, units);
              _root = newNode;
@@ -182,7 +190,7 @@ class AVLTree{
         }
         insertHelper(data, units, _root);
     }
-    Node* insertHelper(string data, int units, Node* currentNode) {
+    private: Node* insertHelper(string data, int units, Node* currentNode) {
         if(currentNode == nullptr) {
             Node* newNode = new TransactionNode(data, units);
             newNode->height = 0;
@@ -201,11 +209,11 @@ class AVLTree{
         return currentNode;
     }
     
-    void printPreorder() {
+    public: void printPreorder() {
         if(_root==nullptr) {return;};
         printPreorderHelper(_root);
         cout << endl;}
-    void printPreorderHelper(Node* node) {
+    private: void printPreorderHelper(Node* node) {
         if(node==nullptr) {return;};
         cout << node->data << " ";
         printPreorderHelper(node->left);
@@ -219,7 +227,7 @@ class AVLTree{
     private: void printInorderHelper(Node* node) {
         if(node==nullptr) {return;};
         printInorderHelper(node->left);
-        cout << node->data << " ";
+        cout << static_cast<TransactionNode*>(node)->units << "|" << node->data <<  " ";
         printInorderHelper(node->right);
     }
     
