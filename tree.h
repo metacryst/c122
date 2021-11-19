@@ -35,6 +35,10 @@ class Node {
         int balanceFactor = abs(rightHeight-leftHeight);
         return balanceFactor<=1 ? true : false;
     }
+    
+    string getData() {
+        return data;
+    }
 };
 
 class TransactionNode: public Node {
@@ -53,15 +57,13 @@ class TransactionNode: public Node {
     void printData() {
         cout << units << endl;
     };
+    int getUnits() {
+        return units;
+    }
 };
 
 class AVLTree{
     Node* _root;
-    
-  public:
-    AVLTree() {
-        _root=nullptr;
-    }
     
     void destroyAVLTree(Node* node) {
         if(!node->left && !node->right) {
@@ -74,8 +76,31 @@ class AVLTree{
             node->right = nullptr;
         }
     }
+    
+  public:
+    AVLTree() {
+        _root=nullptr;
+    }
+    
     ~AVLTree() {
         destroyAVLTree(_root);
+    }
+    
+    TransactionNode* findSmallest() {
+        Node* smallest = _root;
+        if(!smallest) {return nullptr;}
+        while(smallest->left) {
+            smallest = smallest->left;
+        }
+        return static_cast<TransactionNode*>(smallest);
+    }
+    TransactionNode* findLargest() {
+         Node* largest = _root;
+        if(!largest) {return nullptr;}
+        while(largest->right) {
+            largest = largest->right;
+        }
+        return static_cast<TransactionNode*>(largest);
     }
     
     string search(string data) {

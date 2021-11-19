@@ -55,5 +55,18 @@ class DataAnalysis {
         
         openFile();
         readLines();
+        
+        TransactionNode* largestSold = treeSold->findLargest();
+        TransactionNode* smallestSold = treeSold->findSmallest();
+        TransactionNode* largestPurchased = treePurchased->findLargest();
+        TransactionNode* smallestPurchased = treePurchased->findSmallest();
+        
+        cout << "Largest Sold: " << largestSold->getUnits() << "|" << largestSold->getData() << endl;
+        cout << "Smallest Sold: " << smallestSold->getUnits() << "|" << smallestSold->getData() << endl;
+        cout << endl;
+        cout << "Largest Purchased: " << largestPurchased->getUnits() << "|" << largestPurchased->getData() << endl;
+        cout << "Smallest Purchased: " << smallestPurchased->getUnits() << "|" << smallestPurchased->getData() << endl;
+        
+        cout << endl;
     }
 };
