@@ -9,7 +9,6 @@ using namespace std;
 
 class Node {
     string data;
-    string morse;
     Node* left;
     Node* right;
     int height;
@@ -109,7 +108,7 @@ class AVLTree{
     }
     string searchHelper(string data, Node* node) {
         if(node==nullptr) return "";
-        if(node->data == data) return node->morse;
+        if(node->data == data) return node->data;
         
         return (data < node->data) ? searchHelper(data, node->left) : searchHelper(data, node->right);
     }

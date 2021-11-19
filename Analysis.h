@@ -68,5 +68,6 @@ class DataAnalysis {
         cout << "Smallest Purchased: " << smallestPurchased->getUnits() << "|" << smallestPurchased->getData() << endl;
         
         cout << endl;
+        cout << endl;
     }
 };
