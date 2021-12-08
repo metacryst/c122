@@ -23,11 +23,15 @@ int main()
         for(int i=0; i<4; i++) {
             RectangleShape sprite = playerCharacters[i]->display(300 + (400 * i), 1000);
             window.draw(sprite);
+            Text hpLabel = playerCharacters[i]->displayHP();
+            window.draw(hpLabel);
         }
         
         for(int i=0; i<4; i++) {
             RectangleShape sprite = enemyCharacters[i]->display(300 + (400 * i), 100);
             window.draw(sprite);
+            Text hpLabel = enemyCharacters[i]->displayHP();
+            window.draw(hpLabel);
         }
         
         
