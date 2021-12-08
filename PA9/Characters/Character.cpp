@@ -10,7 +10,29 @@ sf::RectangleShape Character::display(int x, int y)
 sf::Text Character::displayHP()
 {
 	sf::Vector2f spritePos = sprite.getPosition();
-	hpLabel.setPosition(sf::Vector2f(spritePos.x+50, spritePos.y+50));
-	hpLabel.setFillColor(sf::Color::Blue); // need to get font
+	hpLabel.setPosition(sf::Vector2f(spritePos.x+75, spritePos.y+75));
 	return hpLabel;
+}
+
+void Character::BaseAttack(Character* target) //what a base attack function will look like
+{
+	int critroll = rand() % 100;
+	if (critroll <= crit)
+	{
+		target->whatHappened(15 * 2);
+	}
+	else
+	{
+		target->whatHappened(15);
+	}
+}
+
+void Character::whatHappened(int damageNum)
+{
+	hp -= (damageNum * (1 + damageModifier));
+	if (hp <= 0)
+	{
+		hp = 0;
+		alive = false;
+	}
 }
