@@ -14,6 +14,18 @@ sf::Text Character::displayHP()
 	return hpLabel;
 }
 
+void Character::hover()
+{
+	sprite.setFillColor(sf::Color::White);
+	hpLabel.setFillColor(sf::Color::Black);
+}
+
+void Character::removeHover()
+{
+	sprite.setFillColor(sf::Color::Red);
+	hpLabel.setFillColor(sf::Color::White);
+}
+
 void Character::BaseAttack(Character* target) //what a base attack function will look like
 {
 	int critroll = rand() % 100;
@@ -35,4 +47,5 @@ void Character::whatHappened(int damageNum)
 		hp = 0;
 		alive = false;
 	}
+	hpLabel.setString(to_string(hp));
 }

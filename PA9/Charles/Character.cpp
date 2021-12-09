@@ -1,4 +1,4 @@
-#include "character.hpp"
+#include "Character.h"
 
 
 Character::Character(int StartHP, int StartCrit, string cName)
@@ -17,6 +17,8 @@ Character::Character(int StartHP, int StartCrit, string cName)
 	sprite.setFillColor(sf::Color::Red); //need to be able to conditionally do this. maybe delete for a virtual function?
 	//could just default to red for less enemy character code, make functions for player characters
 	// could also just call in constructor too, since both constructors will be called but this will be called first
+
+
 }
 Character::~Character()
 {
@@ -41,6 +43,56 @@ sf::RectangleShape Character::display(int index)
 		break;
 	}
 	return sprite;
+}
+
+sf::Text Character::UpdateSheet(int index)
+{
+
+	string sheet = ""; //im horrid with strings but hopefully this works
+	sheet += Name; //Name
+	sheet += " "; //Name .
+	sheet += std::to_string(hp);// Name 100
+	sheet += "/"; //Name 100/
+	sheet += std::to_string(hpMax); // Name 100/100
+	if (isBleed)
+	{
+		sheet += " bld"; //Name 100/100 bld
+	}
+	if (isStunned)
+	{
+		sheet += " stn"; //Name 100/100 stn
+	}
+	if (isPoisoned)
+	{
+		sheet += " psn"; //Name 100/100 psn
+	}
+
+	sheetStats.setColor(sf::Color::White);
+	sheetStats.setString(sheet);
+	sheetStats.setFont(sf::Font::);//figure this out i guess, dont know if there is a default font
+
+	if (Name == "Boss") //boss wont be in an array
+	{
+		sheetStats.setCharacterSize(14); //conditional on UI demands
+		sheetStats.setPosition(sf::Vector2f(800, 400)); //conditional on UI demands
+	}
+	else
+	{
+
+		switch (index)
+		{
+		case 0: sheetStats.setPosition(sf::Vector2f(0, 0)); //conditional on UI demands
+			break;
+		case 1: sheetStats.setPosition(sf::Vector2f(0, 0));
+			break;
+		case 2: sheetStats.setPosition(sf::Vector2f(0, 0));
+			break;
+		case 3: sheetStats.setPosition(sf::Vector2f(0, 0));
+			break;
+		}
+	}
+	return sheetStats;
+
 }
 void Character::BaseAttack(Character* target) //what a base attack function will look like
 {
@@ -67,6 +119,8 @@ void Character::specialAbility(Character* target)
 	{
 		target->whatHappened(20, "Bleed");
 	}
+	
+
 }
 bool Character::turnStatus() //false if turn is skipped, check for dmg statuses and apply
 {
@@ -87,7 +141,7 @@ bool Character::turnStatus() //false if turn is skipped, check for dmg statuses 
 	if (isPoisoned)
 	{
 		hp -= 3;
-		bDuration--;
+		pDuration--;
 		if (pDuration == 0)
 		{
 			isPoisoned = false;
@@ -113,6 +167,10 @@ void Character::whatHappened(int damageNum)
 		isPoisoned = false;
 		bDuration = 0;
 		pDuration = 0; //complete reset on ailments
+	}
+	if (hp >= hpMax) //healing could put over health cap so this fixes that
+	{
+		hp = hpMax;
 	}
 }
 void Character::whatHappened(int damageNum, string Status)
@@ -143,6 +201,10 @@ void Character::whatHappened(int damageNum, string Status)
 		bDuration = 0;
 		pDuration = 0; //complete reset on ailments
 	}
+	if (hp >= hpMax) //healing could put over health cap so this fixes that
+	{
+		hp = hpMax;
+	}
 
 }
 void Character::whatHappened(string Status)
@@ -156,10 +218,38 @@ void Character::whatHappened(string Status)
 	else if (Status == "Stun")
 	{
 		isStunned = true;
+
 	}
 	else if (Status == "Poison") //will add conditions for healing or revive later done for tonight
 	{
 		isPoisoned = true;
 		pDuration = 3;
 	}
+	else if (Status == "Taunt")
+	{
+		isTaunt = true;
+	}
+	else if (Status == "Full")
+	{
+		hp = hpMax;
+	}
+}
+
+bool Character::isdead()
+{
+	if (!isAlive)
+	{
+		return true;
+	}
+	return false;
+}
+void Character::Revive()
+{
+	isAlive = true;
+	hp = hpMax; // bad game design but whatever we are in a rush
+}
+
+string Character::getName()
+{
+	return Name;
 }

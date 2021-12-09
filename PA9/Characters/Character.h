@@ -13,9 +13,7 @@ using std::cin;
 
 class Character {
 protected:
-	sf::RectangleShape sprite; //this can be whatever we want i guess, but its a square for now
 	sf::Font font;
-	sf::Text hpLabel;
 	
 	bool alive;
 	
@@ -25,6 +23,9 @@ protected:
 	double damageModifier;
 
 public:
+	sf::RectangleShape sprite;
+	sf::Text hpLabel;
+	
 	Character(int StartHP) {
 		hpMax = StartHP;
 		hp = StartHP;
@@ -42,4 +43,6 @@ public:
 	sf::Text displayHP();
 	void BaseAttack(Character* target);
 	void whatHappened(int damageNum);
+	void hover();
+	void removeHover();
 };
