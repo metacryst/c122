@@ -8,19 +8,18 @@ void Blocks::displayWindow() {
         RectangleShape sprite = playerCharacters[i]->display(300 + (400 * i), 1000);
         window.draw(sprite);
         
-        if(playerClickedIndex!=-1) {
-            cout << "display attack" << endl;
-            cout << playerClickedIndex << endl;
-           
+        if(playerClickedIndex!=-1) {           
             Sprite attackButton = playerCharacters[playerClickedIndex]->showAttacks();
             window.draw(attackButton);
         }
-        cout << "display" << endl;
         
         Text hpLabel = playerCharacters[i]->displayHP();
         window.draw(hpLabel);
     }
     
+    if(showAttackPrompt) {
+        window.draw(AttackPrompt);
+    }
     
     for(int i=0; i<4; i++) {
         RectangleShape sprite = enemyCharacters[i]->display(300 + (400 * i), 100);
@@ -33,7 +32,6 @@ void Blocks::displayWindow() {
 }
 
 bool Blocks::playerClicked(int p) {
-    cout << "Player clicked" << endl;
     playerClickedIndex=p;
     displayWindow();
     return false;
@@ -57,6 +55,28 @@ void Blocks::playerTurn() {
                     case sf::Event::MouseButtonPressed:
                         if (event.mouseButton.button == sf::Mouse::Left) {
                             usedAttack[0] = playerClicked(0);
+                            
+                            bool buttonClicked = false;
+                            while (buttonClicked==false) {
+                                Vector2i pos = Mouse::getPosition(window);
+                                if((pos.x >= 350 && pos.x <= 450) && (pos.y >= 920 && pos.y <= 1000)) {
+                                    if (window.waitEvent(event)) {
+                                        switch (event.type) {
+                                            case sf::Event::MouseButtonPressed:
+                                                 if (event.mouseButton.button == sf::Mouse::Left) {
+                                                    buttonClicked=true;
+                                                    showAttackPrompt=true;
+                                                    cout << "DISPLAY PROMPT" << endl;
+                                                    displayWindow();
+                                                 }
+                                                 break;
+                                            default:
+                                                break;
+                                        }
+                                    }
+                                }
+                            }
+                            
                         }
                         break;
                     default:
@@ -115,3 +135,17 @@ int main()
     app->runApp();
     return 0;
 }
+
+//  while (window.pollEvent(event))
+//       {
+//          if (currentGameState == OptionsScreen)
+//          {
+//             sf::IntRect backButtonRect(151, 700, 299, 79);
+
+//             if (mouseRect.intersects(backButtonRect) && event.type == sf::Event::MouseButtonPressed)
+//             {
+//                 currentGameState = MainMenu;
+//             }
+//         }
+//       }
+ 
