@@ -7,7 +7,10 @@ class Blocks {
     Character* enemyCharacters[4];
 
 public:
+    int playerClickedIndex;
+
     Blocks() {
+        playerClickedIndex=-1;
         for(int i=0; i<4; i++) {
             playerCharacters[i] = new Character(100);
         }
@@ -18,6 +21,8 @@ public:
     
     void runApp();
     void displayWindow();
+    void displayWindowPlayerAttack(int p);
     void playerTurn();
+    bool playerClicked(int p);
     void mouseMoved(int x, int y);
 };

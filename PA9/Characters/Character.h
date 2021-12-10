@@ -25,12 +25,18 @@ protected:
 public:
 	sf::RectangleShape sprite;
 	sf::Text hpLabel;
+	sf::Texture AttackIcon;
+	sf::Sprite AttackButton;
+   
 	
 	Character(int StartHP) {
 		hpMax = StartHP;
 		hp = StartHP;
 		damageModifier = 0;
 		crit = 20;
+		
+		AttackIcon.loadFromFile("Attack.png");
+		AttackButton.setTexture(AttackIcon);
 		
 		font.loadFromFile("RobotoMono.ttf");
 		hpLabel.setFont(font);
@@ -42,6 +48,7 @@ public:
 	sf::RectangleShape display(int x, int y);
 	sf::Text displayHP();
 	void BaseAttack(Character* target);
+	sf::Sprite showAttacks();
 	void whatHappened(int damageNum);
 	void hover();
 	void removeHover();

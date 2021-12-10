@@ -26,6 +26,13 @@ void Character::removeHover()
 	hpLabel.setFillColor(sf::Color::White);
 }
 
+sf::Sprite Character::showAttacks() {
+	AttackButton.setScale(sf::Vector2f(0.05f, 0.05f));
+	sf::Vector2f spritePos = sprite.getPosition();
+	AttackButton.setPosition(sf::Vector2f(spritePos.x, spritePos.y-100));
+	return AttackButton;
+}
+
 void Character::BaseAttack(Character* target) //what a base attack function will look like
 {
 	int critroll = rand() % 100;
